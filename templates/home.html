@@ -1,0 +1,196 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="UEBA - User and Entity Behavior Analytics System">
+  <title>UEBA - Intelligent Cybersecurity Monitoring System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body class="home-page">
+  <div class="home-bg-grid"></div>
+  <div class="home-bg-pulse"></div>
+
+  {% include "_navbar.html" %}
+
+  <main>
+    <section class="home-hero section-fade">
+      <div class="home-hero-content">
+        <p class="home-kicker">AI + Behavioral Threat Intelligence</p>
+        <h1>UEBA - Intelligent Cybersecurity Monitoring System</h1>
+        <p class="home-subtitle">
+          A real-time AI-powered system that monitors user behaviour, detects anomalies, and prevents insider threats.
+        </p>
+        <div class="home-actions">
+          <a href="/login" class="home-btn home-btn-primary">Login</a>
+          <a href="/signup" class="home-btn home-btn-secondary">Sign Up</a>
+          <a href="/dashboard" class="home-btn home-btn-secondary">Dashboard</a>
+        </div>
+      </div>
+      <div class="home-hero-art"></div>
+    </section>
+
+    <section id="about" class="home-section section-fade">
+      <div class="home-section-head">
+        <h2>About the Project</h2>
+      </div>
+      <div class="home-split">
+        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1400&q=80" alt="SOC cybersecurity monitoring dashboard" loading="lazy">
+        <div>
+          <p>
+            UEBA (User and Entity Behavior Analytics) is an advanced cybersecurity solution designed to detect abnormal user activities inside an organization. The system analyzes login behavior, device fingerprints, IP address changes, and login patterns using Machine Learning algorithms.
+          </p>
+          <ul class="home-list">
+            <li>Insider threats</li>
+            <li>Account compromise</li>
+            <li>Suspicious login patterns</li>
+            <li>Unauthorized access attempts</li>
+            <li>Data exfiltration risks</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="home-section section-fade">
+      <div class="home-section-head">
+        <h2>Key Features</h2>
+      </div>
+      <div class="home-feature-grid">
+        <article class="home-card">
+          <h3>AI Anomaly Detection</h3>
+          <p>Uses Isolation Forest machine learning algorithm to detect abnormal user behavior.</p>
+        </article>
+        <article class="home-card">
+          <h3>Real-Time Risk Scoring</h3>
+          <p>Each user is assigned a dynamic risk score based on activity patterns.</p>
+        </article>
+        <article class="home-card">
+          <h3>Device Fingerprinting</h3>
+          <p>Tracks login devices to detect suspicious new devices.</p>
+        </article>
+        <article class="home-card">
+          <h3>Login Behaviour Analytics</h3>
+          <p>Analyzes login time, IP address, location, and frequency.</p>
+        </article>
+        <article class="home-card">
+          <h3>Threat Intelligence Dashboard</h3>
+          <p>Admin dashboard shows alerts, risk levels, and suspicious activity.</p>
+        </article>
+        <article class="home-card">
+          <h3>Admin Feedback Loop</h3>
+          <p>Security admins can mark alerts as SAFE or THREAT to retrain the ML model.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="workflow" class="home-section section-fade">
+      <div class="home-section-head">
+        <h2>How the System Works</h2>
+      </div>
+      <ol class="home-steps">
+        <li>User login activity is captured.</li>
+        <li>System processes activity data.</li>
+        <li>Machine learning model analyzes patterns.</li>
+        <li>Anomalies are detected.</li>
+        <li>Risk score is calculated.</li>
+        <li>Admin dashboard displays alerts.</li>
+      </ol>
+    </section>
+
+    <section class="home-section section-fade">
+      <div class="home-section-head">
+        <h2>Advantages</h2>
+      </div>
+      <div class="home-adv-grid">
+        <div class="home-card">Early threat detection</div>
+        <div class="home-card">Prevent insider attacks</div>
+        <div class="home-card">Automated security monitoring</div>
+        <div class="home-card">Machine learning based analysis</div>
+        <div class="home-card">Real-time threat intelligence</div>
+        <div class="home-card">Scalable cloud architecture</div>
+      </div>
+    </section>
+
+    <section class="home-section section-fade">
+      <div class="home-section-head">
+        <h2>Technology Stack</h2>
+      </div>
+      <div class="home-tech-grid">
+        <div class="home-card"><strong>Backend</strong><span>FastAPI + Python</span></div>
+        <div class="home-card"><strong>Machine Learning</strong><span>Scikit-Learn (Isolation Forest)</span></div>
+        <div class="home-card"><strong>Database</strong><span>SQLite / MySQL</span></div>
+        <div class="home-card"><strong>Streaming</strong><span>Apache Kafka</span></div>
+        <div class="home-card"><strong>Search Engine</strong><span>Elasticsearch</span></div>
+        <div class="home-card"><strong>Deployment</strong><span>Docker + AWS</span></div>
+        <div class="home-card"><strong>Frontend</strong><span>HTML + CSS + JavaScript</span></div>
+      </div>
+    </section>
+
+    <section class="home-section section-fade">
+      <div class="home-section-head">
+        <h2>Real World Use Cases</h2>
+      </div>
+      <div class="home-usecases">
+        <ul class="home-list">
+          <li>Banking systems</li>
+          <li>Cloud infrastructure security</li>
+          <li>Enterprise employee monitoring</li>
+          <li>Fraud detection</li>
+          <li>Government cyber defense</li>
+        </ul>
+        <img src="https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="Cyber defense operations center" loading="lazy">
+      </div>
+    </section>
+
+    <section class="home-section section-fade">
+      <div class="home-section-head">
+        <h2>Cybersecurity Dashboard Preview</h2>
+      </div>
+      <div class="home-preview-grid">
+        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80" alt="Risk score charts and alert analytics" loading="lazy">
+        <img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Threat table and login activity graph" loading="lazy">
+      </div>
+    </section>
+
+    <section class="home-cta section-fade">
+      <h2>Start monitoring your organization's security with AI-powered behaviour analytics.</h2>
+      <div class="home-actions">
+        <a href="/signup" class="home-btn home-btn-primary">Create Account</a>
+        <a href="/dashboard" class="home-btn home-btn-secondary">Go to Dashboard</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="home-footer">
+    <div>
+      <h4>About the Project</h4>
+      <p>UEBA - User and Entity Behavior Analytics System for real-time insider threat detection.</p>
+    </div>
+    <div>
+      <h4>Developer</h4>
+      <p>UEBA Cybersecurity Engineering Team</p>
+      <p>Contact: security@ueba.local</p>
+    </div>
+    <div>
+      <h4>Resources</h4>
+      <a href="/docs">API Documentation</a>
+      <a href="https://github.com/" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const items = document.querySelectorAll(".section-fade");
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add("is-visible");
+        });
+      }, { threshold: 0.12 });
+      items.forEach((item) => observer.observe(item));
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEBA Dashboard | {{ user.username }}</title>
+    <!-- Use same stylesheet logic -->
+</head>
+
+<body>
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Your Role: {{ user.role }}</p>
+    <button id="logoutBtn">Logout</button>
+
+    <script>
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            const res = await fetch('/api/logout', { method: 'POST' });
+            if (res.ok) {
+                window.location.href = '/login';
+            }
+        });
+    </script>
+</body>
+
+</html>

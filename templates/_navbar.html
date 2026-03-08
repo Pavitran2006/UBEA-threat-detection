@@ -1,0 +1,19 @@
+<header class="site-navbar">
+  <div class="site-navbar-inner">
+    <a class="site-logo" href="/">UEBA Security</a>
+    <nav class="site-nav">
+      <a href="/home">Home</a>
+      <a href="/#features">Features</a>
+      <a href="/login">Login</a>
+      <a href="/signup" class="site-nav-cta">Sign Up</a>
+      {% if current_user %}
+      <a href="/dashboard" class="site-nav-dashboard">Dashboard</a>
+      {% if current_user.role == "admin" %}
+      <a href="/admin/users">Admin Users</a>
+      <a href="/admin/activity">Admin Activity</a>
+      <a href="/admin/alerts">Admin Alerts</a>
+      {% endif %}
+      {% endif %}
+    </nav>
+  </div>
+</header>

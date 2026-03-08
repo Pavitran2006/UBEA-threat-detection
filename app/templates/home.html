@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UEBA Security Intelligence Platform - AI-Powered Behavioral Threat Detection using Machine Learning and Blockchain Security">
+    <title>UEBA Security Intelligence Platform | AI Cybersecurity</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">UEBA Security Intelligence</div>
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="/login" class="nav-link">Login</a>
+                <a href="/signup" class="nav-link">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Animated background elements -->
+    <div class="cyber-bg"></div>
+
+    <!-- Hero Section -->
+    <section class="hero-homepage">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1>AI-Powered Cybersecurity Monitoring System</h1>
+            <p>Detect anomalies, monitor user behavior, and prevent cyber threats in real time.</p>
+            <div class="hero-buttons">
+                <a href="/login" class="btn-primary">Login</a>
+                <a href="/signup" class="btn-secondary">Create Account</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About the System Section -->
+    <section class="about-section" id="about">
+        <div class="about-image"></div>
+        <div class="about-content">
+            <h2>What is UEBA Security?</h2>
+            <p>UEBA (User and Entity Behavior Analytics) is an advanced cybersecurity system that uses artificial intelligence and machine learning to analyze user activities and detect abnormal behavior patterns that may indicate insider threats or cyber attacks.</p>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <h2>Features</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-brain icon"></i>
+                <h3>AI Anomaly Detection</h3>
+                <p>Intelligent models uncover unusual patterns to stop threats early.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-clock icon"></i>
+                <h3>Real-Time Threat Monitoring</h3>
+                <p>Live dashboards keep you informed of security events as they happen.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-user-shield icon"></i>
+                <h3>User Risk Scoring</h3>
+                <p>Assign risk levels based on behavior to prioritize investigations.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-map-marker-alt icon"></i>
+                <h3>Geo Login Tracking</h3>
+                <p>Visualize login locations on a world map to spot anomalies.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-exclamation-triangle icon"></i>
+                <h3>Threat Intelligence Alerts</h3>
+                <p>Receive automated warnings when indicators of compromise are detected.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- System Statistics Section -->
+    <section class="stats-section">
+        <h2>System Statistics</h2>
+        <div class="stats-grid">
+            <div class="stats-card">
+                <i class="fas fa-users icon"></i>
+                <span class="counter" data-target="12500">0</span>
+                <p>Protected Users</p>
+            </div>
+            <div class="stats-card">
+                <i class="fas fa-bug icon"></i>
+                <span class="counter" data-target="3421">0</span>
+                <p>Detected Threats</p>
+            </div>
+            <div class="stats-card">
+                <i class="fas fa-signal icon"></i>
+                <span class="counter" data-target="768">0</span>
+                <p>Active Sessions</p>
+            </div>
+            <div class="stats-card">
+                <i class="fas fa-bell icon"></i>
+                <span class="counter" data-target="214">0</span>
+                <p>Security Alerts</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cybersecurity Illustration Section -->
+    <section class="illustration-section">
+        <div class="illustration-content">
+            <h2>Smart Security Powered by AI</h2>
+            <p>Our system continuously monitors user behavior and detects suspicious patterns using machine learning algorithms.</p>
+        </div>
+        <div class="illustration-image"></div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+        <div class="overlay"></div>
+        <div class="content">
+            <h2>Secure your system with AI-driven monitoring.</h2>
+            <div class="hero-buttons">
+                <a href="/signup" class="btn-primary">Get Started</a>
+                <a href="/login" class="btn-secondary">Login</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <a href="/">Home</a> |
+        <a href="/dashboard">Dashboard</a> |
+        <a href="/login">Login</a> |
+        <a href="/docs">Documentation</a>
+        <p style="margin-top:8px;">© 2026 UEBA Cybersecurity System</p>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded',()=>{
+      const counters=document.querySelectorAll('.counter');
+      counters.forEach(counter=>{
+        const updateCount=()=>{
+          const target = +counter.getAttribute('data-target');
+          const count = +counter.innerText;
+          const increment = target/200;
+          if(count<target){
+            counter.innerText = Math.ceil(count+increment);
+            setTimeout(updateCount,10);
+          } else {
+            counter.innerText = target;
+          }
+        };
+        updateCount();
+      });
+    });
+    </script>
+</body>
+</html>

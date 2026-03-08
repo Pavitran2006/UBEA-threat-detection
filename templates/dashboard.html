@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SOC Dashboard | UEBA</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body class="dashboard-page">
+  {% include "_navbar.html" %}
+  <main class="dashboard-shell soc-shell">
+    <header class="dashboard-topbar">
+      <div>
+        <h1 class="dashboard-title">Security Operations Center</h1>
+        <p class="dashboard-sub">Live UEBA monitoring for {{ user.username }} ({{ user.role }})</p>
+      </div>
+      <a class="logout-btn" href="/logout">Logout</a>
+    </header>
+
+    <section class="soc-card-grid">
+      <article class="soc-stat-card"><div>Total Users</div><strong id="cardTotalUsers">0</strong></article>
+      <article class="soc-stat-card"><div>Active Users</div><strong id="cardActiveUsers">0</strong></article>
+      <article class="soc-stat-card"><div>Detected Anomalies</div><strong id="cardDetectedAnomalies">0</strong></article>
+      <article class="soc-stat-card"><div>Security Alerts</div><strong id="cardSecurityAlerts">0</strong></article>
+    </section>
+
+    <section class="dashboard-card soc-section">
+      <h2 class="auth-title">Global Login Intelligence</h2>
+      <div id="loginWorldMap" class="world-map"></div>
+    </section>
+
+    <section class="soc-chart-grid">
+      <article class="dashboard-card soc-section"><h3>Login Activity Graph</h3><canvas id="loginActivityChart"></canvas></article>
+      <article class="dashboard-card soc-section"><h3>Risk Score Distribution</h3><canvas id="riskDistributionChart"></canvas></article>
+      <article class="dashboard-card soc-section"><h3>Alert Severity Chart</h3><canvas id="alertSeverityChart"></canvas></article>
+    </section>
+
+    <section class="soc-table-grid">
+      <article class="dashboard-card soc-section">
+        <h3>Recent Login Activity</h3>
+        <div class="table-shell">
+          <table class="admin-table">
+            <thead>
+              <tr><th>User</th><th>IP</th><th>Location</th><th>Device</th><th>Risk</th><th>Time</th></tr>
+            </thead>
+            <tbody id="recentLoginsBody"></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="dashboard-card soc-section">
+        <h3>Security Alerts</h3>
+        <div class="table-shell">
+          <table class="admin-table">
+            <thead>
+              <tr><th>User</th><th>Type</th><th>Description</th><th>Severity</th><th>Verdict</th><th>Time</th></tr>
+            </thead>
+            <tbody id="securityAlertsBody"></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    {% if user.role == "admin" %}
+    <section class="dashboard-card soc-section">
+      <h2 class="auth-title">Admin Controls</h2>
+      <div class="admin-shortcuts">
+        <a href="/admin/users" class="home-btn home-btn-secondary">Manage Users</a>
+        <a href="/admin/activity" class="home-btn home-btn-secondary">Activity Logs</a>
+        <a href="/admin/alerts" class="home-btn home-btn-secondary">Investigate Alerts</a>
+      </div>
+    </section>
+    {% endif %}
+  </main>
+
+  <script>
+    const loginChartCtx = document.getElementById("loginActivityChart");
+    const riskChartCtx = document.getElementById("riskDistributionChart");
+    const severityChartCtx = document.getElementById("alertSeverityChart");
+
+    const loginChart = new Chart(loginChartCtx, {
+      type: "line",
+      data: { labels: [], datasets: [{ label: "Logins", data: [], borderColor: "#00d4ff", backgroundColor: "rgba(0,212,255,0.2)", tension: 0.35, fill: true }] },
+      options: { animation: true, responsive: true, plugins: { legend: { labels: { color: "#c7deff" } } }, scales: { x: { ticks: { color: "#9fc3ea" } }, y: { ticks: { color: "#9fc3ea" } } } }
+    });
+
+    const riskChart = new Chart(riskChartCtx, {
+      type: "doughnut",
+      data: { labels: ["Low", "Medium", "High", "Critical"], datasets: [{ data: [0, 0, 0, 0], backgroundColor: ["#3b82f6", "#facc15", "#f97316", "#ef4444"] }] },
+      options: { animation: true, plugins: { legend: { labels: { color: "#c7deff" } } } }
+    });
+
+    const severityChart = new Chart(severityChartCtx, {
+      type: "bar",
+      data: { labels: ["Low", "Medium", "High", "Critical"], datasets: [{ label: "Alerts", data: [0, 0, 0, 0], backgroundColor: ["#3b82f6", "#facc15", "#f97316", "#ef4444"] }] },
+      options: { animation: true, plugins: { legend: { labels: { color: "#c7deff" } } }, scales: { x: { ticks: { color: "#9fc3ea" } }, y: { ticks: { color: "#9fc3ea" } } } }
+    });
+
+    const map = L.map("loginWorldMap", { minZoom: 2 }).setView([20, 0], 2);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors" }).addTo(map);
+    let mapMarkers = [];
+
+    function severityPill(value) {
+      const v = (value || "").toLowerCase();
+      if (v === "critical") return "risk-critical";
+      if (v === "high") return "risk-high";
+      if (v === "medium") return "risk-medium";
+      return "risk-low";
+    }
+
+    function renderRecentLogins(rows) {
+      document.getElementById("recentLoginsBody").innerHTML = rows.map((r) => `
+        <tr>
+          <td>${r.username}</td>
+          <td>${r.ip_address}</td>
+          <td>${r.city}, ${r.country}</td>
+          <td>${r.device_info}</td>
+          <td><span class="risk-badge ${severityPill(r.risk_score >= 71 ? 'critical' : r.risk_score >= 41 ? 'high' : r.risk_score >= 21 ? 'medium' : 'low')}">${r.risk_score}</span></td>
+          <td>${r.login_time}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderSecurityAlerts(rows) {
+      document.getElementById("securityAlertsBody").innerHTML = rows.map((a) => `
+        <tr>
+          <td>${a.username}</td>
+          <td>${a.alert_type}</td>
+          <td>${a.description}</td>
+          <td><span class="risk-badge ${severityPill(a.severity)}">${a.severity}</span></td>
+          <td>${a.verdict}</td>
+          <td>${a.timestamp}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderMap(points) {
+      mapMarkers.forEach((m) => m.remove());
+      mapMarkers = points.slice(0, 120).map((p) => {
+        const marker = L.circleMarker([p.latitude, p.longitude], {
+          radius: 6,
+          color: p.suspicious ? "#ef4444" : "#00d4ff",
+          fillColor: p.suspicious ? "#ef4444" : "#00d4ff",
+          fillOpacity: 0.8
+        }).addTo(map);
+        marker.bindPopup(`${p.username}<br/>${p.city}, ${p.country}<br/>IP: ${p.ip_address}<br/>Risk: ${p.risk_score}`);
+        return marker;
+      });
+    }
+
+    async function refreshDashboard() {
+      try {
+        const [
+          statsResp,
+          activityResp,
+          riskResp,
+          severityResp,
+          mapResp,
+          recentResp,
+          alertsResp
+        ] = await Promise.all([
+          fetch("/api/dashboard/stats", { credentials: "include" }),
+          fetch("/api/dashboard/activity", { credentials: "include" }),
+          fetch("/api/dashboard/risk-distribution", { credentials: "include" }),
+          fetch("/api/dashboard/alert-severity", { credentials: "include" }),
+          fetch("/api/dashboard/login-map", { credentials: "include" }),
+          fetch("/api/dashboard/recent-login-activity", { credentials: "include" }),
+          fetch("/api/dashboard/security-alerts", { credentials: "include" })
+        ]);
+
+        if (statsResp.ok) {
+          const s = await statsResp.json();
+          document.getElementById("cardTotalUsers").textContent = s.total_users ?? 0;
+          document.getElementById("cardActiveUsers").textContent = s.active_users ?? 0;
+          document.getElementById("cardDetectedAnomalies").textContent = s.detected_anomalies ?? 0;
+          document.getElementById("cardSecurityAlerts").textContent = s.security_alerts ?? 0;
+        }
+        if (activityResp.ok) {
+          const a = await activityResp.json();
+          loginChart.data.labels = a.labels || [];
+          loginChart.data.datasets[0].data = a.values || [];
+          loginChart.update();
+        }
+        if (riskResp.ok) {
+          const r = await riskResp.json();
+          riskChart.data.datasets[0].data = [r.Low || 0, r.Medium || 0, r.High || 0, r.Critical || 0];
+          riskChart.update();
+        }
+        if (severityResp.ok) {
+          const sv = await severityResp.json();
+          severityChart.data.datasets[0].data = [sv.Low || 0, sv.Medium || 0, sv.High || 0, sv.Critical || 0];
+          severityChart.update();
+        }
+        if (mapResp.ok) renderMap(await mapResp.json());
+        if (recentResp.ok) renderRecentLogins(await recentResp.json());
+        if (alertsResp.ok) renderSecurityAlerts(await alertsResp.json());
+      } catch (err) {
+        // Keep dashboard usable during transient API failures.
+      }
+    }
+
+    refreshDashboard();
+    setInterval(refreshDashboard, 5000);
+  </script>
+  <script src="{{ url_for('static', path='js/session_monitor.js') }}"></script>
+</body>
+</html>

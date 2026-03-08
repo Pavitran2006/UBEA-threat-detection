@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Distributed UEBA Dashboard</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+            --accent: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .label {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        th {
+            text-align: left;
+            padding: 0.75rem;
+            color: var(--text-dim);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        .badge-high {
+            background: rgba(249, 115, 22, 0.2);
+            color: #f97316;
+        }
+
+        .alert-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .alert {
+            background: #ef4444;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease-out;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1 style="margin-bottom: 2rem;">Distributed UEBA Strategy Console</h1>
+    <div id="alerts-container" class="alert-container"></div>
+
+    <div class="grid">
+        <div class="card">
+            <div id="stat-users" class="stat">0</div>
+            <div class="label">Total Distributed Entities</div>
+        </div>
+        <div class="card">
+            <div id="stat-alerts" class="stat" style="color: var(--accent);">0</div>
+            <div class="label">Real-time Stream Anomalies</div>
+        </div>
+    </div>
+
+    <div style="margin-top: 2rem;" class="grid">
+        <div class="card">
+            <h2>Live Entity Risk (Kafka Feed)</h2>
+            <table id="risk-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Risk Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="risk-body"></tbody>
+            </table>
+        </div>
+        <div class="card">
+            <h2>Active Session Risk (Continuous)</h2>
+            <table id="session-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Behavioral Score</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="session-body"></tbody>
+            </table>
+        </div>
+        <div class="card">
+            <h2>Recent Anomalies (Elasticsearch)</h2>
+            <table id="alerts-table">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>User</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody id="alerts-body"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/static/js/session_monitor.js"></script>
+    <script>
+        async function fetchStats() {
+            const res = await fetch('/api/dashboard/stats');
+            const data = await res.json();
+            document.getElementById('stat-users').innerText = data.total_users;
+            document.getElementById('stat-alerts').innerText = data.total_alerts;
+
+            riskBody.innerHTML = '';
+            data.users.forEach(u => {
+                let statusClass = 'badge-low';
+                let statusText = 'SAFE';
+                if (u.score > 70) { statusClass = 'badge-critical'; statusText = 'BLOCKED'; }
+                else if (u.score > 40) { statusClass = 'badge-high'; statusText = '2FA REQ'; }
+
+                const row = `<tr>
+                    <td>${u.username}</td>
+                    <td style="font-weight: bold; color: ${u.score > 40 ? '#ef4444' : '#00ff88'}">${u.score.toFixed(2)}</td>
+                    <td><span class="badge ${statusClass}">${statusText}</span></td>
+                </tr>`;
+                riskBody.innerHTML += row;
+            });
+        }
+
+        async function fetchAlerts() {
+            const res = await fetch('/api/dashboard/alerts');
+            const alerts = await res.json();
+            const alertsBody = document.getElementById('alerts-body');
+            alertsBody.innerHTML = '';
+            alerts.forEach(a => {
+                const row = `<tr><td>${a.timestamp.split('T')[1].split('.')[0]}</td><td>${a.username}</td><td>${a.anomaly_score.toFixed(4)}</td></tr>`;
+                alertsBody.innerHTML += row;
+            });
+        }
+
+        // WebSocket for Real-time Risk Updates
+        function connectWS() {
+            const ws = new WebSocket(`ws://${window.location.host}/ws/risk`);
+
+            ws.onmessage = function (event) {
+                const data = JSON.parse(event.data);
+                console.log("WebSocket Risk Update:", data);
+
+                if (data.risk_score > 80 || data.event_type === 'account_lock') {
+                    showCriticalAlert(data);
+                } else if (data.risk_score > 60 || data.event_type === 'session_invalidation') {
+                    showHighRiskAlert(data);
+                }
+
+                fetchStats();
+                updateSessionTable(data);
+            };
+
+            function updateSessionTable(data) {
+                if (!data.user_id) return;
+                const body = document.getElementById('session-body');
+                const existingRow = document.getElementById(`session-row-${data.user_id}`);
+
+                let status = data.risk_score > 60 ? 'THREAT' : 'NORMAL';
+                let badgeClass = data.risk_score > 60 ? 'badge-critical' : 'badge-low';
+
+                const rowHtml = `
+                    <td>${data.username || data.user_id}</td>
+                    <td style="color: ${data.risk_score > 60 ? 'red' : 'inherit'}">${data.risk_score.toFixed(1)}</td>
+                    <td><span class="badge ${badgeClass}">${status}</span></td>
+                `;
+
+                if (existingRow) {
+                    existingRow.innerHTML = rowHtml;
+                } else {
+                    const row = document.createElement('tr');
+                    row.id = `session-row-${data.user_id}`;
+                    row.innerHTML = rowHtml;
+                    body.prepend(row);
+                }
+            }
+
+            function showCriticalAlert(data) {
+                const container = document.getElementById('alerts-container');
+                const alert = document.createElement('div');
+                alert.className = 'alert';
+                alert.style.border = '2px solid yellow';
+                alert.innerHTML = `
+                    <strong>CRITICAL THREAT SESSION</strong>
+                    <span>User: ${data.username || data.user_id}</span>
+                    <span>Risk: ${data.risk_score.toFixed(2)}</span>
+                    <strong>ACTION: ACCOUNT LOCKED</strong>
+                `;
+                container.appendChild(alert);
+                setTimeout(() => alert.remove(), 10000);
+            }
+
+            function showHighRiskAlert(data) {
+                const container = document.getElementById('alerts-container');
+                const alert = document.createElement('div');
+                alert.className = 'alert';
+                alert.innerHTML = `
+                    <strong>HIGH RISK LOGIN ATTEMPT</strong>
+                    <span>User: ${data.username || data.user_id}</span>
+                    <span>Risk Score: ${data.risk_score.toFixed(2)}</span>
+                    <small>Action: ${data.decision || 'BLOCKED'}</small>
+                `;
+                container.appendChild(alert);
+                setTimeout(() => alert.remove(), 8000);
+            }
+
+            ws.onclose = function () {
+                setTimeout(connectWS, 2000); // Reconnect
+            };
+        }
+
+        fetchStats();
+        fetchAlerts();
+        connectWS();
+
+        // Refresh periodically
+        setInterval(fetchAlerts, 5000);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Alerts | UEBA</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+</head>
+<body class="dashboard-page">
+  {% include "_navbar.html" %}
+  <main class="dashboard-shell">
+    <section class="dashboard-card">
+      <h1 class="dashboard-title">Threat Alerts Investigation</h1>
+      <p class="dashboard-sub">Review suspicious activity and mark each alert as Safe or Threat.</p>
+      <div class="table-shell">
+        <table class="admin-table">
+          <thead>
+            <tr><th>User</th><th>Type</th><th>Description</th><th>Severity</th><th>Verdict</th><th>Time</th><th>Action</th></tr>
+          </thead>
+          <tbody id="alertsBody">
+            {% for a in alerts %}
+            <tr data-id="{{ a.id }}">
+              <td>{{ a.user.username if a.user else ("user-" ~ a.user_id) }}</td>
+              <td>{{ a.alert_type }}</td>
+              <td>{{ a.description }}</td>
+              <td><span class="risk-badge {{ 'risk-critical' if a.severity == 'Critical' else 'risk-high' if a.severity == 'High' else 'risk-medium' if a.severity == 'Medium' else 'risk-low' }}">{{ a.severity }}</span></td>
+              <td class="verdict">{{ a.verdict }}</td>
+              <td>{{ a.timestamp }}</td>
+              <td>
+                <button class="admin-btn success" onclick="setVerdict({{ a.id }}, 'safe')">Safe</button>
+                <button class="admin-btn danger" onclick="setVerdict({{ a.id }}, 'threat')">Threat</button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div id="alertsMessage" class="message"></div>
+    </section>
+  </main>
+
+  <script>
+    function showMessage(text, type) {
+      const box = document.getElementById("alertsMessage");
+      box.textContent = text;
+      box.className = `message show ${type}`;
+    }
+
+    async function setVerdict(alertId, verdict) {
+      try {
+        const resp = await fetch(`/api/admin/alerts/${alertId}/verdict`, {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ verdict })
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          showMessage(data.detail || "Failed to update verdict.", "error");
+          return;
+        }
+        const row = document.querySelector(`tr[data-id='${alertId}'] .verdict`);
+        if (row) row.textContent = data.verdict;
+        showMessage(`Alert ${alertId} marked as ${data.verdict}.`, "success");
+      } catch (e) {
+        showMessage("Unable to reach server.", "error");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: risk-engine
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: risk
+  template:
+    metadata:
+      labels:
+        app: risk
+    spec:
+      containers:
+      - name: risk
+        image: your-ecr-repo/ueba-risk:latest
+        envFrom:
+        - configMapRef:
+            name: ueba-cm
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: risk-service
+spec:
+  selector:
+    app: risk
+  ports:
+  - protocol: TCP
+    port: 8002
+    targetPort: 8002

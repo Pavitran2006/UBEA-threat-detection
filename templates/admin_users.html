@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin User Management | UEBA</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+</head>
+<body class="dashboard-page">
+  {% include "_navbar.html" %}
+  <main class="dashboard-shell">
+    <section class="dashboard-card">
+      <h1 class="dashboard-title">User Management</h1>
+      <p class="dashboard-sub">Enable/Disable users and monitor account state in real time.</p>
+      <div class="table-shell">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Last Login</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="adminUsersBody">
+            {% for u in users %}
+            <tr data-user-id="{{ u.id }}">
+              <td>{{ u.username }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.last_login if u.last_login else "Never" }}</td>
+              <td>
+                <span class="status-pill {{ 'status-enabled' if u.is_active else 'status-disabled' }}">
+                  {{ "Enabled" if u.is_active else "Disabled" }}
+                </span>
+              </td>
+              <td>
+                {% if u.is_active %}
+                <button class="admin-btn danger" onclick="toggleUser({{ u.id }}, false)">Disable User</button>
+                {% else %}
+                <button class="admin-btn success" onclick="toggleUser({{ u.id }}, true)">Enable User</button>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div id="adminUsersMessage" class="message"></div>
+    </section>
+  </main>
+
+  <script>
+    function showAdminMessage(text, type) {
+      const box = document.getElementById("adminUsersMessage");
+      box.textContent = text;
+      box.className = `message show ${type}`;
+    }
+
+    async function toggleUser(userId, enable) {
+      const endpoint = enable ? `/admin/enable-user/${userId}` : `/admin/disable-user/${userId}`;
+      try {
+        const resp = await fetch(endpoint, {
+          method: "POST",
+          credentials: "include"
+        });
+        const data = await resp.json().catch(() => ({}));
+        if (!resp.ok) {
+          showAdminMessage(data.detail || "Action failed.", "error");
+          return;
+        }
+        showAdminMessage(data.message || "User status updated.", "success");
+        setTimeout(() => window.location.reload(), 400);
+      } catch (e) {
+        showAdminMessage("Unable to reach server.", "error");
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create Account - Cloud-Native UEBA Platform">
+    <title>CyberGuard UEBA | Sign Up</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+    <div class="background-canvas">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Join the Network</h1>
+                <p>Initialize your operator profile to get started</p>
+            </div>
+
+            <div id="messageBox" class="message"></div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" name="username" class="auth-input" placeholder="Operator ID"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-wrapper">
+                        <input type="email" id="email" name="email" class="auth-input" placeholder="name@security.com"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" class="auth-input" placeholder="••••••••"
+                            required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="confirmPassword" name="confirmPassword" class="auth-input"
+                            placeholder="••••••••" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Operator Role</label>
+                    <div class="input-wrapper">
+                        <select id="role" name="role" class="auth-input" required>
+                            <option value="" disabled selected>Select your role</option>
+                            <option value="user">Security Analyst (User)</option>
+                            <option value="admin">System Administrator (Admin)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-primary">
+                    <span>Initialize Registration</span>
+                    <div class="loader"></div>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="login.html">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            const messageBox = document.getElementById('messageBox');
+
+            const formData = {
+                username: document.getElementById('username').value,
+                email: document.getElementById('email').value,
+                password: document.getElementById('password').value,
+                confirmPassword: document.getElementById('confirmPassword').value,
+                role: document.getElementById('role').value
+            };
+
+            if (formData.password !== formData.confirmPassword) {
+                messageBox.textContent = 'Passwords do not match.';
+                messageBox.className = 'message error';
+                return;
+            }
+
+            // Reset UI
+            btn.classList.add('loading');
+            messageBox.style.display = 'none';
+            messageBox.className = 'message';
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageBox.textContent = 'Registration successful! Proceeding to login...';
+                    messageBox.classList.add('success');
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                } else {
+                    throw new Error(data.message || 'Registration failed. Please try again.');
+                }
+            } catch (error) {
+                messageBox.textContent = error.message;
+                messageBox.classList.add('error');
+                btn.classList.remove('loading');
+            }
+        });
+    </script>
+</body>
+
+</html>

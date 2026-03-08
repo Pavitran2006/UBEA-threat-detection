@@ -1,0 +1,9 @@
+INFO:     Started server process [3812]
+INFO:     Waiting for application startup.
+WARNING:app.adaptive_auth.orchestrator:aiokafka not available; adaptive auth falls back to local scoring
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:app.main:GET http://127.0.0.1:8000/
+INFO:app.main:GET http://127.0.0.1:8000/login
+INFO:app.main:GET http://127.0.0.1:8000/signup
+INFO:app.main:GET http://127.0.0.1:8000/dashboard

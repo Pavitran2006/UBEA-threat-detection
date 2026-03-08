@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UEBA SaaS Admin Panel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 1rem;
+            border-bottom: 1px solid #334155;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+        }
+
+        .active {
+            background: #065f46;
+            color: #34d399;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>SaaS Admin Console</h1>
+            <button class="btn">+ New Tenant</button>
+        </div>
+
+        <div class="stats-grid">
+            <div class="card">
+                <h3>Total Tenants</h3>
+                <p style="font-size: 2rem; margin: 0;">12</p>
+            </div>
+            <div class="card">
+                <h3>Platform Health</h3>
+                <p style="color: #34d399; margin: 0;">99.9% Uptime</p>
+            </div>
+            <div class="card">
+                <h3>Active Alerts</h3>
+                <p style="color: #ef4444; margin: 0;">2 (Critical)</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Active Tenants</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tenant ID</th>
+                        <th>Tier</th>
+                        <th>Avg Risk</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>cyber_corp_01</td>
+                        <td>Enterprise</td>
+                        <td>24.5</td>
+                        <td><span class="status-badge active">Healthy</span></td>
+                    </tr>
+                    <tr>
+                        <td>fintech_safe</td>
+                        <td>Pro</td>
+                        <td>67.2</td>
+                        <td><span class="status-badge active" style="background: #991b1b; color: #f87171;">Threat</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

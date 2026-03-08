@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CyberGuard UEBA - Next-Gen Internal Threat Intelligence">
+    <title>CyberGuard UEBA | Enterprise Security</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700&display=swap"
+        rel="stylesheet">
+    <!-- PWA Support -->
+    <link rel="manifest" href="/static/manifest.json">
+    <meta name="theme-color" content="#0f172a">
+</head>
+
+<body>
+    <div id="app-shell">
+        <nav id="main-nav" class="hidden">
+            <div class="nav-container">
+                <div class="nav-logo">
+                    <span class="logo-accent">Cyber</span>Guard
+                </div>
+                <div class="nav-links">
+                    <button data-link="/dashboard" class="nav-item">Dashboard</button>
+                    <button data-link="/alerts" class="nav-item">Alerts</button>
+                    <button data-link="/risk" class="nav-item">User Risk</button>
+                </div>
+                <div class="nav-profile">
+                    <span id="nav-user" class="user-badge">Admin</span>
+                    <button id="logoutBtn" class="btn-logout">Logout</button>
+                </div>
+                <button class="mobile-toggle" aria-label="Toggle Menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </nav>
+
+        <main id="app-root">
+            <!-- Dynamic content injected here -->
+            <div class="initial-loader">
+                <div class="spinner"></div>
+                <p>Initializing Security Protocols...</p>
+            </div>
+        </main>
+
+        <div id="toast-container"></div>
+    </div>
+
+    <!-- Core App Logic -->
+    <script src="/static/js/router.js" type="module"></script>
+    <script src="/static/js/app.js" type="module"></script>
+</body>
+
+</html>

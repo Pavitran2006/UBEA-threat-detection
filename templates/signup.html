@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join the Network | UEBA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+</head>
+<body class="auth-page">
+  <div class="particles" id="particles" aria-hidden="true"></div>
+  {% include "_navbar.html" %}
+
+  <main class="auth-shell">
+    <div class="brand"><span class="brand-dot"></span>UEBA Security Cloud</div>
+    <section class="auth-card">
+      <h1 class="auth-title">Join the Network</h1>
+      <p class="auth-subtitle">Initialize your operator profile to get started</p>
+
+      <div id="message" class="message"></div>
+
+      <form id="signupForm" novalidate>
+        <div class="form-row">
+          <label for="username">Username</label>
+          <input class="input" id="username" name="username" type="text" minlength="3" placeholder="Operator ID" required />
+        </div>
+
+        <div class="form-row">
+          <label for="email">Email Address</label>
+          <input class="input" id="email" name="email" type="email" placeholder="name@security.com" required />
+        </div>
+
+        <div class="form-row">
+          <label for="password">Password</label>
+          <input class="input" id="password" name="password" type="password" minlength="8" placeholder="At least 8 characters" required />
+        </div>
+
+        <div class="form-row">
+          <label for="confirmPassword">Confirm Password</label>
+          <input class="input" id="confirmPassword" name="confirmPassword" type="password" minlength="8" placeholder="Re-enter password" required />
+        </div>
+
+        <div class="form-row">
+          <label for="role">Operator Role</label>
+          <select class="input" id="role" name="role" required>
+            <option value="" selected disabled>Select your role</option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+            <option value="security_analyst">Security Analyst</option>
+            <option value="threat_hunter">Threat Hunter</option>
+          </select>
+        </div>
+
+        <button id="signupButton" class="btn" type="submit">Initialize Registration</button>
+      </form>
+
+      <div class="divider"></div>
+      <p class="switch">Already have an account? <a href="/login">Sign In</a></p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const particlesHost = document.getElementById("particles");
+      const particleCount = 18;
+      for (let i = 0; i < particleCount; i++) {
+        const p = document.createElement("span");
+        p.className = "particle";
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.animationDuration = `${14 + Math.random() * 18}s`;
+        p.style.animationDelay = `${Math.random() * 12}s`;
+        p.style.opacity = `${0.25 + Math.random() * 0.6}`;
+        p.style.transform = `scale(${0.6 + Math.random()})`;
+        particlesHost.appendChild(p);
+      }
+
+      const form = document.getElementById("signupForm");
+      const message = document.getElementById("message");
+      const button = document.getElementById("signupButton");
+      const params = new URLSearchParams(window.location.search);
+
+      const showMessage = (text, type) => {
+        message.textContent = text;
+        message.className = `message show ${type}`;
+      };
+
+      if (params.get("error")) showMessage(params.get("error"), "error");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const payload = {
+          username: document.getElementById("username").value.trim(),
+          email: document.getElementById("email").value.trim(),
+          password: document.getElementById("password").value,
+          confirmPassword: document.getElementById("confirmPassword").value,
+          role: document.getElementById("role").value
+        };
+
+        if (!payload.username || !payload.email || !payload.password || !payload.confirmPassword || !payload.role) {
+          showMessage("All fields are required.", "error");
+          return;
+        }
+
+        if (payload.password.length < 8) {
+          showMessage("Password must be at least 8 characters.", "error");
+          return;
+        }
+
+        if (payload.password !== payload.confirmPassword) {
+          showMessage("Password and Confirm Password do not match.", "error");
+          return;
+        }
+
+        button.disabled = true;
+        button.classList.add("loading");
+
+        try {
+          const response = await fetch("/api/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(payload)
+          });
+
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            showMessage(data.detail || "Registration failed. Please try again.", "error");
+            return;
+          }
+
+          showMessage("Account created successfully. Redirecting to login...", "success");
+          setTimeout(() => {
+            window.location.href = "/login?success=Account created. Please log in.";
+          }, 900);
+        } catch (error) {
+          showMessage("Unable to connect to server. Please retry.", "error");
+        } finally {
+          button.disabled = false;
+          button.classList.remove("loading");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

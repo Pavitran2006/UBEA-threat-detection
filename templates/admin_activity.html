@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Activity Monitoring | UEBA</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+</head>
+<body class="dashboard-page">
+  {% include "_navbar.html" %}
+  <main class="dashboard-shell">
+    <section class="dashboard-card">
+      <h1 class="dashboard-title">Activity Monitoring</h1>
+      <p class="dashboard-sub">Track user login behavior, failed attempts, new devices, and high-risk activity.</p>
+      <div class="table-shell">
+        <table class="admin-table" id="activityTable">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>IP Address</th>
+              <th>Device</th>
+              <th>Login Time</th>
+              <th>Activity Type</th>
+              <th>Risk Score</th>
+            </tr>
+          </thead>
+          <tbody id="activityBody">
+            {% for a in activities %}
+            <tr>
+              <td>{{ a.user.username if a.user else "unknown" }}</td>
+              <td>{{ a.ip_address }}</td>
+              <td>{{ a.device_info }}</td>
+              <td>{{ a.login_time }}</td>
+              <td>{{ a.activity_type }}</td>
+              <td><span class="risk-badge">{{ a.risk_score }}</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    function severityClass(score) {
+      if (score >= 80) return "risk-critical";
+      if (score >= 60) return "risk-high";
+      if (score >= 30) return "risk-medium";
+      return "risk-low";
+    }
+
+    function formatRows(rows) {
+      return rows.map((a) => `
+        <tr>
+          <td>${a.username}</td>
+          <td>${a.ip_address}</td>
+          <td>${a.device_info}</td>
+          <td>${a.login_time}</td>
+          <td>${a.activity_type}</td>
+          <td><span class="risk-badge ${severityClass(a.risk_score)}">${a.risk_score}</span></td>
+        </tr>
+      `).join("");
+    }
+
+    async function refreshActivity() {
+      try {
+        const resp = await fetch("/api/admin/activity", { credentials: "include" });
+        if (!resp.ok) return;
+        const data = await resp.json();
+        document.getElementById("activityBody").innerHTML = formatRows(data);
+      } catch (e) {
+        // keep UI stable if API fails momentarily
+      }
+    }
+
+    refreshActivity();
+    setInterval(refreshActivity, 5000);
+  </script>
+</body>
+</html>

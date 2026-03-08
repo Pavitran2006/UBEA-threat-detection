@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure Login - Cloud-Native UEBA Platform">
+    <title>CyberGuard UEBA | Login</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+</head>
+
+<body>
+    <!-- simplified login form container -->
+    <div class="auth-container">
+        <h1>Login</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">Username or Email</label>
+                <input type="text" id="username" name="username" placeholder="Enter your username" required style="width:100%;padding:8px;margin:4px 0;">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Password" required style="width:100%;padding:8px;margin:4px 0;">
+            </div>
+            <button type="submit" id="submitBtn" style="padding:10px 20px;margin-top:8px;">Login</button>
+        </form>
+        <div id="messageBox" class="message" style="margin-top:10px;color:red;"></div>
+        <p>Don't have an account? <a href="/signup">Sign up</a></p>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const btn = document.getElementById('submitBtn');
+            const messageBox = document.getElementById('messageBox');
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Reset UI
+            btn.classList.add('loading');
+            messageBox.style.display = 'none';
+            messageBox.className = 'message';
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    messageBox.textContent = 'Login successful! Redirecting...';
+                    messageBox.classList.add('success');
+                    setTimeout(() => {
+                        window.location.href = '/dashboard';
+                    }, 1500);
+                } else {
+                    throw new Error(data.message || 'Invalid credentials. Please try again.');
+                }
+            } catch (error) {
+                messageBox.textContent = error.message;
+                messageBox.classList.add('error');
+                btn.classList.remove('loading');
+            }
+        });
+    </script>
+</body>
+
+</html>

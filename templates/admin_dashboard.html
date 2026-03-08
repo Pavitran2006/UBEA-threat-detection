@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-gradient-to-b from-black to-blue-900 text-white">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UEBA Admin Dashboard</title>
+    <!-- Tailwind CDN for rapid prototyping -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.css" />
+    <style>
+        /* custom glassmorphism card */
+        .glass {
+            backdrop-filter: blur(10px);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .neon-hover:hover {
+            box-shadow: 0 0 20px rgba(0,255,255,0.7), 0 0 30px rgba(0,255,255,0.5);
+        }
+    </style>
+</head>
+<body class="h-full antialiased">
+    <div class="min-h-screen p-6 flex flex-col space-y-6">
+        <!-- top stats -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- card template -->
+            <div class="glass p-4 rounded-lg neon-hover transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm uppercase tracking-widest text-gray-400">Total Users</h3>
+                        <span id="counter-total-users" class="text-3xl font-bold">0</span>
+                    </div>
+                    <div>
+                        <svg class="w-8 h-8 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5.121 17.804A13.937 13.937 0 0112 15c2.91 0 5.584.948 7.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-green-400">
+                    <span id="change-total-users">+5%</span> since last week
+                </div>
+            </div>
+            <!-- repeat for other cards -->
+            <div class="glass p-4 rounded-lg neon-hover transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm uppercase tracking-widest text-gray-400">Active Users</h3>
+                        <span id="counter-active-users" class="text-3xl font-bold">0</span>
+                    </div>
+                    <div>
+                        <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 20h5v-2a3 3 0 00-3-3h-2M9 20H4v-2a3 3 0 013-3h2m6 0a3 3 0 00-3-3H9m6 0v-2a3 3 0 00-3-3H9" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-green-400">
+                    <span id="change-active-users">+2%</span> since yesterday
+                </div>
+            </div>
+            <div class="glass p-4 rounded-lg neon-hover transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm uppercase tracking-widest text-gray-400">Suspicious Activities</h3>
+                        <span id="counter-suspicious" class="text-3xl font-bold">0</span>
+                    </div>
+                    <div>
+                        <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13 16h-1v-4h-1m1 4v2m0-16a9 9 0 11-9 9" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-red-400">
+                    <span id="change-suspicious">+12%</span> since yesterday
+                </div>
+            </div>
+            <div class="glass p-4 rounded-lg neon-hover transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm uppercase tracking-widest text-gray-400">System Alerts</h3>
+                        <span id="counter-alerts" class="text-3xl font-bold">0</span>
+                    </div>
+                    <div>
+                        <svg class="w-8 h-8 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-yellow-400">
+                    <span id="change-alerts">-1%</span> since last hour
+                </div>
+            </div>
+            <div class="glass p-4 rounded-lg neon-hover transition-all duration-300">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h3 class="text-sm uppercase tracking-widest text-gray-400">Anomaly Alerts</h3>
+                        <span id="counter-anomalies" class="text-3xl font-bold">0</span>
+                    </div>
+                    <div>
+                        <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4m0 4h.01" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="mt-2 text-xs text-red-400">
+                    <span id="change-anomalies">+0%</span> since last check
+                </div>
+            </div>
+        </div>
+
+        <!-- charts section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="glass p-4 rounded-lg">
+                <h4 class="text-lg mb-2">User Activity</h4>
+                <canvas id="chart-user-activity"></canvas>
+            </div>
+            <div class="glass p-4 rounded-lg">
+                <h4 class="text-lg mb-2">Login Attempts</h4>
+                <canvas id="chart-login-attempts"></canvas>
+            </div>
+            <div class="glass p-4 rounded-lg">
+                <h4 class="text-lg mb-2">Threat Detection</h4>
+                <canvas id="chart-threats"></canvas>
+            </div>
+            <div class="glass p-4 rounded-lg">
+                <h4 class="text-lg mb-2">Anomaly Heatmap</h4>
+                <div id="heatmap-container" class="h-64"></div>
+            </div>
+        </div>
+
+        <!-- user management panel -->
+        <div class="glass p-4 rounded-lg">
+            <h4 class="text-lg mb-4">User Management</h4>
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-gray-800">
+                        <tr>
+                            <th class="px-4 py-2">Name</th>
+                            <th class="px-4 py-2">Email</th>
+                            <th class="px-4 py-2">Role</th>
+                            <th class="px-4 py-2">Last Login</th>
+                            <th class="px-4 py-2">Status</th>
+                        <th class="px-4 py-2">Suspicious</th>
+                            <th class="px-4 py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-table-body">
+                        <!-- rows inserted by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- threat detection panel -->
+        <div class="glass p-4 rounded-lg">
+            <h4 class="text-lg mb-4">Threat Detection Alerts</h4>
+            <ul id="alert-list" class="space-y-2">
+                <!-- alerts added by JS -->
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        // animate counter helper
+        function animateCounter(id, end) {
+            const el = document.getElementById(id);
+            let start = 0;
+            const step = Math.ceil(end / 60);
+            const interval = setInterval(() => {
+                start += step;
+                if (start >= end) {
+                    start = end;
+                    clearInterval(interval);
+                }
+                el.textContent = start;
+            }, 16);
+        }
+
+        // sample initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            animateCounter('counter-total-users', 1245);
+            animateCounter('counter-active-users', 932);
+            animateCounter('counter-suspicious', 27);
+            animateCounter('counter-alerts', 8);
+            // load anomaly count separately
+            fetch('/api/anomalies').then(r => r.json()).then(a => animateCounter('counter-anomalies', a.length));
+
+            // chart examples
+            const userCtx = document.getElementById('chart-user-activity').getContext('2d');
+            new Chart(userCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Activity',
+                        data: [120, 150, 180, 130, 170, 190],
+                        borderColor: 'cyan',
+                        backgroundColor: 'rgba(0,255,255,0.2)'
+                    }]
+                }
+            });
+
+            const loginCtx = document.getElementById('chart-login-attempts').getContext('2d');
+            new Chart(loginCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                    datasets: [{
+                        label: 'Logins',
+                        data: [30, 45, 60, 50, 70, 55],
+                        backgroundColor: 'green'
+                    }]
+                }
+            });
+
+            const threatCtx = document.getElementById('chart-threats').getContext('2d');
+            new Chart(threatCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Low', 'Medium', 'High'],
+                    datasets: [{
+                        data: [60, 30, 10],
+                        backgroundColor: ['#00ffff', '#7f00ff', '#ff0040']
+                    }]
+                }
+            });
+
+            // heatmap placeholder (could integrate a heatmap library)
+            document.getElementById('heatmap-container').textContent = 'Heatmap (integration required)';
+
+            // load users
+            fetch('/api/users').then(r => r.json()).then(renderUsers);
+            // load alerts
+            fetch('/api/alerts').then(r => r.json()).then(renderAlerts);
+            // load anomaly alerts (reddit-themed as red)
+            fetch('/api/anomalies').then(r => r.json()).then(renderAnomalies);
+        });
+
+        function renderUsers(users) {
+            const tbody = document.getElementById('user-table-body');
+            tbody.innerHTML = '';
+            users.forEach(u => {
+                const tr = document.createElement('tr');
+                tr.className = 'border-b border-gray-700';
+                tr.innerHTML = `
+                    <td class="px-4 py-2">${u.name}</td>
+                    <td class="px-4 py-2">${u.email}</td>
+                    <td class="px-4 py-2">${u.role}</td>
+                    <td class="px-4 py-2">${u.last_login}</td>
+                    <td class="px-4 py-2">${u.status}</td>
+                    <td class="px-4 py-2">${u.is_suspicious ? '⚠️' : ''}</td>
+                    <td class="px-4 py-2 space-x-2">
+                        <button onclick="toggleUser(${u.id}, '${u.status}')" class="px-2 py-1 bg-green-600 rounded">Toggle</button>
+                        <button onclick="deleteUser(${u.id})" class="px-2 py-1 bg-red-600 rounded">Delete</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function toggleUser(id, status) {
+            const action = status === 'Active' ? 'disable' : 'enable';
+            if (confirm(`Are you sure you want to ${action} this user?`)) {
+                fetch(`/api/users/${action}/${id}`, {method: 'POST'})
+                    .then(r => r.json())
+                    .then(() => location.reload());
+            }
+        }
+
+        function deleteUser(id) {
+            if (confirm('Delete user permanently?')) {
+                fetch(`/api/users/${id}`, {method: 'DELETE'})
+                    .then(r => r.json())
+                    .then(() => location.reload());
+            }
+        }
+
+        function renderAlerts(alerts) {
+            const ul = document.getElementById('alert-list');
+            // preserve existing items added by other calls
+            // clear only if first dataset
+            if (ul.dataset.cleared !== 'true') {
+                ul.innerHTML = '';
+                ul.dataset.cleared = 'true';
+            }
+            alerts.forEach(a => {
+                const li = document.createElement('li');
+                li.className = 'p-2 bg-gray-800 rounded flex justify-between items-center';
+                li.innerHTML = `
+                    <div>
+                        <span class="font-semibold">${a.user}</span> - ${a.message}
+                        <div class="text-xs text-gray-400">${a.time} • ${a.level}</div>
+                    </div>
+                    <button class="px-3 py-1 bg-purple-600 rounded">Investigate</button>
+                `;
+                ul.appendChild(li);
+            });
+        }
+
+        function renderAnomalies(anomalies) {
+            const ul = document.getElementById('alert-list');
+            // anomalies should appear with red background to stand out
+            anomalies.forEach(a => {
+                const li = document.createElement('li');
+                li.className = 'p-2 bg-red-800 rounded flex justify-between items-center';
+                li.innerHTML = `
+                    <div>
+                        <span class="font-semibold">${a.username}</span> – suspicious activity (score ${a.score})
+                        <div class="text-xs text-red-300">${a.time} • ${a.level}</div>
+                    </div>
+                    <button class="px-3 py-1 bg-yellow-600 rounded">Investigate</button>
+                `;
+                ul.appendChild(li);
+            });
+        }
+    </script>
+</body>
+</html>

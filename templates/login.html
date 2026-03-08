@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure Access | UEBA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+</head>
+<body class="auth-page">
+  <div class="particles" id="particles" aria-hidden="true"></div>
+  {% include "_navbar.html" %}
+
+  <main class="auth-shell">
+    <div class="brand"><span class="brand-dot"></span>UEBA Security Cloud</div>
+    <section class="auth-card">
+      <h1 class="auth-title">Secure Access</h1>
+      <p class="auth-subtitle">Enter your credentials to access the UEBA platform</p>
+
+      <div id="message" class="message"></div>
+
+      <form id="loginForm" novalidate>
+        <div class="form-row">
+          <label for="identifier">Username or Email</label>
+          <input class="input" id="identifier" name="identifier" type="text" placeholder="analyst@company.com" autocomplete="username" required />
+        </div>
+
+        <div class="form-row">
+          <label for="password">Password</label>
+          <input class="input" id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required />
+        </div>
+
+        <div class="inline">
+          <label class="remember">
+            <input type="checkbox" id="rememberMe" name="rememberMe" />
+            Remember Me
+          </label>
+          <a class="link" href="/forgot-password">Forgot password?</a>
+        </div>
+
+        <button id="loginButton" class="btn" type="submit">Login to Dashboard</button>
+      </form>
+
+      <div class="divider"></div>
+      <p class="switch">Don't have an account? <a href="/signup">Create one</a></p>
+    </section>
+  </main>
+
+  <script>
+    (function () {
+      const particlesHost = document.getElementById("particles");
+      const particleCount = 18;
+      for (let i = 0; i < particleCount; i++) {
+        const p = document.createElement("span");
+        p.className = "particle";
+        p.style.left = `${Math.random() * 100}%`;
+        p.style.animationDuration = `${14 + Math.random() * 18}s`;
+        p.style.animationDelay = `${Math.random() * 12}s`;
+        p.style.opacity = `${0.25 + Math.random() * 0.6}`;
+        p.style.transform = `scale(${0.6 + Math.random()})`;
+        particlesHost.appendChild(p);
+      }
+
+      const form = document.getElementById("loginForm");
+      const message = document.getElementById("message");
+      const button = document.getElementById("loginButton");
+      const params = new URLSearchParams(window.location.search);
+
+      const showMessage = (text, type) => {
+        message.textContent = text;
+        message.className = `message show ${type}`;
+      };
+
+      if (params.get("error")) showMessage(params.get("error"), "error");
+      if (params.get("success")) showMessage(params.get("success"), "success");
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const identifier = document.getElementById("identifier").value.trim();
+        const password = document.getElementById("password").value;
+
+        if (!identifier || !password) {
+          showMessage("Username/email and password are required.", "error");
+          return;
+        }
+
+        const deviceFingerprint = [navigator.userAgent, navigator.platform, navigator.language].join("|");
+        const payload = { password, device_fingerprint: deviceFingerprint };
+        if (identifier.includes("@")) payload.email = identifier;
+        else payload.username = identifier;
+
+        button.disabled = true;
+        button.classList.add("loading");
+
+        try {
+          const response = await fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify(payload)
+          });
+
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            const blockedMessage = data.status === "blocked"
+              ? `Login blocked due to high risk (score: ${data.risk_score ?? "n/a"}).`
+              : (data.detail || "Invalid credentials. Please try again.");
+            showMessage(blockedMessage, "error");
+            return;
+          }
+
+          if (data.status === "2fa_required") {
+            showMessage(`2FA required before access. Risk score: ${data.risk_score}.`, "error");
+            return;
+          }
+
+          showMessage(`Authentication successful. Risk score: ${data.risk_score}. Redirecting...`, "success");
+          window.location.href = "/dashboard";
+        } catch (error) {
+          showMessage("Unable to connect to server. Please retry.", "error");
+        } finally {
+          button.disabled = false;
+          button.classList.remove("loading");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
