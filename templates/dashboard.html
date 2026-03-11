@@ -3,103 +3,433 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SOC Dashboard | UEBA</title>
-  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+  <title>Security Operations Center | UEBA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', path='css/cyber-theme.css') }}" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body class="dashboard-page">
+  <!-- Animated Background -->
+  <div class="cyber-bg"></div>
+  <div class="cyber-grid"></div>
+  
   {% include "_navbar.html" %}
-  <main class="dashboard-shell soc-shell">
-    <header class="dashboard-topbar">
+
+  <main class="dashboard-main">
+    <!-- Header -->
+    <header class="dashboard-header fade-in">
       <div>
         <h1 class="dashboard-title">Security Operations Center</h1>
-        <p class="dashboard-sub">Live UEBA monitoring for {{ user.username }} ({{ user.role }})</p>
+        <p class="dashboard-subtitle">Live UEBA monitoring for <span class="highlight">{{ user.username }}</span> <span class="badge badge-info">{{ user.role }}</span></p>
       </div>
-      <a class="logout-btn" href="/logout">Logout</a>
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="refreshDashboard()">
+          <i class="fas fa-sync-alt"></i> Refresh
+        </button>
+        <a class="btn btn-primary" href="/logout">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
     </header>
 
-    <section class="soc-card-grid">
-      <article class="soc-stat-card"><div>Total Users</div><strong id="cardTotalUsers">0</strong></article>
-      <article class="soc-stat-card"><div>Active Users</div><strong id="cardActiveUsers">0</strong></article>
-      <article class="soc-stat-card"><div>Detected Anomalies</div><strong id="cardDetectedAnomalies">0</strong></article>
-      <article class="soc-stat-card"><div>Security Alerts</div><strong id="cardSecurityAlerts">0</strong></article>
-    </section>
-
-    <section class="dashboard-card soc-section">
-      <h2 class="auth-title">Global Login Intelligence</h2>
-      <div id="loginWorldMap" class="world-map"></div>
-    </section>
-
-    <section class="soc-chart-grid">
-      <article class="dashboard-card soc-section"><h3>Login Activity Graph</h3><canvas id="loginActivityChart"></canvas></article>
-      <article class="dashboard-card soc-section"><h3>Risk Score Distribution</h3><canvas id="riskDistributionChart"></canvas></article>
-      <article class="dashboard-card soc-section"><h3>Alert Severity Chart</h3><canvas id="alertSeverityChart"></canvas></article>
-    </section>
-
-    <section class="soc-table-grid">
-      <article class="dashboard-card soc-section">
-        <h3>Recent Login Activity</h3>
-        <div class="table-shell">
-          <table class="admin-table">
-            <thead>
-              <tr><th>User</th><th>IP</th><th>Location</th><th>Device</th><th>Risk</th><th>Time</th></tr>
-            </thead>
-            <tbody id="recentLoginsBody"></tbody>
-          </table>
+    <!-- Stats Cards Section -->
+    <section class="stats-grid fade-in stagger-1">
+      <article class="stat-card">
+        <div class="stat-card-icon users">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="stat-card-content">
+          <span class="stat-card-label">Total Users</span>
+          <span class="stat-card-value cyan" data-target="0" data-suffix="">0</span>
+        </div>
+        <div class="stat-card-trend up">
+          <i class="fas fa-arrow-up"></i>
+          <span>Active monitoring</span>
         </div>
       </article>
-      <article class="dashboard-card soc-section">
-        <h3>Security Alerts</h3>
-        <div class="table-shell">
-          <table class="admin-table">
-            <thead>
-              <tr><th>User</th><th>Type</th><th>Description</th><th>Severity</th><th>Verdict</th><th>Time</th></tr>
-            </thead>
-            <tbody id="securityAlertsBody"></tbody>
-          </table>
+
+      <article class="stat-card">
+        <div class="stat-card-icon signals">
+          <i class="fas fa-wave-square"></i>
+        </div>
+        <div class="stat-card-content">
+          <span class="stat-card-label">Active Signals</span>
+          <span class="stat-card-value purple" data-target="0" data-suffix="">0</span>
+        </div>
+        <div class="stat-card-trend up">
+          <i class="fas fa-arrow-up"></i>
+          <span>Real-time</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-card-icon alerts">
+          <i class="fas fa-exclamation-triangle"></i>
+        </div>
+        <div class="stat-card-content">
+          <span class="stat-card-label">Threat Alerts</span>
+          <span class="stat-card-value warning" data-target="0" data-suffix="">0</span>
+        </div>
+        <div class="stat-card-trend" id="alertTrend">
+          <i class="fas fa-minus"></i>
+          <span>Requires attention</span>
+        </div>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-card-icon score">
+          <i class="fas fa-shield-halved"></i>
+        </div>
+        <div class="stat-card-content">
+          <span class="stat-card-label">Security Score</span>
+          <span class="stat-card-value success" id="securityScore" data-target="92" data-suffix="%">92%</span>
+        </div>
+        <div class="stat-card-trend up">
+          <i class="fas fa-arrow-up"></i>
+          <span>Excellent</span>
         </div>
       </article>
     </section>
 
+    <!-- Charts Section -->
+    <section class="charts-grid fade-in stagger-2">
+      <article class="chart-card">
+        <div class="chart-card-header">
+          <h3 class="chart-card-title"><i class="fas fa-chart-line"></i> Login Activity</h3>
+        </div>
+        <div class="chart-card-body">
+          <canvas id="loginActivityChart"></canvas>
+        </div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-card-header">
+          <h3 class="chart-card-title"><i class="fas fa-chart-pie"></i> Risk Score Distribution</h3>
+        </div>
+        <div class="chart-card-body">
+          <canvas id="riskDistributionChart"></canvas>
+        </div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-card-header">
+          <h3 class="chart-card-title"><i class="fas fa-chart-bar"></i> Alert Severity</h3>
+        </div>
+        <div class="chart-card-body">
+          <canvas id="alertSeverityChart"></canvas>
+        </div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-card-header">
+          <h3 class="chart-card-title"><i class="fas fa-globe"></i> Global Login Map</h3>
+        </div>
+        <div class="chart-card-body" style="height: 280px;">
+          <div id="loginWorldMap" class="world-map" style="height: 100%;"></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Recent Activity Section -->
+    <section class="activity-section fade-in stagger-3">
+      <div class="glass-card">
+        <div class="section-header">
+          <h2><i class="fas fa-clock-rotate-left"></i> Recent Activity</h2>
+        </div>
+        <div class="activity-list" id="recentLoginsList">
+          <div class="activity-item">
+            <div class="activity-avatar">?</div>
+            <div class="activity-content">
+              <div class="activity-title">Loading activity data...</div>
+              <div class="activity-meta">Please wait</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Security Alerts Section -->
+    <section class="alerts-section fade-in stagger-4">
+      <div class="glass-card">
+        <div class="section-header">
+          <h2><i class="fas fa-shield-virus"></i> Security Alerts</h2>
+        </div>
+        <div class="alerts-list" id="securityAlertsList">
+          <div class="alert alert-info">Loading alerts...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Controls -->
     {% if user.role == "admin" %}
-    <section class="dashboard-card soc-section">
-      <h2 class="auth-title">Admin Controls</h2>
-      <div class="admin-shortcuts">
-        <a href="/admin/users" class="home-btn home-btn-secondary">Manage Users</a>
-        <a href="/admin/activity" class="home-btn home-btn-secondary">Activity Logs</a>
-        <a href="/admin/alerts" class="home-btn home-btn-secondary">Investigate Alerts</a>
+    <section class="admin-section fade-in">
+      <div class="neon-card">
+        <div class="section-header">
+          <h2><i class="fas fa-user-shield"></i> Admin Controls</h2>
+        </div>
+        <div class="admin-shortcuts">
+          <a href="/admin/users" class="btn btn-secondary">
+            <i class="fas fa-users-gear"></i> Manage Users
+          </a>
+          <a href="/admin/activity" class="btn btn-secondary">
+            <i class="fas fa-list-check"></i> Activity Logs
+          </a>
+          <a href="/admin/alerts" class="btn btn-secondary">
+            <i class="fas fa-bell"></i> Investigate Alerts
+          </a>
+        </div>
       </div>
     </section>
     {% endif %}
   </main>
 
+  <style>
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-xl);
+      flex-wrap: wrap;
+      gap: var(--space-md);
+    }
+
+    .dashboard-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: var(--space-xs);
+    }
+
+    .dashboard-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
+
+    .dashboard-subtitle .highlight {
+      color: var(--accent-cyan);
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: var(--space-md);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .section-header h2 {
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    .section-header h2 i {
+      color: var(--accent-cyan);
+    }
+
+    .activity-section, .alerts-section, .admin-section {
+      margin-bottom: var(--space-xl);
+    }
+
+    .alerts-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+
+    .alert-card {
+      padding: var(--space-md);
+      border-radius: var(--radius-md);
+      border-left: 4px solid;
+      background: rgba(15, 23, 42, 0.4);
+    }
+
+    .alert-card.alert-low {
+      border-color: var(--color-info);
+    }
+
+    .alert-card.alert-medium {
+      border-color: var(--color-warning);
+    }
+
+    .alert-card.alert-high {
+      border-color: var(--color-danger);
+    }
+
+    .alert-card.alert-critical {
+      border-color: var(--color-danger);
+      animation: riskPulse 2s ease-in-out infinite;
+    }
+
+    .alert-type {
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-xs);
+    }
+
+    .alert-meta {
+      display: flex;
+      gap: var(--space-md);
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .admin-shortcuts {
+      display: flex;
+      gap: var(--space-md);
+      flex-wrap: wrap;
+    }
+
+    .world-map {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-actions {
+        width: 100%;
+      }
+
+      .header-actions .btn {
+        flex: 1;
+      }
+
+      .admin-shortcuts {
+        flex-direction: column;
+      }
+
+      .admin-shortcuts .btn {
+        width: 100%;
+      }
+    }
+  </style>
+
   <script>
-    const loginChartCtx = document.getElementById("loginActivityChart");
-    const riskChartCtx = document.getElementById("riskDistributionChart");
-    const severityChartCtx = document.getElementById("alertSeverityChart");
+    // Animated Counter Function
+    function animateCounters() {
+      const counters = document.querySelectorAll('[data-target]');
+      
+      counters.forEach(counter => {
+        const target = parseInt(counter.getAttribute('data-target'));
+        const suffix = counter.getAttribute('data-suffix') || '';
+        const duration = 1500; // Animation duration in ms
+        const start = 0;
+        const startTime = performance.now();
 
-    const loginChart = new Chart(loginChartCtx, {
+        function updateCounter(currentTime) {
+          const elapsed = currentTime - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Easing function (ease-out)
+          const easeOut = 1 - Math.pow(1 - progress, 3);
+          
+          const current = Math.floor(start + (target - start) * easeOut);
+          counter.textContent = current.toLocaleString() + suffix;
+
+          if (progress < 1) {
+            requestAnimationFrame(updateCounter);
+          }
+        }
+
+        requestAnimationFrame(updateCounter);
+      });
+    }
+
+    // Chart configurations
+    const chartDefaults = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: '#94a3b8' }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#64748b' },
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        },
+        y: {
+          ticks: { color: '#64748b' },
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        }
+      }
+    };
+
+    const loginChart = new Chart(document.getElementById("loginActivityChart"), {
       type: "line",
-      data: { labels: [], datasets: [{ label: "Logins", data: [], borderColor: "#00d4ff", backgroundColor: "rgba(0,212,255,0.2)", tension: 0.35, fill: true }] },
-      options: { animation: true, responsive: true, plugins: { legend: { labels: { color: "#c7deff" } } }, scales: { x: { ticks: { color: "#9fc3ea" } }, y: { ticks: { color: "#9fc3ea" } } } }
+      data: {
+        labels: [],
+        datasets: [{
+          label: "Logins/Hour",
+          data: [],
+          borderColor: "#06b6d4",
+          backgroundColor: "rgba(6, 182, 212, 0.1)",
+          tension: 0.4,
+          fill: true,
+          pointRadius: 4,
+          pointBackgroundColor: "#06b6d4"
+        }]
+      },
+      options: chartDefaults
     });
 
-    const riskChart = new Chart(riskChartCtx, {
-      type: "doughnut",
-      data: { labels: ["Low", "Medium", "High", "Critical"], datasets: [{ data: [0, 0, 0, 0], backgroundColor: ["#3b82f6", "#facc15", "#f97316", "#ef4444"] }] },
-      options: { animation: true, plugins: { legend: { labels: { color: "#c7deff" } } } }
-    });
-
-    const severityChart = new Chart(severityChartCtx, {
+    const riskChart = new Chart(document.getElementById("riskDistributionChart"), {
       type: "bar",
-      data: { labels: ["Low", "Medium", "High", "Critical"], datasets: [{ label: "Alerts", data: [0, 0, 0, 0], backgroundColor: ["#3b82f6", "#facc15", "#f97316", "#ef4444"] }] },
-      options: { animation: true, plugins: { legend: { labels: { color: "#c7deff" } } }, scales: { x: { ticks: { color: "#9fc3ea" } }, y: { ticks: { color: "#9fc3ea" } } } }
+      data: {
+        labels: ["Low", "Medium", "High", "Critical"],
+        datasets: [{
+          label: "Users",
+          data: [0, 0, 0, 0],
+          backgroundColor: ["#3b82f6", "#f59e0b", "#f97316", "#ef4444"],
+          borderRadius: 8
+        }]
+      },
+      options: chartDefaults
     });
 
+    const severityChart = new Chart(document.getElementById("alertSeverityChart"), {
+      type: "doughnut",
+      data: {
+        labels: ["Low", "Medium", "High", "Critical"],
+        datasets: [{
+          data: [0, 0, 0, 0],
+          backgroundColor: ["#3b82f6", "#f59e0b", "#f97316", "#ef4444"],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'right',
+            labels: { color: '#c7deff' }
+          }
+        }
+      }
+    });
+
+    // Initialize Map
     const map = L.map("loginWorldMap", { minZoom: 2 }).setView([20, 0], 2);
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "&copy; OpenStreetMap contributors" }).addTo(map);
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+      attribution: "&copy; Esri & contributors"
+    }).addTo(map);
     let mapMarkers = [];
 
     function severityPill(value) {
@@ -110,73 +440,126 @@
       return "risk-low";
     }
 
+    function markerColor(score) {
+      const s = Number(score || 0);
+      if (s >= 71) return "#ef4444";
+      if (s >= 41) return "#f97316";
+      if (s >= 21) return "#f59e0b";
+      return "#3b82f6";
+    }
+
+    function toLocalTime(utcValue) {
+      if (!utcValue) return "N/A";
+      const parsed = new Date(utcValue);
+      if (Number.isNaN(parsed.getTime())) return utcValue;
+      return parsed.toLocaleString();
+    }
+
+    function createMarkerIcon(color, label) {
+      return L.divIcon({
+        className: "soc-map-label-icon",
+        html: `<div class="soc-map-marker" style="border-color:${color}"><span class="dot" style="background:${color}"></span><span class="txt">${label}</span></div>`,
+        iconSize: [200, 20],
+        iconAnchor: [14, 10]
+      });
+    }
+
     function renderRecentLogins(rows) {
-      document.getElementById("recentLoginsBody").innerHTML = rows.map((r) => `
-        <tr>
-          <td>${r.username}</td>
-          <td>${r.ip_address}</td>
-          <td>${r.city}, ${r.country}</td>
-          <td>${r.device_info}</td>
-          <td><span class="risk-badge ${severityPill(r.risk_score >= 71 ? 'critical' : r.risk_score >= 41 ? 'high' : r.risk_score >= 21 ? 'medium' : 'low')}">${r.risk_score}</span></td>
-          <td>${r.login_time}</td>
-        </tr>
+      const list = document.getElementById("recentLoginsList");
+      if (!rows || !rows.length) {
+        list.innerHTML = '<div class="activity-item"><div class="activity-avatar"><i class="fas fa-info"></i></div><div class="activity-content"><div class="activity-title">No recent login activity</div></div></div>';
+        return;
+      }
+      list.innerHTML = rows.slice(0, 8).map((r) => `
+        <div class="activity-item">
+          <div class="activity-avatar">${(r.username || 'U')[0].toUpperCase()}</div>
+          <div class="activity-content">
+            <div class="activity-title"><strong>${r.username}</strong> <span class="text-muted">${r.city || ''}, ${r.country || ''}</span></div>
+            <div class="activity-meta">${r.ip_address} • ${r.browser || "Unknown"}</div>
+          </div>
+          <div class="activity-time">
+            <span class="risk-pill ${severityPill(r.risk_score >= 71 ? 'Critical' : r.risk_score >= 41 ? 'High' : r.risk_score >= 21 ? 'Medium' : 'Low')}">${r.risk_score}</span>
+            <span class="text-muted">${toLocalTime(r.login_time)}</span>
+          </div>
+        </div>
       `).join("");
     }
 
     function renderSecurityAlerts(rows) {
-      document.getElementById("securityAlertsBody").innerHTML = rows.map((a) => `
-        <tr>
-          <td>${a.username}</td>
-          <td>${a.alert_type}</td>
-          <td>${a.description}</td>
-          <td><span class="risk-badge ${severityPill(a.severity)}">${a.severity}</span></td>
-          <td>${a.verdict}</td>
-          <td>${a.timestamp}</td>
-        </tr>
+      const list = document.getElementById("securityAlertsList");
+      if (!rows || !rows.length) {
+        list.innerHTML = '<div class="alert alert-success"><i class="fas fa-check-circle"></i> No security alerts at this time.</div>';
+        return;
+      }
+      list.innerHTML = rows.slice(0, 8).map((a) => `
+        <div class="alert-card alert-${(a.severity || 'low').toLowerCase()}">
+          <div class="alert-type"><i class="fas fa-exclamation-circle"></i> ${a.alert_type}</div>
+          <div class="alert-meta">
+            <span class="badge badge-${(a.severity || 'low').toLowerCase()}">${a.severity}</span>
+            <span>${toLocalTime(a.timestamp)}</span>
+          </div>
+        </div>
       `).join("");
     }
 
     function renderMap(points) {
       mapMarkers.forEach((m) => m.remove());
-      mapMarkers = points.slice(0, 120).map((p) => {
-        const marker = L.circleMarker([p.latitude, p.longitude], {
-          radius: 6,
-          color: p.suspicious ? "#ef4444" : "#00d4ff",
-          fillColor: p.suspicious ? "#ef4444" : "#00d4ff",
-          fillOpacity: 0.8
+      const pts = (points || []).slice(0, 100);
+      mapMarkers = pts.map((p) => {
+        const color = markerColor(p.risk_score);
+        const label = p.marker_label || `${p.username} - ${p.city}, ${p.country}`;
+        const marker = L.marker([p.latitude, p.longitude], {
+          icon: createMarkerIcon(color, label)
         }).addTo(map);
-        marker.bindPopup(`${p.username}<br/>${p.city}, ${p.country}<br/>IP: ${p.ip_address}<br/>Risk: ${p.risk_score}`);
+        marker.bindPopup(`
+          <strong>${p.username}</strong><br/>
+          ${p.city}, ${p.country}<br/>
+          Login: ${toLocalTime(p.login_time)}<br/>
+          IP: ${p.ip_address}
+        `);
         return marker;
       });
     }
 
     async function refreshDashboard() {
       try {
-        const [
-          statsResp,
-          activityResp,
-          riskResp,
-          severityResp,
-          mapResp,
-          recentResp,
-          alertsResp
-        ] = await Promise.all([
+        const [statsResp, mapResp, recentResp, alertsResp, activityResp, riskResp, severityResp] = await Promise.all([
           fetch("/api/dashboard/stats", { credentials: "include" }),
-          fetch("/api/dashboard/activity", { credentials: "include" }),
-          fetch("/api/dashboard/risk-distribution", { credentials: "include" }),
-          fetch("/api/dashboard/alert-severity", { credentials: "include" }),
           fetch("/api/dashboard/login-map", { credentials: "include" }),
           fetch("/api/dashboard/recent-login-activity", { credentials: "include" }),
-          fetch("/api/dashboard/security-alerts", { credentials: "include" })
+          fetch("/api/dashboard/security-alerts", { credentials: "include" }),
+          fetch("/api/dashboard/activity", { credentials: "include" }),
+          fetch("/api/dashboard/risk-distribution", { credentials: "include" }),
+          fetch("/api/dashboard/alert-severity", { credentials: "include" })
         ]);
 
         if (statsResp.ok) {
           const s = await statsResp.json();
-          document.getElementById("cardTotalUsers").textContent = s.total_users ?? 0;
-          document.getElementById("cardActiveUsers").textContent = s.active_users ?? 0;
-          document.getElementById("cardDetectedAnomalies").textContent = s.detected_anomalies ?? 0;
-          document.getElementById("cardSecurityAlerts").textContent = s.security_alerts ?? 0;
+          
+          // Update counters with animation
+          const totalUsersEl = document.querySelector('[data-target][data-suffix=""]');
+          const activeSignalsEl = document.querySelectorAll('[data-target][data-suffix=""]')[1];
+          const threatAlertsEl = document.querySelectorAll('[data-target][data-suffix=""]')[2];
+          
+          if (totalUsersEl) totalUsersEl.setAttribute('data-target', s.total_users ?? 0);
+          if (activeSignalsEl) activeSignalsEl.setAttribute('data-target', s.active_sessions ?? 0);
+          if (threatAlertsEl) threatAlertsEl.setAttribute('data-target', s.security_alerts ?? 0);
+          
+          animateCounters();
+          
+          // Calculate security score based on data
+          const score = Math.max(0, 100 - (s.security_alerts ?? 0) * 5 - (s.detected_anomalies ?? 0) * 3);
+          const scoreEl = document.getElementById("securityScore");
+          if (scoreEl) {
+            scoreEl.setAttribute('data-target', score);
+            scoreEl.textContent = score + '%';
+          }
         }
+        
+        if (mapResp.ok) renderMap(await mapResp.json());
+        if (recentResp.ok) renderRecentLogins(await recentResp.json());
+        if (alertsResp.ok) renderSecurityAlerts(await alertsResp.json());
+
         if (activityResp.ok) {
           const a = await activityResp.json();
           loginChart.data.labels = a.labels || [];
@@ -193,17 +576,16 @@
           severityChart.data.datasets[0].data = [sv.Low || 0, sv.Medium || 0, sv.High || 0, sv.Critical || 0];
           severityChart.update();
         }
-        if (mapResp.ok) renderMap(await mapResp.json());
-        if (recentResp.ok) renderRecentLogins(await recentResp.json());
-        if (alertsResp.ok) renderSecurityAlerts(await alertsResp.json());
       } catch (err) {
-        // Keep dashboard usable during transient API failures.
+        console.error('Dashboard refresh error:', err);
       }
     }
 
+    // Initial load and auto-refresh
     refreshDashboard();
     setInterval(refreshDashboard, 5000);
   </script>
   <script src="{{ url_for('static', path='js/session_monitor.js') }}"></script>
 </body>
 </html>
+

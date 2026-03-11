@@ -6,126 +6,342 @@
   <title>Secure Access | UEBA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="{{ url_for('static', path='css/cyber-theme.css') }}" />
 </head>
 <body class="auth-page">
-  <div class="particles" id="particles" aria-hidden="true"></div>
-  {% include "_navbar.html" %}
+  <!-- Animated Background -->
+  <div class="cyber-bg"></div>
+  <div class="cyber-grid"></div>
 
-  <main class="auth-shell">
-    <div class="brand"><span class="brand-dot"></span>UEBA Security Cloud</div>
-    <section class="auth-card">
-      <h1 class="auth-title">Secure Access</h1>
-      <p class="auth-subtitle">Enter your credentials to access the UEBA platform</p>
-
-      <div id="message" class="message"></div>
-
-      <form id="loginForm" novalidate>
-        <div class="form-row">
-          <label for="identifier">Username or Email</label>
-          <input class="input" id="identifier" name="identifier" type="text" placeholder="analyst@company.com" autocomplete="username" required />
+  <main class="auth-container">
+    <div class="auth-card scale-in">
+      <!-- Brand Header -->
+      <div class="auth-brand">
+        <div class="brand-logo">
+          <i class="fas fa-shield-halved"></i>
         </div>
-
-        <div class="form-row">
-          <label for="password">Password</label>
-          <input class="input" id="password" name="password" type="password" placeholder="Enter password" autocomplete="current-password" required />
+        <div class="brand-text">
+          <span class="brand-name">UEBA</span>
+          <span class="brand-tagline">Security Cloud</span>
         </div>
+      </div>
 
-        <div class="inline">
-          <label class="remember">
-            <input type="checkbox" id="rememberMe" name="rememberMe" />
-            Remember Me
+      <!-- Auth Header -->
+      <div class="auth-header">
+        <h1 class="auth-title">Welcome Back</h1>
+        <p class="auth-subtitle">Enter your credentials to access the SOC dashboard</p>
+      </div>
+
+      <!-- Messages -->
+      {% if error %}
+      <div class="alert alert-error fade-in">
+        <i class="fas fa-exclamation-circle"></i>
+        {{ error }}
+      </div>
+      {% elif success %}
+      <div class="alert alert-success fade-in">
+        <i class="fas fa-check-circle"></i>
+        {{ success }}
+      </div>
+      {% endif %}
+
+      <!-- Login Form -->
+      <form id="loginForm" method="post" action="/login">
+        <div class="form-group">
+          <label for="email" class="form-label">
+            <i class="fas fa-envelope"></i> Email Address
           </label>
-          <a class="link" href="/forgot-password">Forgot password?</a>
+          <div class="input-wrapper">
+            <input 
+              class="form-input" 
+              id="email" 
+              name="email" 
+              type="email" 
+              placeholder="analyst@company.com" 
+              autocomplete="username" 
+              required 
+            />
+            <span class="input-icon"><i class="fas fa-user"></i></span>
+          </div>
         </div>
 
-        <button id="loginButton" class="btn" type="submit">Login to Dashboard</button>
+        <div class="form-group">
+          <label for="password" class="form-label">
+            <i class="fas fa-lock"></i> Password
+          </label>
+          <div class="input-wrapper">
+            <input 
+              class="form-input" 
+              id="password" 
+              name="password" 
+              type="password" 
+              placeholder="Enter your password" 
+              autocomplete="current-password" 
+              required 
+            />
+            <span class="input-icon"><i class="fas fa-key"></i></span>
+          </div>
+        </div>
+
+        <div class="form-options">
+          <label class="checkbox-wrapper">
+            <input type="checkbox" name="remember" />
+            <span class="checkmark"></span>
+            Remember me
+          </label>
+          <a href="/forgot-password" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button id="loginButton" class="btn btn-primary btn-lg btn-block" type="submit">
+          <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+        </button>
       </form>
 
-      <div class="divider"></div>
-      <p class="switch">Don't have an account? <a href="/signup">Create one</a></p>
-    </section>
+      <!-- Divider -->
+      <div class="auth-divider">
+        <span>or</span>
+      </div>
+
+      <!-- Social Login -->
+      <div class="social-login">
+        <button class="btn btn-secondary social-btn">
+          <i class="fab fa-google"></i> Continue with Google
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="auth-footer">
+        <p>Don't have an account? <a href="/signup">Create one</a></p>
+      </div>
+    </div>
   </main>
 
-  <script>
-    (function () {
-      const particlesHost = document.getElementById("particles");
-      const particleCount = 18;
-      for (let i = 0; i < particleCount; i++) {
-        const p = document.createElement("span");
-        p.className = "particle";
-        p.style.left = `${Math.random() * 100}%`;
-        p.style.animationDuration = `${14 + Math.random() * 18}s`;
-        p.style.animationDelay = `${Math.random() * 12}s`;
-        p.style.opacity = `${0.25 + Math.random() * 0.6}`;
-        p.style.transform = `scale(${0.6 + Math.random()})`;
-        particlesHost.appendChild(p);
+  <style>
+    .auth-page {
+      min-height: 100vh;
+    }
+
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-md);
+      margin-bottom: var(--space-xl);
+    }
+
+    .brand-logo {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: var(--radius-md);
+      font-size: 1.5rem;
+      color: var(--bg-primary);
+      box-shadow: 0 4px 20px var(--glow-cyan);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .brand-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .brand-tagline {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .form-input {
+      padding-left: 3rem;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+
+    .form-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-lg);
+    }
+
+    .checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      color: var(--text-secondary);
+      font-size: 0.875rem;
+      cursor: pointer;
+    }
+
+    .checkbox-wrapper input {
+      display: none;
+    }
+
+    .checkmark {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--glass-border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+    }
+
+    .checkbox-wrapper input:checked + .checkmark {
+      background: var(--accent-cyan);
+      border-color: var(--accent-cyan);
+    }
+
+    .checkbox-wrapper input:checked + .checkmark::after {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: var(--bg-primary);
+      font-size: 0.625rem;
+    }
+
+    .forgot-link {
+      font-size: 0.875rem;
+      color: var(--accent-cyan);
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      margin: var(--space-lg) 0;
+    }
+
+    .auth-divider::before,
+    .auth-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--glass-border);
+    }
+
+    .auth-divider span {
+      padding: 0 var(--space-md);
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      text-transform: uppercase;
+    }
+
+    .social-login {
+      margin-bottom: var(--space-lg);
+    }
+
+    .social-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+    }
+
+    /* Particle animation */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      background: var(--accent-cyan);
+      border-radius: 50%;
+      opacity: 0.3;
+      animation: particleFloat 15s infinite;
+    }
+
+    @keyframes particleFloat {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.5;
+      }
+      90% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .auth-card {
+        padding: var(--space-lg);
       }
 
-      const form = document.getElementById("loginForm");
-      const message = document.getElementById("message");
-      const button = document.getElementById("loginButton");
-      const params = new URLSearchParams(window.location.search);
+      .form-options {
+        flex-direction: column;
+        gap: var(--space-md);
+        align-items: flex-start;
+      }
+    }
+  </style>
 
-      const showMessage = (text, type) => {
-        message.textContent = text;
-        message.className = `message show ${type}`;
-      };
-
-      if (params.get("error")) showMessage(params.get("error"), "error");
-      if (params.get("success")) showMessage(params.get("success"), "success");
-
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-        const identifier = document.getElementById("identifier").value.trim();
-        const password = document.getElementById("password").value;
-
-        if (!identifier || !password) {
-          showMessage("Username/email and password are required.", "error");
-          return;
-        }
-
-        const deviceFingerprint = [navigator.userAgent, navigator.platform, navigator.language].join("|");
-        const payload = { password, device_fingerprint: deviceFingerprint };
-        if (identifier.includes("@")) payload.email = identifier;
-        else payload.username = identifier;
-
-        button.disabled = true;
-        button.classList.add("loading");
-
-        try {
-          const response = await fetch("/api/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            credentials: "include",
-            body: JSON.stringify(payload)
-          });
-
-          const data = await response.json().catch(() => ({}));
-          if (!response.ok) {
-            const blockedMessage = data.status === "blocked"
-              ? `Login blocked due to high risk (score: ${data.risk_score ?? "n/a"}).`
-              : (data.detail || "Invalid credentials. Please try again.");
-            showMessage(blockedMessage, "error");
-            return;
-          }
-
-          if (data.status === "2fa_required") {
-            showMessage(`2FA required before access. Risk score: ${data.risk_score}.`, "error");
-            return;
-          }
-
-          showMessage(`Authentication successful. Risk score: ${data.risk_score}. Redirecting...`, "success");
-          window.location.href = "/dashboard";
-        } catch (error) {
-          showMessage("Unable to connect to server. Please retry.", "error");
-        } finally {
-          button.disabled = false;
-          button.classList.remove("loading");
-        }
-      });
+  <script>
+    // Add floating particles
+    (function() {
+      const container = document.createElement('div');
+      container.className = 'particles';
+      document.body.appendChild(container);
+      
+      const particleCount = 20;
+      for (let i = 0; i < particleCount; i++) {
+        const p = document.createElement('span');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 15 + 's';
+        p.style.animationDuration = (15 + Math.random() * 10) + 's';
+        container.appendChild(p);
+      }
     })();
+
+    // Form submission animation
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+      const btn = document.getElementById('loginButton');
+      btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Authenticating...';
+      btn.disabled = true;
+    });
   </script>
 </body>
 </html>
+
