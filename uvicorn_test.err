@@ -1,0 +1,8 @@
+D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pydantic\_internal\_config.py:383: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2026-03-23 22:49:20,353 [INFO] ueba: UEBA Security System Starting up...
+INFO:     Started server process [12296]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8015 (Press CTRL+C to quit)

@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}UEBA{% endblock %}</title>
+  <link rel="stylesheet" href="/static/css/soc.css">
+</head>
+<body class="app-body">
+  <div class="background"></div>
+  <div class="bubbles">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <nav class="nav">
+    <div class="logo">UEBA</div>
+    <div class="links">
+      <a href="/">Home</a>
+      <a href="/dashboard">Dashboard</a>
+      <a href="/signup">Signup</a>
+      <a href="/login">Login</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,45 +1,29 @@
-# UEBA Cybersecurity Theme - Implementation TODO
+# OTP-Based Forgot Password Implementation
+Approved plan execution steps:
 
-## Phase 1: Complete CSS Theme
-- [x] Create `static/css/cyber-theme.css` - Main theme file with all styles
-- [x] Define CSS custom properties (variables)
-- [x] Implement background animations (grid, particles, gradients)
-- [x] Create glassmorphism card styles
-- [x] Add neon glow effects and hover animations
-- [x] Style form elements and buttons
+## Step 1: Update services/auth_service.py [PENDING]
+- Add forgot_password(email)
+- Add verify_reset_otp(email, otp)  
+- Add reset_password(email, new_password)
 
-## Phase 2: Dashboard Updates
-- [x] Update `templates/dashboard.html` with new layout
-- [x] Add 4 analytics cards with icons
-- [x] Enhance chart styling
-- [x] Add recent activity panel
+## Step 2: Update app/otp_service.py [PENDING]
+- Add reset_otp_verify(email, otp)
 
-## Phase 3: Authentication Pages
-- [x] Update `templates/login.html` with cyber theme
-- [x] Update `templates/signup.html` with cyber theme
-- [x] Add animated background effects
+## Step 3: Update routes/auth_routes.py [PENDING]
+- Add /forgot-password GET/POST
+- Add /verify-otp POST
+- Add /reset-password GET/POST (OTP-based)
 
-## Phase 4: Home Page
-- [x] Update `templates/home.html` with enhanced styling
-- [x] Improve hero section
-- [x] Enhance feature cards
+## Step 4: Update templates [PENDING]
+- templates/forgot_password.html (OTP messaging)
+- Repurpose templates/reset_password.html
+- Create templates/verify_otp.html
 
-## Phase 5: Integration
-- [x] Update navbar styling
-- [x] Link new CSS in templates
-- [x] Test all pages
+## Step 5: Test [PENDING]
+- Configure .env SMTP
+- python run_server.py
+- Test flow: forgot → OTP email → verify → reset
 
-## COMPLETED ✅
-
-All tasks have been completed successfully!
-
-## Files to Create:
-- `static/css/cyber-theme.css` - Complete theme
-
-## Files to Update:
-- `templates/dashboard.html`
-- `templates/login.html`
-- `templates/signup.html`
-- `templates/home.html`
-- `templates/_navbar.html`
+## Step 6: Complete [PENDING]
+- attempt_completion
 

@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+{% block title %}Admin Portal | UEBA Security Platform{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ======= ADMIN LOGIN STYLES ======= */
+.admin-auth-wrapper {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: radial-gradient(circle at center, #0a0f1e 0%, #020617 100%);
+}
+
+.admin-auth-card {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 240, 255, 0.15);
+    border-radius: 20px;
+    padding: 3.5rem;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 240, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-auth-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #00f0ff, #3b82f6);
+}
+
+.admin-icon-wrap {
+    width: 80px;
+    height: 80px;
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.2);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    color: #00f0ff;
+    margin: 0 auto 2rem;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.1);
+}
+
+.admin-auth-card h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+    color: #fff;
+}
+
+.admin-auth-card p.sub {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2.5rem;
+}
+
+.admin-form-group {
+    margin-bottom: 1.5rem;
+}
+
+.admin-form-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-bottom: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.admin-form-control {
+    width: 100%;
+    background: rgba(2, 6, 23, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.2s;
+}
+
+.admin-form-control:focus {
+    outline: none;
+    border-color: #00f0ff;
+    background: rgba(2, 6, 23, 0.8);
+    box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.1);
+}
+
+.admin-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #00f0ff 0%, #3b82f6 100%);
+    color: #020617;
+    border: none;
+    border-radius: 12px;
+    padding: 1.1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.admin-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(0, 240, 255, 0.4);
+    filter: brightness(1.1);
+}
+
+.admin-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.flash {
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border: 1px solid transparent;
+}
+
+.flash-error {
+    background: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+    border-color: rgba(239, 68, 68, 0.2);
+}
+
+.spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.security-badge {
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    opacity: 0.05;
+    font-size: 8rem;
+    pointer-events: none;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-auth-wrapper">
+    <div class="admin-auth-card">
+        <div class="security-badge">
+            <i class="fas fa-shield-halved"></i>
+        </div>
+        
+        <div class="admin-icon-wrap">
+            <i class="fas fa-user-shield"></i>
+        </div>
+        
+        <h2>Admin Portal</h2>
+        <p class="sub">Verify your administrative credentials to continue</p>
+
+        <div id="admin-flash-container">
+            {% if error %}
+            <div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> {{ error }}</div>
+            {% endif %}
+        </div>
+
+        <form id="adminLoginForm">
+            <div class="admin-form-group">
+                <label class="admin-form-label" for="email">Admin Email</label>
+                <input class="admin-form-control" type="email" id="email" name="email" placeholder="admin@ueba.sec" required autocomplete="email">
+            </div>
+            <div class="admin-form-group">
+                <label class="admin-form-label" for="password">Security Key</label>
+                <input class="admin-form-control" type="password" id="password" name="password" placeholder="••••••••••••" required autocomplete="current-password">
+            </div>
+            
+            <button type="submit" id="adminSubmitBtn" class="admin-btn">
+                <span>Authorize Access</span>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </form>
+        
+        <div style="margin-top: 2rem; text-align: center;">
+            <a href="/login" style="color: var(--text-muted); font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+                <i class="fas fa-arrow-left"></i>
+                Back to Analyst Login
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('adminLoginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('adminSubmitBtn');
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    // UI state
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> <span>Capturing Location...</span>`;
+    
+    let location = { lat: null, lon: null, accuracy: null };
+
+    // 1. Capture GPS Location
+    try {
+        const geoPromise = new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true,
+                timeout: 6000,
+                maximumAge: 0
+            });
+        });
+        
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 6500));
+        const position = await Promise.race([geoPromise, timeoutPromise]);
+        
+        if (position && position.coords) {
+            location.lat = position.coords.latitude;
+            location.lon = position.coords.longitude;
+            location.accuracy = position.coords.accuracy;
+            console.log("Admin GPS Captured:", location);
+        }
+    } catch (err) {
+        console.warn("Admin Geolocation failed:", err.message);
+    }
+
+    btn.innerHTML = `<span class="spinner"></span> <span>Validating...</span>`;
+    
+    try {
+        const response = await fetch('/admin/login', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok && result.status === "success") {
+            // 2. Send captured GPS to backend for precise tracking
+            if (location.lat) {
+                btn.innerHTML = `<span class="spinner"></span> <span>Finalizing...</span>`;
+                await fetch('/api/activity/location', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: result.user_id,
+                        latitude: location.lat,
+                        longitude: location.lon,
+                        accuracy: location.accuracy,
+                        device: navigator.platform,
+                        browser: navigator.userAgent
+                    })
+                });
+            }
+
+            btn.innerHTML = `<span>Authorization Granted</span>`;
+            btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+            
+            setTimeout(() => {
+                window.location.href = result.redirect || '/admin-dashboard';
+            }, 800);
+        } else {
+            const container = document.getElementById('admin-flash-container');
+            container.innerHTML = `<div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> ${result.error || 'Access Denied: Invalid Credentials or Insufficient Role'}</div>`;
+            btn.disabled = false;
+            btn.innerHTML = `<span>Authorize Access</span> <i class="fas fa-chevron-right"></i>`;
+        }
+    } catch (err) {
+        console.error("Admin Login Error:", err);
+        const container = document.getElementById('admin-flash-container');
+        container.innerHTML = `<div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> System Interface Error. Please retry.</div>`;
+        btn.disabled = false;
+        btn.innerHTML = `<span>Authorize Access</span> <i class="fas fa-chevron-right"></i>`;
+    }
+});
+</script>
+{% endblock %}

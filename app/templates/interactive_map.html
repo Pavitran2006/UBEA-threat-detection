@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive GeoHub Map</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
+          crossorigin=""/>
+    
+    <!-- Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=geometry,places"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #38bdf8;
+            --border: rgba(255,255,255,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+        body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+
+        header {
+            padding: 1rem 2rem;
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 800; color: var(--accent); display: flex; align-items: center; gap: 0.5rem; }
+        
+        /* Search Bar */
+        .search-container {
+            display: flex;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 0.25rem 0.5rem;
+            width: 300px;
+        }
+        .search-container input {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            flex: 1;
+            outline: none;
+        }
+        .search-container button {
+            background: var(--primary);
+            border: none;
+            color: white;
+            padding: 0 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .search-container button:hover { opacity: 0.9; }
+
+        /* Map Container */
+        #map { flex: 1; width: 100%; z-index: 1; }
+
+        /* Controls Panel */
+        .control-panel {
+            position: absolute;
+            top: 100px;
+            left: 20px;
+            background: var(--panel);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            width: 240px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+            z-index: 1000;
+        }
+        .control-panel h3 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 1rem; }
+        
+        .marker-list { list-style: none; }
+        .marker-item {
+            padding: 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 0.5rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid transparent;
+        }
+        .marker-item:hover { background: rgba(255,255,255,0.08); border-color: var(--accent); }
+        .marker-item strong { display: block; font-size: 0.85rem; }
+        .marker-item small { color: var(--text-muted); font-size: 0.75rem; }
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            background: var(--panel);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border);
+            z-index: 1000;
+        }
+        .legend-item { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        /* Popups */
+        .leaflet-popup-content-wrapper { background: var(--panel); color: var(--text); border-radius: 10px; border: 1px solid var(--border); }
+        .leaflet-popup-tip { background: var(--panel); }
+        .popup-title { font-weight: 800; color: var(--accent); font-size: 1.1rem; margin-bottom: 4px; }
+        .popup-desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
+
+        /* Smooth marker movement */
+        .leaflet-marker-icon { transition: all 2s linear !important; }
+        .leaflet-marker-shadow { transition: all 2s linear !important; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .control-panel { display: none; }
+            .search-container { width: 150px; }
+            header { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo"><i class="fas fa-map-location-dot"></i> InteractiveMap 1.0</div>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search city or landmark...">
+            <button onclick="searchLocation()"><i class="fas fa-search"></i></button>
+        </div>
+    </header>
+
+    <div id="map"></div>
+
+    <div class="control-panel">
+        <h3>Feature Locations</h3>
+        <ul class="marker-list" id="markerList"></ul>
+    </div>
+
+    <div class="legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#2563eb;"></div> Sample Points</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#f59e0b;"></div> Search Result</div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
+            crossorigin=""></script>
+
+    <script>
+        // --- 1. Identity & Initialization ---
+        const CURRENT_USER_ID = Number("{{ user.id if user else 0 }}");
+        const CURRENT_USER_NAME = "{{ user.username if user else 'Unknown' }}";
+        const IS_ADMIN = "{{ user.role if user else 'user' }}" === 'admin';
+
+        const map = L.map('map', { zoomControl: false, zoomSnap: 0.5, zoomDelta: 0.5 }).setView([20, 0], 3);
+
+        // --- 2. Tile Layer (Google Maps) ---
+        L.tileLayer('https://{s}.google.com/vt/lyrs=y&hl=en-US&x={x}&y={y}&z={z}&key={{ google_maps_api_key }}', {
+            attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>',
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            maxZoom: 20
+        }).addTo(map);
+
+        L.control.zoom({ position: 'topright' }).addTo(map);
+
+        // Custom "Locate Me" Control
+        L.Control.Locate = L.Control.extend({
+            options: { position: 'topright' },
+            onAdd: function() {
+                const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-locate');
+                const button = L.DomUtil.create('a', '', container);
+                button.innerHTML = '<i class="fas fa-crosshairs"></i>';
+                button.style.backgroundColor = 'var(--panel)';
+                button.style.color = 'var(--text)';
+                button.style.width = '34px';
+                button.style.height = '34px';
+                button.style.display = 'flex';
+                button.style.alignItems = 'center';
+                button.style.justifyContent = 'center';
+                button.style.cursor = 'pointer';
+                button.title = "Center on my location";
+                
+                button.onclick = function(e) {
+                    e.preventDefault();
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                            const lat = pos.coords.latitude;
+                            const lon = pos.coords.longitude;
+                            map.setView([lat, lon], 14);
+                            
+                            // Update our marker
+                            updateUserMarker({
+                                user_id: CURRENT_USER_ID,
+                                username: CURRENT_USER_NAME,
+                                lat: lat,
+                                lon: lon,
+                                source: 'gps',
+                                timestamp: new Date().toISOString()
+                            });
+                            
+                            // Sync with server
+                            fetch('/api/location', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ latitude: lat, longitude: lon })
+                            });
+                        }, (err) => {
+                            alert("Geolocation error: " + err.message);
+                        });
+                    }
+                };
+                return container;
+            }
+        });
+        map.addControl(new L.Control.Locate());
+
+
+        const markersMap = {}; // user_id -> marker object
+        const bounds = L.latLngBounds();
+
+        // --- 3. Dynamic Fetching ---
+        async function loadLocations() {
+            try {
+                const res = await fetch('/api/dashboard/locations');
+                const data = await res.json();
+                
+                let hasPoints = false;
+                data.forEach(loc => {
+                    if (loc.lat && loc.lon) {
+                        updateUserMarker(loc);
+                        bounds.extend([loc.lat, loc.lon]);
+                        hasPoints = true;
+                    }
+                });
+
+                if (hasPoints) {
+                    map.fitBounds(bounds, { padding: [50, 50], maxZoom: 10 });
+                }
+            } catch (e) {
+                console.error("Failed to load locations:", e);
+            }
+        }
+
+        function updateUserMarker(data) {
+            const { user_id, username, lat, lon, source, timestamp } = data;
+            
+            // Quality check: Skip 0,0
+            if (!lat || !lon || (lat === 0 && lon === 0)) return;
+
+            // Privacy check: Non-admins only see themselves
+            if (!IS_ADMIN && user_id !== CURRENT_USER_ID) return;
+
+            const popupContent = `
+                <div class="popup-title">${username}</div>
+                <div class="popup-desc">
+                    Source: ${source === 'gps' ? '🛰️ Live GPS' : '🌐 IP Geolocation'}<br>
+                    Last seen: ${new Date(timestamp).toLocaleTimeString()}
+                </div>
+                <div style="font-size:0.7rem; color:var(--text-muted); margin-top:8px;">Coord: ${lat.toFixed(4)}, ${lon.toFixed(4)}</div>
+            `;
+
+            if (markersMap[user_id]) {
+                if (!map.hasLayer(markersMap[user_id])) markersMap[user_id].addTo(map);
+                markersMap[user_id].setLatLng([lat, lon]).setPopupContent(popupContent);
+            } else {
+                const marker = L.marker([lat, lon]).addTo(map).bindPopup(popupContent);
+                marker.bindTooltip(username, { permanent: true, direction: 'right', className: 'tactical-label' });
+                markersMap[user_id] = marker;
+                
+                // Add to sidebar list
+                const li = document.createElement('li');
+                li.id = `user-item-${user_id}`;
+                li.className = 'marker-item';
+                li.innerHTML = `<strong>${username}</strong><small id="coord-${user_id}">${lat.toFixed(2)}, ${lon.toFixed(2)}</small>`;
+                li.onclick = () => jumpTo(lat, lon, 14, marker);
+                document.getElementById('markerList').appendChild(li);
+            }
+            
+            // Update coord in list
+            const coordEl = document.getElementById(`coord-${user_id}`);
+            if (coordEl) coordEl.textContent = `${lat.toFixed(2)}, ${lon.toFixed(2)}`;
+        }
+
+        // --- 4. WebSocket for Real-time Updates ---
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const socket = new WebSocket(`${protocol}//${window.location.host}/ws/location`);
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'location_update') {
+                updateUserMarker(data);
+                
+                // Auto-center for the current user if they are the one moving
+                if (data.user_id === CURRENT_USER_ID && markersMap[data.user_id]) {
+                    map.setView([data.lat, data.lon], map.getZoom());
+                }
+            }
+        };
+
+        // --- 5. Helper Functions ---
+        function jumpTo(lat, lon, zoom = 12, marker = null) {
+            map.flyTo([lat, lon], zoom, { duration: 1.5 });
+            if (marker) {
+                setTimeout(() => marker.openPopup(), 1500);
+            }
+        }
+
+        // --- 6. Search Logic ---
+        async function searchLocation() {
+            const query = document.getElementById('searchInput').value;
+            if (!query) return;
+
+            const geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ address: query }, (results, status) => {
+                if (status === "OK" && results.length > 0) {
+                    const first = results[0].geometry.location;
+                    const lat = first.lat();
+                    const lon = first.lng();
+                    jumpTo(lat, lon, 10);
+                    
+                    const searchMarker = L.circleMarker([lat, lon], {
+                        radius: 8, fillColor: "#f59e0b", color: "#fff", weight: 2, opacity: 1, fillOpacity: 0.8
+                    }).addTo(map).bindPopup(`<strong>Found:</strong> ${results[0].formatted_address}`).openPopup();
+                    
+                    setTimeout(() => map.removeLayer(searchMarker), 10000);
+                }
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') searchLocation();
+        });
+
+        // Initial Load
+        loadLocations();
+
+        window.addEventListener('resize', () => map.invalidateSize());
+
+        // --- 7. UX Smoothness ---
+        // Resize map on window change (prevents gray tiles)
+        window.addEventListener('resize', () => map.invalidateSize());
+
+    </script>
+</body>
+</html>

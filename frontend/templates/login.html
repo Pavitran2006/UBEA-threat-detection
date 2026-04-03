@@ -1,0 +1,23 @@
+﻿{% extends "base.html" %}
+{% block title %}UEBA | Login{% endblock %}
+{% block content %}
+<section class="auth">
+  <div class="auth-card">
+    <h2>Secure Login</h2>
+    <p class="muted">Access the SOC dashboard with verified credentials.</p>
+    {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+    {% if success %}<div class="alert success">{{ success }}</div>{% endif %}
+
+    <form class="form" method="post" action="/login" novalidate>
+      <label>Email</label>
+      <input type="email" name="email" required>
+      <label>Password</label>
+      <input type="password" name="password" required minlength="6">
+      <button class="primary-btn" type="submit">Login</button>
+    </form>
+    <div class="form-footer">
+      <a href="/signup">Create account</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

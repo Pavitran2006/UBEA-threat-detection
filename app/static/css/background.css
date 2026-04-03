@@ -1,0 +1,61 @@
+/* =============================================
+   UEBA – Animated Particle Background
+   Tiny floating data particles simulating 
+   network packet flow in a SOC environment.
+   ============================================= */
+
+.particles-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+    background: linear-gradient(160deg, #020617 0%, #0a1628 50%, #020617 100%);
+}
+
+/* Individual particle */
+.particle {
+    position: absolute;
+    bottom: -8px;
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleRise linear infinite;
+}
+
+/* Cyan data packets */
+.particle.cyan {
+    background: radial-gradient(circle, rgba(0, 240, 255, 1) 0%, rgba(0, 240, 255, 0.3) 100%);
+    box-shadow: 0 0 4px rgba(0, 240, 255, 0.8);
+}
+
+/* Neon blue data packets */
+.particle.blue {
+    background: radial-gradient(circle, rgba(59, 130, 246, 1) 0%, rgba(59, 130, 246, 0.3) 100%);
+    box-shadow: 0 0 4px rgba(59, 130, 246, 0.8);
+}
+
+/* Dimmer white particle variation */
+.particle.white {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 100%);
+    box-shadow: 0 0 3px rgba(255, 255, 255, 0.4);
+}
+
+@keyframes particleRise {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.8;
+    }
+    90% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateY(-110vh) translateX(var(--drift, 20px));
+        opacity: 0;
+    }
+}

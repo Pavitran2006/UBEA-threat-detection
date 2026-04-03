@@ -1,23 +1,28 @@
-from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 import os
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
+from dotenv import load_dotenv
 
-# SQLite database file is kept in the main project directory
-# using absolute path logic based on the app's working set
-DB_PATH = 'ueba_app.db'
-SQLALCHEMY_DATABASE_URL = f"sqlite:///{DB_PATH}"
+load_dotenv(override=True)
 
-# For SQLite, check_same_thread needs to be False for FastAPI apps
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_USER = os.getenv("DB_USER", "root")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "")
+DB_NAME = os.getenv("DB_NAME", "ueba_system")
+DB_PORT = os.getenv("DB_PORT", "3306")
+
+# Log connection attempt (without password)
+print(f"Connecting to database: {DB_USER}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+
+DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+
+engine = create_engine(DATABASE_URL)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base class for models
 Base = declarative_base()
 
-# DB Dependency for FastAPI routes
+# Dependency
 def get_db():
     db = SessionLocal()
     try:

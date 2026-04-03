@@ -1,0 +1,76 @@
+﻿{% extends "base.html" %}
+{% block title %}UEBA | Home{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">UEBA Cybersecurity Platform</p>
+    <h1>AI-Powered Insider Threat Detection</h1>
+    <p class="lead">
+      UEBA analyzes user and entity behavior using AI to detect abnormal activity, compromised accounts,
+      and insider threats before they escalate.
+    </p>
+    <div class="hero-actions">
+      <a class="primary-btn" href="/dashboard">Open SOC Dashboard</a>
+      <a class="ghost-btn" href="/signup">Get Started</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <img src="/static/images/ueba_assets/ai-monitor.svg" alt="UEBA SOC monitoring" />
+  </div>
+</section>
+
+<section class="section split">
+  <div class="section-visual">
+    <img src="/static/images/ueba_assets/geo-intel.svg" alt="Network monitoring" />
+  </div>
+  <div class="section-text">
+    <h2>What is UEBA</h2>
+    <p>
+      UEBA builds behavioral baselines for users, devices, and entities. It detects deviations such as
+      unusual logins, abnormal access, or risky privilege changes and correlates them into a risk score.
+    </p>
+  </div>
+</section>
+
+<section class="section split reverse">
+  <div class="section-visual">
+    <img src="/static/images/ueba_assets/alerting.svg" alt="Threat detection illustration" />
+  </div>
+  <div class="section-text">
+    <h2>How UEBA Works</h2>
+    <div class="steps">
+      <div class="step"><span>01</span><p>Collect logs and user activity.</p></div>
+      <div class="step"><span>02</span><p>Build behavior baseline using machine learning.</p></div>
+      <div class="step"><span>03</span><p>Detect anomalies across entities and sessions.</p></div>
+      <div class="step"><span>04</span><p>Alert security analysts in real time.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <h2>Key Features</h2>
+  <div class="card-grid">
+    <div class="card">Real-Time Threat Detection</div>
+    <div class="card">AI Behavior Analytics</div>
+    <div class="card">Insider Threat Monitoring</div>
+    <div class="card">Security Alerts Dashboard</div>
+    <div class="card">Activity Log Monitoring</div>
+    <div class="card">Risk Scoring System</div>
+  </div>
+</section>
+
+<section class="section split">
+  <div class="section-text">
+    <h2>Why Choose UEBA</h2>
+    <ul class="benefits">
+      <li>Detect insider threats early.</li>
+      <li>Reduce false positives with context.</li>
+      <li>AI-powered anomaly detection.</li>
+      <li>Real-time monitoring for SOC teams.</li>
+    </ul>
+  </div>
+  <div class="section-visual">
+    <img src="/static/images/ueba_assets/secure-access.svg" alt="UEBA advantages" />
+  </div>
+</section>
+{% endblock %}

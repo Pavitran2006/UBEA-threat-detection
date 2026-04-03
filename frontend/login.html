@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UEBA | Login</title>
+  <link rel="stylesheet" href="/static/css/soc.css">
+</head>
+<body class="app-body">
+  <div class="background"></div>
+  <div class="bubbles">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <nav class="nav">
+    <div class="logo">UEBA</div>
+    <div class="links">
+      <a href="/" data-auth="guest">Home</a>
+      <a href="/login" data-auth="guest">Login</a>
+      <a href="/signup" data-auth="guest">Signup</a>
+      <a href="/dashboard" data-auth="user">Dashboard</a>
+      <a href="#" id="logout-link" data-auth="user">Logout</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section class="auth">
+      <div class="auth-card">
+        <h2>Secure Login</h2>
+        <div id="auth-message" class="alert" style="display: none;"></div>
+        <form class="form" id="login-form">
+          <label>Email or Username</label>
+          <input id="login-email" type="text" required>
+          <label>Password</label>
+          <input id="login-password" type="password" required>
+          <button class="primary-btn" id="login-btn" type="submit">
+            <span>Login</span>
+            <span id="login-spinner" class="spinner" style="display: none;"></span>
+          </button>
+          <a class="link-muted" href="/forgot-password">Forgot Password?</a>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/nav.js"></script>
+  <script src="/static/js/login.js"></script>
+</body>
+</html>

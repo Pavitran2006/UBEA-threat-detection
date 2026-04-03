@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Verify OTP | UEBA Security Platform{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-icon-wrap">
+            <div class="auth-icon"><i class="fas fa-shield-check"></i></div>
+        </div>
+        <h2>OTP Verification</h2>
+        <p class="sub">Enter the 6-digit code sent to your email</p>
+
+        {% if error %}
+        <div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> {{ error }}</div>
+        {% endif %}
+
+        {% if success %}
+        <div class="flash flash-success"><i class="fas fa-check-circle"></i> {{ success }}</div>
+        {% endif %}
+
+        <form action="/verify-otp" method="POST">
+            {% if identifier %}
+            <input type="hidden" name="identifier" value="{{ identifier }}">
+            {% else %}
+            <div class="form-group">
+                <label class="form-label" for="identifier"><i class="fas fa-envelope"></i> Email</label>
+                <input class="form-control" type="email" id="identifier" name="identifier" placeholder="analyst@ueba.sec" required>
+            </div>
+            {% endif %}
+            <input type="hidden" name="purpose" value="{{ purpose or 'reset' }}">
+            <div class="form-group">
+                <label class="form-label" for="otp"><i class="fas fa-key"></i> OTP Code</label>
+                <input class="form-control" type="text" id="otp" name="otp" placeholder="123456" maxlength="6" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top:0.5rem;">
+                Verify OTP <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <div class="auth-foot" style="display:flex; flex-direction:column; gap:0.5rem; align-items:center;">
+            <button type="button" class="btn btn-outline" id="resend-otp-btn" style="padding:0.45rem 1.1rem;">
+                Resend OTP
+            </button>
+            <span id="otp-countdown" style="font-size:0.78rem;color:var(--text-muted);"></span>
+            <p><a href="/forgot-password" style="font-size:0.82rem;color:var(--text-muted);">Need a new code? Start over</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+    const btn = document.getElementById("resend-otp-btn");
+    const countdown = document.getElementById("otp-countdown");
+    if (!btn || !countdown) return;
+
+    const identifier = "{{ identifier }}";
+    const purpose = "{{ purpose or 'reset' }}";
+
+    const startCountdown = (seconds) => {
+        btn.disabled = true;
+        let remaining = seconds;
+        countdown.textContent = `Resend in ${remaining}s`;
+        const timer = setInterval(() => {
+            remaining -= 1;
+            countdown.textContent = remaining > 0 ? `Resend in ${remaining}s` : "You can resend OTP now";
+            if (remaining <= 0) {
+                clearInterval(timer);
+                btn.disabled = false;
+            }
+        }, 1000);
+    };
+
+    startCountdown(30);
+
+    btn.addEventListener("click", async () => {
+        let email = identifier;
+        if (!email) {
+            const input = document.getElementById("identifier");
+            if (input) email = input.value;
+        }
+
+        if (!email) {
+            alert("Please enter your email address first.");
+            return;
+        }
+
+        try {
+            const response = await fetch("/send-otp", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ identifier: email, purpose }),
+            });
+
+            const result = await response.json();
+            if (!response.ok) {
+                alert(result.detail || "Failed to resend OTP. Please try again.");
+                return;
+            }
+            alert("A new code has been dispatched to your email.");
+            startCountdown(30);
+        } catch (err) {
+            alert("Network error. Please try again.");
+        }
+    });
+
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,2 @@
+Connecting to database: root@localhost:3306/ueba_system
+INFO:     127.0.0.1:56166 - "POST /login HTTP/1.1" 500 Internal Server Error

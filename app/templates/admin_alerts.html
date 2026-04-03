@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Threat Alerts | UEBA Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+.admin-wrapper { padding: 2rem 3rem; max-width: 1700px; margin: 0 auto; width: 100%; }
+.panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem; }
+.soc-table { width: 100%; border-collapse: collapse; }
+.soc-table th { background: rgba(0,240,255,0.05); color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; padding: 1rem; text-align: left; }
+.soc-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.risk-badge { padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: bold; }
+.risk-critical { background: rgba(239, 68, 68, 0.2); color: #ef4444; border: 1px solid #ef4444; }
+.risk-high { background: rgba(239, 68, 68, 0.1); color: #f87171; }
+.risk-medium { background: rgba(245, 158, 11, 0.1); color: #fbbf24; }
+.risk-low { background: rgba(16, 185, 129, 0.1); color: #34d399; }
+.btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; border-radius: 6px; cursor: pointer; color: #fff; border: none; transition: 0.2s; font-weight: 600; }
+.btn-success { background: rgba(16,185,129,0.2); color: var(--success); border: 1px solid var(--success); }
+.btn-danger { background: rgba(239,68,68,0.2); color: var(--danger); border: 1px solid var(--danger); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-wrapper">
+    <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;"><i class="fas fa-triangle-exclamation" style="color:var(--danger);"></i> Threat Alerts Investigation</h1>
+        <p style="color:var(--text-muted);">Review and validate security anomalies detected by the AI core.</p>
+    </div>
+
+    <div class="panel">
+        <table class="soc-table">
+            <thead>
+                <tr>
+                    <th>Target Entity</th>
+                    <th>Alert Type</th>
+                    <th>Description</th>
+                    <th>Severity</th>
+                    <th>Verdict</th>
+                    <th>Time</th>
+                    <th>Resolution</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in alerts %}
+                <tr data-id="{{ a.id }}">
+                    <td><strong>{{ a.user.username if a.user else ("UID: " ~ a.user_id) }}</strong></td>
+                    <td><span style="color:var(--accent);">{{ a.alert_type }}</span></td>
+                    <td style="font-size: 0.85rem; max-width: 300px;">{{ a.description }}</td>
+                    <td>
+                        <span class="risk-badge {% if a.severity == 'Critical' %}risk-critical{% elif a.severity == 'High' %}risk-high{% elif a.severity == 'Medium' %}risk-medium{% else %}risk-low{% endif %}">
+                            {{ a.severity }}
+                        </span>
+                    </td>
+                    <td class="verdict-cell">
+                        {% if a.verdict == 'pending' %}
+                        <span style="color:var(--text-muted); font-style: italic;">Pending Review</span>
+                        {% else %}
+                        <span class="badge" style="background: rgba(255,255,255,0.05);">{{ a.verdict|upper }}</span>
+                        {% endif %}
+                    </td>
+                    <td style="font-size: 0.85rem;" class="rt-time" data-timestamp="{{ a.timestamp.isoformat() + 'Z' if a.timestamp else '' }}">{{ a.timestamp }}</td>
+                    <td>
+                        <div style="display: flex; gap: 0.4rem;">
+                            <button class="btn-sm btn-success" onclick="setVerdict({{ a.id }}, 'safe')">Safe</button>
+                            <button class="btn-sm btn-danger" onclick="setVerdict({{ a.id }}, 'threat')">Threat</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+// Listen for real-time alert events
+document.addEventListener('rt-alert', (e) => {
+    const a = e.detail;
+    const tbody = document.querySelector('.soc-table tbody');
+    
+    const row = document.createElement('tr');
+    row.setAttribute('data-id', a.id || Date.now());
+    row.style.animation = "highlight 2s ease-out";
+    
+    const severityClass = a.severity === 'Critical' ? 'risk-critical' : (a.severity === 'High' ? 'risk-high' : (a.severity === 'Medium' ? 'risk-medium' : 'risk-low'));
+    
+    row.innerHTML = `
+        <td><strong>${a.user || 'System'}</strong></td>
+        <td><span style="color:var(--accent);">${a.alert_type}</span></td>
+        <td style="font-size: 0.85rem; max-width: 300px;">${a.description}</td>
+        <td>
+            <span class="risk-badge ${severityClass}">
+                ${a.severity}
+            </span>
+        </td>
+        <td class="verdict-cell">
+            <span style="color:var(--text-muted); font-style: italic;">Pending Review</span>
+        </td>
+        <td style="font-size: 0.85rem;" class="rt-time" data-timestamp="${a.timestamp}">${window.RealTime ? window.RealTime.timeAgo(a.timestamp) : 'just now'}</td>
+        <td>
+            <div style="display: flex; gap: 0.4rem;">
+                <button class="btn-sm btn-success" onclick="setVerdict(${a.id}, 'safe')">Safe</button>
+                <button class="btn-sm btn-danger" onclick="setVerdict(${a.id}, 'threat')">Threat</button>
+            </div>
+        </td>
+    `;
+    
+    tbody.prepend(row);
+    if (tbody.children.length > 50) tbody.lastElementChild.remove();
+});
+
+async function setVerdict(alertId, verdict) {
+    try {
+        const resp = await fetch(`/api/admin/alerts/${alertId}/verdict`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ verdict })
+        });
+        
+        if (resp.ok) {
+            window.location.reload();
+        } else {
+            const data = await resp.json();
+            alert("Update Failed: " + (data.detail || "Server error"));
+        }
+    } catch (e) {
+        alert("Connectivity error.");
+    }
+}
+</script>
+{% endblock %}

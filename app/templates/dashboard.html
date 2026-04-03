@@ -1,26 +1,929 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block title %}SOC Dashboard | UEBA Platform{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UEBA Dashboard | {{ user.username }}</title>
-    <!-- Use same stylesheet logic -->
-</head>
+{% block extra_head %}
+<!-- Leaflet Map CSS & JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-<body>
-    <h1>Welcome, {{ user.username }}!</h1>
-    <p>Your Role: {{ user.role }}</p>
-    <button id="logoutBtn">Logout</button>
+<!-- Google Maps JavaScript API -->
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=geometry,places"></script>
 
-    <script>
-        document.getElementById('logoutBtn').addEventListener('click', async () => {
-            const res = await fetch('/api/logout', { method: 'POST' });
-            if (res.ok) {
-                window.location.href = '/login';
+<style>
+/* ======= DASHBOARD STYLES ======= */
+.dash-wrapper {
+    padding: 2rem 3rem;
+    max-width: 1700px;
+    margin: 0 auto;
+    width: 100%;
+}
+.dash-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+}
+.dash-header-left h1 { font-size: 1.9rem; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.75rem; }
+.dash-header-left h1 i { color: var(--accent); }
+.dash-header-left p   { color: var(--text-muted); font-size: 0.9rem; }
+.dash-user-badge { display: flex; align-items: center; gap: 0.75rem; background: rgba(0,240,255,0.07); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 1.1rem; font-size: 0.9rem; }
+.dash-user-badge i { color: var(--accent); }
+
+/* Stats */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.25rem; margin-bottom: 2rem; }
+.stat-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; position: relative; overflow: hidden; }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--stat-color, var(--accent)); border-radius: 3px 0 0 3px; }
+.stat-card:hover { box-shadow: var(--glow-sm); transform: translateY(-3px); }
+.stat-info h3 { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 0.6rem; }
+.stat-info .val { font-size: 2.2rem; font-weight: 800; color: var(--text-main); }
+.stat-icon-wrap { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; background: rgba(0,240,255,0.08); color: var(--stat-color, var(--accent)); flex-shrink: 0; }
+.stat-card.danger  { --stat-color: var(--danger); }
+.stat-card.warning { --stat-color: var(--warning); }
+.stat-card.success { --stat-color: var(--success); }
+.stat-card.cyan    { --stat-color: var(--accent); }
+.stat-card.danger  .stat-icon-wrap { background: rgba(239,68,68,0.1); }
+.stat-card.warning .stat-icon-wrap { background: rgba(245,158,11,0.1); }
+.stat-card.success .stat-icon-wrap { background: rgba(16,185,129,0.1); }
+.stat-card.danger  .val { color: var(--danger); }
+.stat-card.warning .val { color: var(--warning); }
+.stat-card.success .val { color: var(--success); }
+
+/* Charts grid */
+.charts-2col { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
+.charts-3col { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
+.panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.panel-title { font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+.panel-title i { color: var(--accent); }
+.chart-wrap { flex: 1; min-height: 220px; position: relative; }
+.live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); animation: dotPulse 2s infinite; }
+@keyframes dotPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* Bottom section */
+.bottom-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 1.25rem; margin-bottom: 2rem; }
+
+/* Alerts */
+.alerts-list { display: flex; flex-direction: column; gap: 0.85rem; overflow-y: auto; max-height: 380px; }
+
+/* Activity log */
+.log-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.6rem; max-height: 380px; overflow-y: auto; }
+.log-item { background: rgba(2,6,23,0.5); border-radius: 8px; padding: 0.75rem 1rem; border-left: 3px solid var(--border); font-size: 0.85rem; }
+.log-item.suspicious { border-color: var(--warning); }
+.log-meta { display: flex; justify-content: space-between; margin-bottom: 0.25rem; }
+.log-user { font-weight: 600; }
+.log-time { color: var(--text-muted); font-family: monospace; font-size: 0.78rem; }
+.log-detail { color: var(--text-muted); font-size: 0.82rem; }
+
+/* Table */
+.table-wrap { overflow-x: auto; }
+.action-col { display: flex; gap: 0.5rem; }
+.risk-bar-wrap { display: flex; align-items: center; gap: 0.5rem; }
+.risk-bar { height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--success), var(--warning), var(--danger)); }
+.risk-label { font-weight: 700; font-family: monospace; font-size: 0.9rem; }
+.risk-low  .risk-label { color: var(--success); }
+.risk-med  .risk-label { color: var(--warning); }
+.risk-high .risk-label { color: var(--danger); }
+
+/* Spinner */
+.spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(0,240,255,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Map Tactical Controls */
+.tactical-label {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--accent);
+    color: #020617;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 4px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.tactical-label::before { border-right-color: rgba(255, 255, 255, 0.9); }
+
+.leaflet-control-zoom, .leaflet-control-locate {
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+}
+.leaflet-control-zoom a, .leaflet-bar a {
+    background-color: #000 !important;
+    color: #fff !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    font-size: 1.2rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.leaflet-control-zoom-in { border-radius: 10px 10px 0 0 !important; }
+.leaflet-control-zoom-out { border-radius: 0 0 10px 10px !important; }
+
+.leaflet-control-locate a {
+    border-radius: 10px !important;
+    margin-bottom: 8px !important;
+}
+.leaflet-control-locate i { font-size: 1.1rem; }
+
+/* Hide the white blanks by matching the panel background */
+.leaflet-container {
+    background-color: var(--bg-panel) !important;
+}
+
+@media (max-width:1200px) { .stats-row { grid-template-columns: repeat(2,1fr); } }
+@media (max-width:1000px) { .charts-2col, .charts-3col, .bottom-grid { grid-template-columns: 1fr; } }
+@media (max-width:768px)  { .dash-wrapper { padding: 1.5rem 1rem; } .dash-header { flex-direction: column; gap:1rem; align-items:flex-start; } .stats-row { grid-template-columns: 1fr 1fr; } }
+    .leaflet-control-locate a {
+        background-color: var(--bg-panel) !important;
+        color: var(--accent) !important;
+        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid var(--border) !important;
+    }
+    .leaflet-control-locate a:hover {
+        background-color: var(--accent) !important;
+        color: var(--bg-dark) !important;
+    }
+    /* Smooth marker movement */
+    .leaflet-marker-icon { transition: all 2s linear !important; }
+    .leaflet-marker-shadow { transition: all 2s linear !important; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="dash-wrapper">
+
+    <!-- ─── Header ─── -->
+    <div class="dash-header">
+        <div class="dash-header-left">
+            <h1><i class="fas fa-shield-halved"></i> Security Operations Center</h1>
+            <p>Real-time User and Entity Behaviour Analytics &mdash; AI-powered threat detection</p>
+            {% if user and user.role == 'admin' %}
+            <a href="/admin/login" class="btn btn-primary" style="margin-top: 10px; display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; padding: 0.6rem 1rem;">
+              <i class="fas fa-user-shield"></i> Admin Portal
+            </a>
+            {% endif %}
+        </div>
+        <div class="dash-user-badge">
+            <i class="fas fa-user-shield"></i>
+            <strong>{{ user.username if user else "Analyst" }}</strong>
+            &mdash;
+            <a href="/logout" style="color:var(--danger);font-size:0.85rem;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <!-- ─── Statistics Cards ─── -->
+    <div class="stats-row">
+        <div class="stat-card cyan">
+            <div class="stat-info">
+                <h3>Total Users</h3>
+                <div class="val" id="stat-total">
+                    <span class="spinner"></span>
+                </div>
+            </div>
+            <div class="stat-icon-wrap"><i class="fas fa-users"></i></div>
+        </div>
+        <div class="stat-card success">
+            <div class="stat-info">
+                <h3>Active Users</h3>
+                <div class="val" id="stat-active"><span class="spinner"></span></div>
+            </div>
+            <div class="stat-icon-wrap"><i class="fas fa-circle-check"></i></div>
+        </div>
+        <div class="stat-card warning">
+            <div class="stat-info">
+                <h3>Detected Anomalies</h3>
+                <div class="val" id="stat-anomalies"><span class="spinner"></span></div>
+            </div>
+            <div class="stat-icon-wrap"><i class="fas fa-radar"></i></div>
+        </div>
+        <div class="stat-card danger">
+            <div class="stat-info">
+                <h3>Security Alerts</h3>
+                <div class="val" id="stat-alerts"><span class="spinner"></span></div>
+            </div>
+            <div class="stat-icon-wrap"><i class="fas fa-bell"></i></div>
+        </div>
+    </div>
+
+    <!-- ─── Charts Row 1: Activity + Risk ─── -->
+    <div class="charts-2col">
+        <div class="panel">
+            <div class="panel-head">
+                <span class="panel-title"><i class="fas fa-chart-line"></i> User Activity Trends (7-day)</span>
+                <span class="live-dot" title="Live data"></span>
+            </div>
+            <div class="chart-wrap" style="min-height:240px;">
+                <canvas id="activityChart"></canvas>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-head">
+                <span class="panel-title"><i class="fas fa-chart-pie"></i> Risk Distribution</span>
+            </div>
+            <div class="chart-wrap" style="min-height:240px;">
+                <canvas id="riskChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── Charts Row 2: Login Attempts + Alert Severity ─── -->
+    <div class="charts-3col">
+        <div class="panel">
+            <div class="panel-head">
+                <span class="panel-title"><i class="fas fa-key"></i> Login Attempts &amp; Failures (7-day)</span>
+            </div>
+            <div class="chart-wrap" style="min-height:200px;">
+                <canvas id="loginChart"></canvas>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-head">
+                <span class="panel-title"><i class="fas fa-chart-bar"></i> Alert Severity</span>
+            </div>
+            <div class="chart-wrap" style="min-height:200px;">
+                <canvas id="alertSeverityChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── Bottom: Alerts + Activity Log ─── -->
+    <div class="bottom-grid" style="margin-bottom:2rem;">
+
+        <!-- Anomaly Alert Feed -->
+        <div class="panel" style="max-height:460px;">
+            <div class="panel-head">
+                <span class="panel-title"><i class="fas fa-triangle-exclamation"></i> Live Threat Alerts</span>
+                <span style="font-size:0.75rem;color:var(--danger);font-family:monospace;">● LIVE</span>
+            </div>
+            <div class="alerts-list" id="alertsFeed">
+                <div style="color:var(--text-muted);text-align:center;padding:2rem;font-size:0.9rem;">
+                    <span class="spinner"></span> Loading alerts...
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Login Activity Log -->
+        <div class="panel" style="max-height:460px;">
+            <div class="panel-head">
+                <span class="panel-title"><i class="fas fa-clock-rotate-left"></i> Recent Login Activity</span>
+            </div>
+            <ul class="log-list" id="activityLog">
+                <li style="color:var(--text-muted);text-align:center;padding:1rem;">
+                    <span class="spinner"></span> Loading activity...
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- ─── Login Geolocation Map ─── -->
+    <div class="panel" style="margin-bottom:2rem;">
+        <div class="panel-head">
+            <span class="panel-title"><i class="fas fa-map-location-dot"></i> Authentication & Threat Locations</span>
+        </div>
+        <div id="loginMap" style="width: 100%; height: 400px; border-radius: 12px; z-index: 1; position: relative; overflow: hidden; border: 1px solid var(--border);"></div>
+    </div>
+
+    <!-- ─── User Management Table ─── -->
+    <div class="panel" style="margin-bottom:2rem;">
+        <div class="panel-head">
+            <span class="panel-title"><i class="fas fa-id-card-alt"></i> User Management</span>
+            <span style="font-size:0.82rem;color:var(--text-muted);">{{ users|length if users else 0 }} entities monitored</span>
+        </div>
+        <div class="table-wrap">
+            <table class="soc-table">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Registry Date</th>
+                        <th>Risk Score (0–100)</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if users %}
+                    {% for u in users %}
+                    <tr>
+                        <td>
+                            <div style="font-weight:600;">{{ u.username }}</div>
+                            <div style="font-size:0.75rem;color:var(--text-muted);font-family:monospace;">#{{ u.id }}</div>
+                        </td>
+                        <td style="color:var(--text-muted);font-size:0.88rem;">{{ u.email }}</td>
+                        <td style="color:var(--text-muted);font-size:0.88rem;">{{ u.phone or '—' }}</td>
+                        <td style="color:var(--text-muted);font-size:0.82rem;white-space:nowrap;" class="rt-time" data-timestamp="{{ u.created_at.isoformat() + 'Z' if u.created_at else '' }}">
+                            {{ u.created_at.strftime('%b %d, %Y %I:%M %p') if u.created_at else '—' }}
+                        </td>
+                        <td>
+                            {% set score = u.risk_score|default(0)|int %}
+                            {% if score < 30 %}
+                            <div class="risk-bar-wrap risk-low">
+                                <div class="risk-bar" style="width:{{ score }}px;max-width:80px;background:var(--success);"></div>
+                                <span class="risk-label">{{ score }}</span>
+                                <span style="font-size:0.7rem;color:var(--success);margin-left:0.25rem;">Normal</span>
+                            </div>
+                            {% elif score < 60 %}
+                            <div class="risk-bar-wrap risk-med">
+                                <div class="risk-bar" style="width:{{ score }}px;max-width:80px;background:var(--warning);"></div>
+                                <span class="risk-label">{{ score }}</span>
+                                <span style="font-size:0.7rem;color:var(--warning);margin-left:0.25rem;">Suspicious</span>
+                            </div>
+                            {% else %}
+                            <div class="risk-bar-wrap risk-high">
+                                <div class="risk-bar" style="width:{{ (score / 100 * 80)|int }}px;max-width:80px;background:var(--danger);"></div>
+                                <span class="risk-label"><i class="fas fa-exclamation-triangle" style="font-size:0.75rem;"></i> {{ score }}</span>
+                                <span style="font-size:0.7rem;color:var(--danger);margin-left:0.25rem;">High Risk</span>
+                            </div>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if u.status == 'active' %}
+                                <span class="badge badge-active"><i class="fas fa-circle" style="font-size:0.45rem;"></i> Active</span>
+                            {% else %}
+                                <span class="badge badge-disabled"><i class="fas fa-circle" style="font-size:0.45rem;"></i> Disabled</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="action-col">
+                                <a href="/profile/{{ u.id }}" class="btn btn-sm btn-outline"><i class="fas fa-user-shield"></i> Profile</a>
+                                {% if user.role == 'admin' %}
+                                    {% if u.status == 'active' %}
+                                        <form action="/disable-user/{{ u.id }}" method="POST" style="margin:0;">
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i> Disable</button>
+                                        </form>
+                                    {% else %}
+                                        <form action="/enable-user/{{ u.id }}" method="POST" style="margin:0;">
+                                            <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-unlock"></i> Enable</button>
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </td>
+
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align:center;color:var(--text-muted);padding:3rem 1rem;">
+                            <i class="fas fa-users-slash" style="font-size:2rem;display:block;margin-bottom:0.75rem;"></i>
+                            No user entities in database.
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        {% if user and user.role == 'admin' %}
+        <div style="padding:1rem;text-align:center;">
+            <a href="/admin/dashboard" class="btn btn-primary"><i class="fas fa-user-cog"></i> Go to Admin Dashboard</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// ── Chart defaults ──
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.font.size = 12;
+
+const gridColor = 'rgba(255,255,255,0.05)';
+const cyan  = '#00f0ff';
+const neon  = '#3b82f6';
+const amber = '#f59e0b';
+const red   = '#ef4444';
+const green = '#10b981';
+
+// ── 1. Load Stats from real API ──
+async function loadStats() {
+    try {
+        const res  = await fetch('/api/dashboard/stats');
+        const data = await res.json();
+
+        document.getElementById('stat-total').textContent     = data.total_users     ?? '—';
+        document.getElementById('stat-active').textContent    = data.active_users    ?? '—';
+        document.getElementById('stat-anomalies').textContent = data.detected_anomalies ?? '—';
+        document.getElementById('stat-alerts').textContent    = data.security_alerts  ?? '—';
+
+    } catch(e) {
+        ['stat-total','stat-active','stat-anomalies','stat-alerts'].forEach(id => {
+            const el = document.getElementById(id);
+            if(el && el.querySelector('.spinner')) el.textContent = '—';
+        });
+    }
+}
+
+// ── Global Chart Instances ──
+let activityChartInstance = null;
+let riskChartInstance = null;
+let loginChartInstance = null;
+let alertSeverityChartInstance = null;
+let mapInstance = null;
+
+// User Identity (Safely injected via Jinja2)
+const CURRENT_USER_ID = Number("{{ user.id if user else 0 }}");
+const CURRENT_USER_NAME = "{{ user.username if user else 'Unknown' }}";
+const IS_ADMIN = "{{ user.role if user else 'user' }}" === 'admin';
+
+// Global marker storage
+if (!window.userMarkers) window.userMarkers = {};
+
+function updateOrAddUserMarker(userId, username, lat, lon, isNewLogin=false) {
+    if (!mapInstance) return null;
+    // Quality check: Skip 0,0
+    if (!lat || !lon || (lat === 0 && lon === 0)) return null;
+
+    // Privacy check: Non-admins only see themselves
+    if (!IS_ADMIN && userId !== CURRENT_USER_ID) return null;
+
+    if (window.userMarkers[userId]) {
+        if (!mapInstance.hasLayer(window.userMarkers[userId])) {
+            window.userMarkers[userId].addTo(mapInstance);
+        }
+        window.userMarkers[userId].setLatLng([lat, lon]);
+        if (isNewLogin) {
+            window.userMarkers[userId].openPopup();
+        }
+    } else {
+        const marker = L.marker([lat, lon]).addTo(mapInstance)
+            .bindTooltip(username, { permanent: true, direction: 'right', className: 'tactical-label' });
+        window.userMarkers[userId] = marker;
+    }
+    return window.userMarkers[userId];
+}
+
+// ── 2. User Activity Line Chart (from /api/dashboard/activity) ──
+async function buildActivityChart() {
+    let labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    let values = [0,0,0,0,0,0,0];
+    let anomalies = [0,0,0,0,0,0,0];
+    try {
+        const res = await fetch('/api/dashboard/activity');
+        const data = await res.json();
+        if (data.labels) labels = data.labels;
+        if (data.values) values = data.values;
+        if (data.anomalies) anomalies = data.anomalies;
+    } catch(e) {}
+
+    const ctx = document.getElementById('activityChart');
+    if (!ctx) return;
+    
+    if (activityChartInstance) {
+        activityChartInstance.destroy();
+    }
+    
+    activityChartInstance = new Chart(ctx.getContext('2d'), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'Login Events',
+                    data: values,
+                    borderColor: cyan,
+                    backgroundColor: 'rgba(0,240,255,0.07)',
+                    tension: 0.4, fill: true,
+                    pointBackgroundColor: cyan, pointRadius: 4, borderWidth: 2
+                },
+                {
+                    label: 'Anomalies Detected',
+                    data: anomalies,
+                    borderColor: red,
+                    backgroundColor: 'rgba(239,68,68,0.07)',
+                    tension: 0.4, fill: true,
+                    pointBackgroundColor: red, pointRadius: 4, borderWidth: 2, borderDash: [5,3]
+                }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { 
+                legend: { position: 'bottom', labels: { color: '#94a3b8', usePointStyle:true, padding:16 } },
+                tooltip: { mode: 'index', intersect: false }
+            },
+            scales: { 
+                x: { grid:{color:gridColor}, ticks: { color: '#94a3b8' } }, 
+                y: { grid:{color:gridColor}, beginAtZero:true, ticks: { color: '#94a3b8' } } 
+            }
+        }
+    });
+}
+
+// ── 3. Risk Distribution Doughnut ──
+async function buildRiskChart() {
+    let low = 0, med = 0, high = 0, critical = 0;
+    try {
+        const res = await fetch('/api/dashboard/risk-distribution');
+        const d = await res.json();
+        low = d.Low || 0; med = d.Medium || 0; high = d.High || 0; critical = d.Critical || 0;
+    } catch(e) { low=5;med=3;high=1;critical=1; }
+
+    const ctx = document.getElementById('riskChart');
+    if (!ctx) return;
+    
+    if (riskChartInstance) riskChartInstance.destroy();
+    
+    riskChartInstance = new Chart(ctx.getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Normal (0–30)','Suspicious (30–60)','High Risk (60+)','Critical (71+)'],
+            datasets: [{
+                data: [low, med, high, critical],
+                backgroundColor: ['rgba(16,185,129,0.85)','rgba(245,158,11,0.85)','rgba(239,68,68,0.85)','rgba(220,30,30,0.95)'],
+                borderColor: '#111827', borderWidth: 3, hoverOffset: 6
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false, cutout: '72%',
+            plugins: { legend: { position:'bottom', labels:{usePointStyle:true, padding:14} } }
+        }
+    });
+}
+
+// ── 4. Login Attempts Bar Chart ──
+async function buildLoginChart() {
+    let labels = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    let success = [0,0,0,0,0,0,0];
+    let failed  = [0,0,0,0,0,0,0];
+
+    try {
+        const res = await fetch('/api/dashboard/activity');
+        const data = await res.json();
+        if (data.labels) labels = data.labels;
+        if (data.success) success = data.success;
+        if (data.failed) failed = data.failed;
+    } catch(e) {}
+
+    const ctx = document.getElementById('loginChart');
+    if (!ctx) return;
+    
+    if (loginChartInstance) loginChartInstance.destroy();
+    
+    loginChartInstance = new Chart(ctx.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                { label:'Successful', data:success, backgroundColor:'rgba(59,130,246,0.75)', borderRadius:6, borderSkipped:false },
+                { label:'Failed', data:failed, backgroundColor:'rgba(239,68,68,0.75)', borderRadius:6, borderSkipped:false }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { 
+                legend:{position:'bottom', labels:{color: '#94a3b8', usePointStyle:true, padding:16}},
+                tooltip: { mode: 'index', intersect: false }
+            },
+            scales: { 
+                x:{grid:{color:gridColor}, ticks: { color: '#94a3b8' }}, 
+                y:{grid:{color:gridColor}, beginAtZero:true, ticks: { color: '#94a3b8' }} 
+            }
+        }
+    });
+}
+
+// ── 5. Alert Severity Horizontal Bar ──
+async function buildAlertSeverityChart() {
+    let low=0, med=0, high=0, critical=0;
+    try {
+        const res = await fetch('/api/dashboard/alert-severity');
+        const d   = await res.json();
+        low=d.Low||0; med=d.Medium||0; high=d.High||0; critical=d.Critical||0;
+    } catch(e) { low=3; med=2; high=4; critical=1; }
+
+    const ctx = document.getElementById('alertSeverityChart');
+    if (!ctx) return;
+    
+    if (alertSeverityChartInstance) alertSeverityChartInstance.destroy();
+    
+    alertSeverityChartInstance = new Chart(ctx.getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: ['Low','Medium','High','Critical'],
+            datasets: [{
+                label: 'Alerts',
+                data: [low, med, high, critical],
+                backgroundColor: ['rgba(16,185,129,0.8)','rgba(245,158,11,0.8)','rgba(239,68,68,0.8)','rgba(220,30,30,0.95)'],
+                borderRadius: 6, borderSkipped: false
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend:{display:false} },
+            scales: { x:{grid:{color:gridColor}, beginAtZero:true}, y:{grid:{color:gridColor}} }
+        }
+    });
+}
+
+// ── 6. Load Live Threat Alerts ──
+async function loadAlertsFeed() {
+    const feed = document.getElementById('alertsFeed');
+    try {
+        const res    = await fetch('/api/dashboard/security-alerts');
+        const alerts = await res.json();
+
+        if (!alerts || alerts.length === 0) {
+            feed.innerHTML = `
+                <!-- Static demo alerts if no DB data yet -->
+                <div class="alert-item">
+                    <div class="alert-meta">
+                        <span class="alert-title-text" style="color:var(--danger);"><i class="fas fa-dot-circle"></i> High Risk Behavior Detected</span>
+                        <span class="alert-time">12:14</span>
+                    </div>
+                    <p class="alert-desc">Unusual data access pattern detected for a monitored user entity.</p>
+                </div>
+                <div class="alert-item warning">
+                    <div class="alert-meta">
+                        <span class="alert-title-text" style="color:var(--warning);"><i class="fas fa-location-dot"></i> Unusual Login Location</span>
+                        <span class="alert-time">11:48</span>
+                    </div>
+                    <p class="alert-desc">Login from an unrecognized geographic location.</p>
+                </div>
+                <div class="alert-item warning">
+                    <div class="alert-meta">
+                        <span class="alert-title-text" style="color:var(--warning);"><i class="fas fa-ban"></i> Multiple Failed Logins</span>
+                        <span class="alert-time">10:32</span>
+                    </div>
+                    <p class="alert-desc">12 failed login attempts within 4 minutes detected.</p>
+                </div>
+                <div class="alert-item info">
+                    <div class="alert-meta">
+                        <span class="alert-title-text" style="color:var(--accent-neon);"><i class="fas fa-database"></i> Abnormal Data Access</span>
+                        <span class="alert-time">09:05</span>
+                    </div>
+                    <p class="alert-desc">Service account queried production database outside maintenance window.</p>
+                </div>`;
+            return;
+        }
+
+        feed.innerHTML = alerts.map(a => {
+            const sev     = (a.severity || 'Low').toLowerCase();
+            const cls     = sev === 'critical' || sev === 'high' ? '' : sev === 'medium' ? 'warning' : 'info';
+            const color   = sev === 'critical' || sev === 'high' ? 'var(--danger)' : sev === 'medium' ? 'var(--warning)' : 'var(--accent-neon)';
+            const timestamp = a.timestamp || '';
+            return `<div class="alert-item ${cls}">
+                <div class="alert-meta">
+                    <span class="alert-title-text" style="color:${color};"><i class="fas fa-exclamation-circle"></i> ${a.alert_type || 'Security Alert'}</span>
+                    <span class="alert-time rt-time" data-timestamp="${timestamp}">${window.RealTime ? window.RealTime.timeAgo(timestamp) : '...'}</span>
+                </div>
+                <p class="alert-desc">${a.description || ''}</p>
+            </div>`;
+        }).join('');
+    } catch(e) {
+        feed.innerHTML = `<p style="color:var(--text-muted);text-align:center;padding:1rem;">Unable to load alerts.</p>`;
+    }
+}
+
+// ── 7. Load Recent Login Activity Log ──
+async function loadActivityLog() {
+    const list = document.getElementById('activityLog');
+    try {
+        const res  = await fetch('/api/dashboard/recent-login-activity');
+        const logs = await res.json();
+
+        if (!logs || logs.length === 0) {
+            list.innerHTML = `
+                <li class="log-item">
+                    <div class="log-meta"><span class="log-user">analyst01</span><span class="log-time">12:14:32</span></div>
+                    <div class="log-detail"><i class="fas fa-globe" style="color:var(--accent);margin-right:4px;"></i> 192.168.1.1 — Chrome / Windows — Login Success</div>
+                </li>
+                <li class="log-item suspicious">
+                    <div class="log-meta"><span class="log-user">john_doe</span><span class="log-time">11:48:12</span></div>
+                    <div class="log-detail"><i class="fas fa-triangle-exclamation" style="color:var(--warning);margin-right:4px;"></i> 195.234.77.4 (RU) — Unusual location flagged</div>
+                </li>
+                <li class="log-item">
+                    <div class="log-meta"><span class="log-user">mary_sm</span><span class="log-time">09:30:05</span></div>
+                    <div class="log-detail"><i class="fas fa-globe" style="color:var(--accent);margin-right:4px;"></i> 10.0.0.45 — Firefox / macOS — Login Success</div>
+                </li>`;
+            return;
+        }
+
+        list.innerHTML = logs.map(l => {
+            const isRisky = (l.risk_score || 0) > 30;
+            const timestamp = l.login_time || '';
+            return `<li class="log-item ${isRisky ? 'suspicious' : ''}">
+                <div class="log-meta">
+                    <span class="log-user">${l.username}</span>
+                    <span class="log-time rt-time" data-timestamp="${timestamp}">${window.RealTime ? window.RealTime.timeAgo(timestamp) : '...'}</span>
+                </div>
+                <div class="log-detail">
+                    <i class="fas fa-${isRisky ? 'triangle-exclamation' : 'globe'}" style="color:${isRisky ? 'var(--warning)' : 'var(--accent)'};margin-right:4px;"></i>
+                    ${l.ip_address} — <span style="color:var(--accent);font-weight:600;">📍 ${l.city}, ${l.country}</span> — Risk ${l.risk_score || 0}
+                </div>
+            </li>`;
+        }).join('');
+    } catch(e) {
+        list.innerHTML = `<li style="color:var(--text-muted);text-align:center;padding:1rem;">Unable to load activity log.</li>`;
+    }
+}
+
+// ── 8. Login Geolocation Map (Leaflet) ──
+async function buildLoginMap() {
+    if (!mapInstance) {
+        mapInstance = L.map('loginMap', {
+            zoomControl: false,
+            attributionControl: false,
+            minZoom: 2,
+            maxBounds: [
+                [-90, -2000],
+                [90, 2000]
+            ],
+            maxBoundsViscosity: 1.0
+        }).setView([20, 0], 2);
+
+        // Tactical Zoom Controls at bottom-right
+        L.control.zoom({ position: 'bottomright' }).addTo(mapInstance);
+
+        // Custom "Locate Me" Control
+        L.Control.Locate = L.Control.extend({
+            options: { position: 'bottomright' },
+            onAdd: function() {
+                const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-locate');
+                const button = L.DomUtil.create('a', '', container);
+                button.innerHTML = '<i class="fas fa-crosshairs"></i>';
+                button.title = "Center on my location";
+                button.href = '#';
+                
+                button.onclick = function(e) {
+                    e.preventDefault();
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition((pos) => {
+                            const lat = pos.coords.latitude;
+                            const lon = pos.coords.longitude;
+                            mapInstance.setView([lat, lon], 14);
+                            
+                            // Update our marker (prevents duplicate "You are here" pin)
+                            const marker = updateOrAddUserMarker(CURRENT_USER_ID, CURRENT_USER_NAME, lat, lon);
+                            if (marker) {
+                                marker.bindPopup("Your Current Real-Time Position").openPopup();
+                            }
+                            
+                            // Sync with server immediately
+                            fetch('/api/location', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ latitude: lat, longitude: lon })
+                            });
+                        }, (err) => {
+                            alert("Geolocation error: " + err.message);
+                        });
+                    } else {
+                        alert("Geolocation not supported by your browser.");
+                    }
+                };
+                return container;
             }
         });
-    </script>
-</body>
+        mapInstance.addControl(new L.Control.Locate());
 
-</html>
+        // Using Official Google Maps Tiles with API Key (via Leaflet)
+        // Note: For official production use with an API key, loading the Google Maps API 
+        // as we did in extra_head allows these tiles to be used legally.
+        L.tileLayer('https://{s}.google.com/vt/lyrs=y&hl=en-US&x={x}&y={y}&z={z}&key={{ google_maps_api_key }}', {
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>',
+            maxZoom: 20
+        }).addTo(mapInstance);
+        
+        // Force refresh to fix gray tile rendering issues in flex layouts
+        setTimeout(() => mapInstance.invalidateSize(), 500);
+        setTimeout(() => mapInstance.invalidateSize(), 1500);
+        
+        window.addEventListener('resize', () => {
+            if (mapInstance) mapInstance.invalidateSize();
+        });
+    } // End of if (!mapInstance) block
+        // Clear existing markers
+        mapInstance.eachLayer((layer) => {
+            if (layer instanceof L.Marker || layer instanceof L.CircleMarker) {
+                mapInstance.removeLayer(layer);
+            }
+        });
+        window.userMarkers = {};
+
+    try {
+        const res = await fetch('/api/dashboard/locations');
+        const points = await res.json();
+        
+        const bounds = L.latLngBounds();
+        let hasPoints = false;
+
+        points.forEach(pt => {
+            const marker = updateOrAddUserMarker(pt.user_id, pt.username, pt.lat, pt.lon);
+            if (marker) {
+                hasPoints = true;
+                bounds.extend([pt.lat, pt.lon]);
+            }
+        });
+
+        // Re-center map to fit all corrected markers
+        if (hasPoints && mapInstance) {
+            mapInstance.fitBounds(bounds, { padding: [40, 40], maxZoom: 12 });
+        }
+    } catch(e) { console.error("Map Build Error:", e); }
+}
+
+const LIVE_LOCATION_REFRESH_RATE = 10000; // 10 seconds
+// setInterval(buildLoginMap, LIVE_LOCATION_REFRESH_RATE); // Disable polling, rely on WebSockets for "lively" feel
+
+// ── Init all on DOM ready ──
+document.addEventListener('DOMContentLoaded', () => {
+    const isAdmin = "{{ user.role if user else 'user' }}" === 'admin';
+    loadStats();
+    buildActivityChart();
+    buildRiskChart();
+    buildLoginChart();
+    buildAlertSeverityChart();
+    loadAlertsFeed();
+    loadActivityLog();
+    buildLoginMap();
+
+    // Global Real-Time Listener
+    document.addEventListener('rt-event', (e) => {
+        const data = e.detail;
+        console.log("Dashboard Live Update:", data.type);
+
+        if (data.type === 'login' || data.type === 'alert' || data.type === 'location_update') {
+            // Update charts and stats
+            loadStats();
+            buildActivityChart();
+            buildRiskChart();
+            
+            // Map updates
+            if (data.type === 'login' && data.lat && data.lon && mapInstance) {
+                const marker = updateOrAddUserMarker(data.user_id, data.username, data.lat, data.lon, true);
+                if (marker) {
+                    const statusLabel = data.risk_score >= 50 ? "THREAT" : "LOGIN";
+                    const popupTitle = `[${statusLabel}] ${data.username} - ${data.city}, ${data.country}`;
+                    marker.bindPopup(popupTitle);
+                }
+            }
+
+            if (data.type === 'location_update' && mapInstance) {
+                const marker = updateOrAddUserMarker(data.user_id, data.username, data.lat, data.lon);
+                
+                if (data.user_id === CURRENT_USER_ID && marker) {
+                    mapInstance.setView([data.lat, data.lon], 12);
+                }
+            }
+
+            // Reload feeds to ensure consistency
+            loadAlertsFeed();
+            loadActivityLog();
+        }
+    });
+
+    // Auto-refresh summary stats every 60 seconds (WebSocket handles live data)
+    setInterval(() => {
+        loadStats();
+        buildLoginMap();
+    }, 60000);
+    // ── 9. Live GPS Tracking (Frontend Reporting) ──
+    if (navigator.geolocation) {
+        console.log("Starting Live GPS Tracking...");
+        let lastReport = 0;
+        navigator.geolocation.watchPosition(
+            (position) => {
+                const now = Date.now();
+                if (now - lastReport < 2000) return; // 2 second frequency
+                lastReport = now;
+
+                const lat = position.coords.latitude;
+                const lon = position.coords.longitude;
+
+                fetch("/api/location", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ lat, lon })
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.status !== 'success') console.error("Location sync failed:", result);
+                })
+                .catch(err => console.error("Location reporting error:", err));
+            },
+            (error) => {
+                console.warn("Geolocation Error:", error.message);
+            },
+            { 
+                enableHighAccuracy: true,
+                maximumAge: 10000,
+                timeout: 10000
+            }
+        );
+    } else {
+        console.error("Geolocation is not supported by this browser.");
+    }
+});
+</script>
+{% endblock %}

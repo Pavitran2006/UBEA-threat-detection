@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% block title %}Activity Monitoring | UEBA Admin{% endblock %}
+
+{% block extra_head %}
+<style>
+.admin-wrapper { padding: 2rem 3rem; max-width: 1700px; margin: 0 auto; width: 100%; }
+.panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; margin-bottom: 2rem; }
+.soc-table { width: 100%; border-collapse: collapse; }
+.soc-table th { background: rgba(0,240,255,0.05); color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; padding: 1rem; text-align: left; }
+.soc-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.risk-badge { padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: bold; font-size: 0.75rem; }
+.risk-low { background: rgba(16,185,129,0.1); color: var(--success); }
+.risk-medium { background: rgba(245,158,11,0.1); color: #f59e0b; }
+.risk-high { background: rgba(239,68,68,0.1); color: var(--danger); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-wrapper">
+    <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2rem; margin-bottom: 0.5rem;"><i class="fas fa-list-check" style="color:var(--accent);"></i> Activity Monitoring</h1>
+        <p style="color:var(--text-muted);">Real-time log of security-relevant user actions across the platform.</p>
+    </div>
+
+    <div class="panel">
+        <table class="soc-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Activity Type</th>
+                    <th>IP Address</th>
+                    <th>Location</th>
+                    <th>Device</th>
+                    <th>Time</th>
+                    <th>Risk</th>
+                </tr>
+            </thead>
+            <tbody id="activityBody">
+                {% for a in activities %}
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            {% set username = a.user.username if a.user else "System" %}
+                            <div style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                                {% if a.user and a.user.profile_pic %}
+                                    <img src="{{ a.user.profile_pic }}" alt="{{ username }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {% else %}
+                                    <i class="fas fa-user" style="font-size: 14px; color: var(--text-muted);"></i>
+                                {% endif %}
+                            </div>
+                            <span style="font-weight: 600;">{{ username }}</span>
+                        </div>
+                    </td>
+                    <td><span style="color:var(--accent);">{{ a.activity_type }}</span></td>
+                    <td><code>{{ a.ip_address }}</code></td>
+                    <td style="font-size: 0.85rem; color: {% if a.location == 'Internal Network' or a.location == 'Unknown, Unknown' %}var(--text-muted){% else %}#ffffff{% endif %};">
+                        {% if a.location == 'Internal Network' %}🏠{% elif a.location == 'Unknown, Unknown' %}❓{% else %}📍{% endif %} {{ a.location }}
+                    </td>
+                    <td style="font-size: 0.85rem; color: var(--text-muted);">{{ a.device_info }}</td>
+                    <td style="font-size: 0.85rem;" class="rt-time" data-timestamp="{{ a.login_time.isoformat() + 'Z' if a.login_time else '' }}">{{ a.login_time }}</td>
+                    <td>
+                        <span class="risk-badge {% if a.risk_score > 70 %}risk-high{% elif a.risk_score > 30 %}risk-medium{% else %}risk-low{% endif %}">
+                            {{ a.risk_score }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+// Listen for real-time activity events
+document.addEventListener('rt-login', (e) => {
+    const a = e.detail;
+    const tbody = document.getElementById('activityBody');
+    
+    const row = document.createElement('tr');
+    row.style.animation = "highlight 2s ease-out";
+    row.innerHTML = `
+        <td>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+                <div style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                    ${a.profile_pic ? `<img src="${a.profile_pic}" alt="${a.username}" style="width: 100%; height: 100%; object-fit: cover;">` : `<i class="fas fa-user" style="font-size: 14px; color: var(--text-muted);"></i>`}
+                </div>
+                <span style="font-weight: 600;">${a.username}</span>
+            </div>
+        </td>
+        <td><span style="color:var(--accent);">Login</span></td>
+        <td><code>${a.ip_address || 'N/A'}</code></td>
+        <td style="font-size: 0.85rem; color: #ffffff;">📍 ${a.city}, ${a.country}</td>
+        <td style="font-size: 0.85rem; color: var(--text-muted);">${a.browser} on ${a.device}</td>
+        <td style="font-size: 0.85rem;" class="rt-time" data-timestamp="${a.timestamp}">${window.RealTime ? window.RealTime.timeAgo(a.timestamp) : 'just now'}</td>
+        <td>
+            <span class="risk-badge ${a.risk_score > 70 ? 'risk-high' : (a.risk_score > 30 ? 'risk-medium' : 'risk-low')}">
+                ${a.risk_score}
+            </span>
+        </td>
+    `;
+    
+    tbody.prepend(row);
+    if (tbody.children.length > 50) tbody.lastElementChild.remove();
+});
+</script>
+{% endblock %}

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UEBA – User and Entity Behaviour Analytics. AI-powered cybersecurity platform for insider threat detection.">
+    <title>{% block title %}UEBA | Security Operations Center{% endblock %}</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+    <!-- Core Styles -->
+    <link rel="stylesheet" href="/static/css/background.css">
+    <link rel="stylesheet" href="/static/css/soc.css">
+
+    {% block extra_head %}{% endblock %}
+    
+    <!-- AI Bot Specific Styles -->
+    <style>
+    .ai-bot-toggle {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: var(--accent);
+        color: var(--bg-dark);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        cursor: pointer;
+        z-index: 1000;
+        box-shadow: 0 10px 30px rgba(0,240,255,0.4);
+        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .ai-bot-toggle:hover { transform: scale(1.1) rotate(15deg); }
+    .ai-bot-toggle.active { transform: scale(0.9) rotate(-90deg); background: var(--text-muted); }
+
+    .ai-chat-window {
+        position: fixed;
+        bottom: 100px;
+        right: 30px;
+        width: 350px;
+        height: 500px;
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        display: none;
+        flex-direction: column;
+        z-index: 999;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+        overflow: hidden;
+        animation: slideUp 0.4s ease-out;
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+    .ai-chat-header {
+        background: linear-gradient(90deg, var(--bg-dark), var(--bg-panel));
+        padding: 1.25rem;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    .ai-chat-header i { color: var(--accent); }
+    .ai-status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
+
+    .ai-chat-body { flex: 1; padding: 1rem 1.25rem; overflow-y: auto; display: flex; flex-direction: column; gap: 0.8rem; }
+    .ai-msg { max-width: 85%; padding: 0.75rem 1rem; border-radius: 14px; font-size: 0.85rem; line-height: 1.4; position: relative; }
+    .ai-msg-received { background: rgba(255,255,255,0.05); align-self: flex-start; color: var(--text-main); border-bottom-left-radius: 2px; border: 1px solid rgba(255,255,255,0.05); }
+    .ai-msg-sent { background: var(--accent); color: var(--bg-dark); align-self: flex-end; border-bottom-right-radius: 2px; font-weight: 600; }
+
+    .ai-chat-input-area {
+        padding: 1rem;
+        background: rgba(2,6,23,0.8);
+        border-top: 1px solid var(--border);
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    .ai-input {
+        flex: 1;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 0.6rem 1rem;
+        color: var(--text-main);
+        font-size: 0.85rem;
+        outline: none;
+        transition: border-color 0.3s;
+    }
+    .ai-input:focus { border-color: var(--accent); }
+    .ai-send-btn {
+        width: 36px;
+        height: 36px;
+        background: var(--accent);
+        color: var(--bg-dark);
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .ai-send-btn:hover { transform: scale(1.1); }
+
+    .quiz-options { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.5rem; }
+    .quiz-opt {
+        padding: 0.75rem;
+        background: rgba(0,240,255,0.05);
+        border: 1px solid rgba(0,240,255,0.2);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: left;
+        font-size: 0.85rem;
+    }
+    .quiz-opt:hover { background: rgba(0,240,255,0.15); border-color: var(--accent); }
+    
+    .typing-indicator { font-size: 0.8rem; color: var(--text-muted); font-style: italic; display: none; margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body>
+
+    <!-- ===== Animated Particle Background ===== -->
+    <div class="particles-container" id="particleCanvas"></div>
+
+    <!-- ===== Navigation Bar ===== -->
+    <nav class="navbar" id="mainNav">
+        <a href="/" class="navbar-brand">
+            <i class="fas fa-shield-halved"></i>
+            <span>UEBA</span>
+        </a>
+        <div class="navbar-nav">
+            <a href="/"          class="nav-link"><i class="fas fa-home" style="margin-right:4px;font-size:0.8em;"></i>Home</a>
+            {% if user %}
+            <a href="/dashboard" class="nav-link"><i class="fas fa-chart-line" style="margin-right:4px;font-size:0.8em;"></i>Dashboard</a>
+            <a href="/profile"   class="nav-link"><i class="fas fa-user-shield" style="margin-right:4px;font-size:0.8em;"></i>Profile</a>
+            {% if user.role == 'admin' %}
+            <a href="/admin/dashboard" class="nav-link">Admin Panel</a>
+            <a href="/admin/users" class="nav-link">User Management</a>
+            {% endif %}
+            <a href="/logout"    class="nav-link btn btn-outline" style="padding:0.4rem 1.1rem;font-size:0.88rem;">Logout</a>
+            {% else %}
+            <a href="/signup"    class="nav-link btn btn-outline" style="padding:0.4rem 1.1rem;font-size:0.88rem;">Signup</a>
+            <a href="/login"     class="nav-link btn btn-primary" style="padding:0.4rem 1.1rem;font-size:0.88rem;">Login</a>
+            <a href="/login"     class="nav-link btn btn-danger" style="margin-left:8px; padding:0.4rem 1.1rem;font-size:0.88rem;"><i class="fas fa-user-shield" style="margin-right:5px;"></i>Admin Login</a>
+            {% endif %}
+        </div>
+
+    </nav>
+
+    <!-- ===== Page Content ===== -->
+    <main style="flex:1; position:relative; z-index:2; padding-top:72px;">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- ===== Footer ===== -->
+    <footer class="footer">
+        <div class="footer-grid container">
+            <div>
+                <div class="footer-brand"><i class="fas fa-shield-halved"></i> UEBA Platform</div>
+                <p class="footer-desc">Cybersecurity Behavior Analytics System — AI-powered threat detection for enterprise security operations centers.</p>
+            </div>
+            <div>
+                <p style="font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:1rem;">Quick Links</p>
+                <nav class="footer-links">
+                    <a href="/">Home</a>
+                    <a href="/dashboard">Dashboard</a>
+                    <a href="/signup">Signup</a>
+                    <a href="/login">Login</a>
+                    <a href="/login">Admin</a>
+                </nav>
+            </div>
+        </div>
+        <div class="footer-bottom container">
+            &copy; 2026 UEBA Platform — Cybersecurity Behavior Analytics System. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- ===== Global JS ===== -->
+    <script src="/static/js/realtime.js"></script>
+    <script>
+    (function spawnParticles() {
+        const container = document.getElementById('particleCanvas');
+        if (!container) return;
+        const types = ['cyan', 'blue', 'white'];
+        const count = 55;
+        for (let i = 0; i < count; i++) {
+            const p = document.createElement('div');
+            p.className = `particle ${types[Math.floor(Math.random() * types.length)]}`;
+            const size = Math.random() * 3 + 2;   // 2–5 px
+            p.style.width  = size + 'px';
+            p.style.height = size + 'px';
+            p.style.left   = Math.random() * 100 + '%';
+            p.style.animationDuration  = (Math.random() * 18 + 10) + 's';
+            p.style.animationDelay     = (Math.random() * 12) + 's';
+            p.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+            container.appendChild(p);
+        }
+    })();
+
+    // Sticky navbar class
+    window.addEventListener('scroll', () => {
+        document.getElementById('mainNav').classList.toggle('scrolled', window.scrollY > 40);
+    });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+
+    <!-- AI Quiz Bot Component -->
+    <div class="ai-bot-toggle" id="botToggle" title="Ask AI Agent">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="ai-chat-window" id="botWindow">
+        <div class="ai-chat-header">
+            <div class="ai-status-dot"></div>
+            <div style="flex:1">
+                <div style="font-weight:700; font-size:0.9rem;">SOC Intelligence Bot</div>
+                <div style="font-size:0.7rem; color:var(--text-muted);">Active Threat Analysis</div>
+            </div>
+            <i class="fas fa-microchip"></i>
+        </div>
+        <div class="ai-chat-body" id="chatBody">
+            <div class="ai-msg ai-msg-received">
+                Greetings, Analyst. I am the UEBA Core AI. Would you like to run a security intelligence diagnostic (Quiz) or browse FAQ?
+            </div>
+            <div class="quiz-options" id="initialActions">
+                <button class="quiz-opt" onclick="startQuiz()">
+                    <i class="fas fa-graduation-cap"></i> Take Security Quiz
+                </button>
+                <button class="quiz-opt" onclick="showFAQ()">
+                    <i class="fas fa-circle-question"></i> Platform FAQ
+                </button>
+            </div>
+        </div>
+        <div class="ai-chat-input-area">
+            <input type="text" id="aiUserInput" class="ai-input" placeholder="Ask me something...">
+            <button id="aiSendBtn" class="ai-send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+        <div id="chatFooter" style="padding: 0.5rem 1rem; border-top: 1px solid var(--border); display: none; background: rgba(0,0,0,0.2);">
+            <div class="typing-indicator" id="typing">AI instance processing...</div>
+        </div>
+    </div>
+
+    <script>
+    const botToggle = document.getElementById('botToggle');
+    const botWindow = document.getElementById('botWindow');
+    const chatBody = document.getElementById('chatBody');
+    const initialActions = document.getElementById('initialActions');
+
+    const quizData = [
+        {
+            q: "What does UEBA build to identify 'abnormal' behavior?",
+            opts: ["A static list of blocked IPs", "A behavioral baseline of normal activity", "A manual schedule for security scans", "A simple password rotation policy"],
+            ans: 1
+        },
+        {
+            q: "What ensures that security logs cannot be deleted or modified in our platform?",
+            opts: ["Encryption only", "Higher level admin passwords", "Private Blockchain integration", "Regular cloud backups"],
+            ans: 2
+        },
+        {
+            q: "Which of the following is most likely an 'Anomaly' in UEBA?",
+            opts: ["Standard login at 9 AM", "Downloading 50GB of data at 3 AM from a new location", "Changing profile picture", "A scheduled system update"],
+            ans: 1
+        }
+    ];
+
+    let currentStep = 0;
+    let score = 0;
+
+    botToggle.addEventListener('click', () => {
+        botToggle.classList.toggle('active');
+        botWindow.style.display = botWindow.style.display === 'flex' ? 'none' : 'flex';
+        botToggle.innerHTML = botToggle.classList.contains('active') ? '<i class="fas fa-times"></i>' : '<i class="fas fa-robot"></i>';
+    });
+
+    function addMsg(text, type = 'received') {
+        const msg = document.createElement('div');
+        msg.className = `ai-msg ai-msg-${type}`;
+        msg.innerText = text;
+        chatBody.appendChild(msg);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function startQuiz() {
+        initialActions.style.display = 'none';
+        currentStep = 0;
+        score = 0;
+        addMsg("Initializing Diagnostic Quiz...", 'received');
+        setTimeout(showQuestion, 800);
+    }
+
+    function showQuestion() {
+        if (currentStep >= quizData.length) {
+            addMsg(`Diagnostic Complete. Resilience Score: ${score}/${quizData.length}`, 'received');
+            const restartBtn = document.createElement('button');
+            restartBtn.className = 'quiz-opt';
+            restartBtn.innerHTML = '<i class="fas fa-undo"></i> Reset Session';
+            restartBtn.onclick = () => { chatBody.innerHTML = ''; addMsg("Session reset. What's next?", 'received'); initialActions.style.display = 'flex'; chatBody.appendChild(initialActions); };
+            chatBody.appendChild(restartBtn);
+            return;
+        }
+
+        const data = quizData[currentStep];
+        addMsg(data.q, 'received');
+        
+        const optContainer = document.createElement('div');
+        optContainer.className = 'quiz-options';
+        
+        data.opts.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'quiz-opt';
+            btn.innerText = opt;
+            btn.onclick = () => handleAnswer(idx);
+            optContainer.appendChild(btn);
+        });
+        
+        chatBody.appendChild(optContainer);
+        chatBody.scrollTop = chatBody.scrollHeight;
+    }
+
+    function handleAnswer(idx) {
+        const data = quizData[currentStep];
+        const buttons = chatBody.lastChild.querySelectorAll('button');
+        buttons.forEach(b => b.disabled = true);
+
+        if (idx === data.ans) {
+            score++;
+            addMsg("Correct. Access verified.", 'sent');
+        } else {
+            addMsg(`Incorrect. Correct protocol: ${data.opts[data.ans]}`, 'sent');
+        }
+
+        currentStep++;
+        setTimeout(showQuestion, 1200);
+    }
+
+    function showFAQ() {
+        initialActions.style.display = 'none';
+        addMsg("Accessing FAQ Database...", 'received');
+        setTimeout(() => {
+            addMsg("Q: Why Blockchain?\nA: To ensure tamper-proof auditing logs.");
+            addMsg("Q: How does AI detect threats?\nA: By monitoring deviations from learned behavioral patterns.");
+            
+            const backBtn = document.createElement('button');
+            backBtn.className = 'quiz-opt';
+            backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Back to Main Menu';
+            backBtn.onclick = () => { initialActions.style.display = 'flex'; chatBody.appendChild(initialActions); backBtn.remove(); };
+            chatBody.appendChild(backBtn);
+        }, 800);
+    }
+
+    // --- Expanded Knowledge Base & Chat Logic ---
+    const userInput = document.getElementById('aiUserInput');
+    const sendBtn = document.getElementById('aiSendBtn');
+    const typing = document.getElementById('typing');
+    const footer = document.getElementById('chatFooter');
+
+    const projectKnowledge = {
+        security: {
+            keywords: ["security", "threat", "zero trust", "clearance", "risk", "anomaly", "anomalies", "protection"],
+            response: "Our security architecture follows a Zero Trust model. We use cumulative risk scores (0-100) to flag suspicious entities. High-risk actions (Score > 50) trigger immediate SOC alerts."
+        },
+        blockchain: {
+            keywords: ["blockchain", "immutable", "ledger", "audit", "tamper", "integrity"],
+            response: "We utilize a private blockchain to ensure all audit logs are immutable. This means once a security event is recorded, it cannot be altered or deleted by any user, including admins."
+        },
+        algorithms: {
+            keywords: ["algorithm", "ml", "ai", "isolation forest", "lof", "machine learning", "model"],
+            response: "The platform uses unsupervised ML algorithms like Isolation Forest and Local Outlier Factor (LOF) to build behavioral baselines and detect zero-day insider threats."
+        },
+        profile: {
+            keywords: ["profile", "account", "settings", "password", "alias", "edit", "phone", "photo"],
+            response: "You can manage your Analyst identity in the 'Profile' section. This includes updating your alias, comms patch (phone), and biometric photo integration."
+        },
+        dashboard: {
+            keywords: ["dashboard", "stats", "center", "command", "monitor", "view", "alerts"],
+            response: "The Command Center (Dashboard) provides real-time visualization of network health, active sessions, and security alerts. You can also enable or disable suspicious nodes there."
+        },
+        auth: {
+            keywords: ["login", "signup", "otp", "verify", "identity", "register", "token"],
+            response: "Access is secured via Multi-Factor Authentication (OTP). Our system tracks login attempts, IP geography, and device signatures to prevent unauthorized entry."
+        },
+        compliance: {
+            keywords: ["compliance", "soc2", "hipaa", "legal", "standard", "audit"],
+            response: "By leveraging blockchain-backed immutability and granular activity tracking, our platform helps organizations meet SOC2, HIPAA, and GDPR compliance standards."
+        }
+    };
+
+    async function handleUserChat() {
+        const text = userInput.value.trim();
+        if (!text) return;
+
+        userInput.value = '';
+        addMsg(text, 'sent');
+        initialActions.style.display = 'none';
+
+        footer.style.display = 'block';
+        typing.style.display = 'block';
+
+        setTimeout(() => {
+            const query = text.toLowerCase();
+            let response = "";
+
+            // Check if user is asking for specific features
+            if (query.includes("quiz") || query.includes("test")) {
+                response = "Initializing diagnostic mode...";
+                footer.style.display = 'none';
+                startQuiz();
+                return;
+            } else if (query.includes("faq") || query.includes("help")) {
+                response = "Loading platform intelligence brief...";
+                footer.style.display = 'none';
+                showFAQ();
+                return;
+            }
+
+            // Enhanced keyword matching
+            let matchedCategory = null;
+            for (const category in projectKnowledge) {
+                if (projectKnowledge[category].keywords.some(kw => query.includes(kw))) {
+                    matchedCategory = category;
+                    break;
+                }
+            }
+
+            if (matchedCategory) {
+                response = projectKnowledge[matchedCategory].response;
+            } else if (query.includes("hi") || query.includes("hello") || query.includes("hey")) {
+                response = "Greetings, Analyst. I am the platform's Core AI. How can I assist with your security objectives or project inquiries today?";
+            } else {
+                response = "My intelligence core is indexing that specific project query. For broad questions, I recommend checking the FAQ or running a diagnostic Quiz. I can currently discuss Blockchain, AI Algorithms, Security Clearances, Compliance, and User Management.";
+            }
+
+            addMsg(response, 'received');
+            footer.style.display = 'none';
+            chatBody.scrollTop = chatBody.scrollHeight;
+        }, 1000);
+    }
+
+    sendBtn.addEventListener('click', handleUserChat);
+    userInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') handleUserChat();
+    });
+    </script>
+
+</body>
+</html>

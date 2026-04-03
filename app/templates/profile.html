@@ -1,0 +1,419 @@
+{% extends "base.html" %}
+{% block title %}Analyst Identity | UEBA SOC Platform{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ======= PROFESSIONAL PROFILE THEME ======= */
+.prof-container {
+    padding: 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    gap: 2rem;
+}
+
+/* Sidebar Card (Identity Card) */
+.id-card {
+    background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(2,6,23,0.95));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 100px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    overflow: hidden;
+}
+.id-card::after {
+    content: 'SECURITY CLEARANCE';
+    position: absolute;
+    top: 20px;
+    right: -35px;
+    background: var(--accent);
+    color: var(--bg-dark);
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 4px 40px;
+    transform: rotate(45deg);
+    letter-spacing: 1px;
+}
+.avatar-hex {
+    width: 130px;
+    height: 130px;
+    background: rgba(0,240,255,0.05);
+    border: 3px solid var(--accent);
+    border-radius: 24% 76% 70% 30% / 30% 30% 70% 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    box-shadow: var(--glow-sm);
+    animation: morph 8s ease-in-out infinite;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+}
+.avatar-hex img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.avatar-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(2,6,23,0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 1.5rem;
+    color: var(--accent);
+}
+.avatar-hex:hover .avatar-overlay { opacity: 1; }
+@keyframes morph {
+  0%, 100% { border-radius: 24% 76% 70% 30% / 30% 30% 70% 70%; }
+  50% { border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+}
+.id-name { font-size: 1.6rem; margin-bottom: 0.5rem; text-align: center; }
+.id-role {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    background: rgba(0,240,255,0.1);
+    padding: 4px 12px;
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+.id-stats {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 2rem;
+}
+.id-stat-box { text-align: center; }
+.id-stat-val { font-size: 1.2rem; font-weight: 800; color: var(--text-main); display: block; }
+.id-stat-label { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* Main Content Area */
+.prof-main { display: flex; flex-direction: column; gap: 2rem; }
+.prof-panel {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+}
+.panel-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    padding-bottom: 1rem;
+}
+.panel-title i { color: var(--accent); }
+
+.prof-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+.prof-input-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.75rem;
+}
+.prof-control {
+    width: 100%;
+    background: rgba(2,6,23,0.5);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    padding: 0.9rem 1.1rem;
+    color: var(--text-main);
+    font-size: 0.95rem;
+    transition: all 0.3s;
+}
+.prof-control:focus {
+    border-color: var(--accent);
+    background: rgba(0,240,255,0.03);
+    outline: none;
+    box-shadow: 0 0 15px rgba(0,240,255,0.05);
+}
+.read-only-val {
+    padding: 0.9rem 1.1rem;
+    background: rgba(255,255,255,0.02);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    border: 1px dashed rgba(255,255,255,0.1);
+}
+
+.security-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(16,185,129,0.05);
+    border: 1px solid rgba(16,185,129,0.2);
+    border-radius: 12px;
+}
+.security-badge i { font-size: 1.5rem; color: var(--success); }
+.security-text h4 { font-size: 0.9rem; margin-bottom: 0.1rem; color: var(--success); }
+.security-text p { font-size: 0.75rem; color: var(--text-muted); }
+
+.save-action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+@media (max-width: 900px) {
+    .prof-container { grid-template-columns: 1fr; }
+    .id-card { position: static; }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="prof-container">
+    <!-- ─── Sidebar Card ─── -->
+    <aside class="id-card">
+        <div class="avatar-hex" id="avatarClickable" title="Change Identity Photo">
+            {% if user.profile_pic %}
+                <img src="{{ user.profile_pic }}" id="profileImg" alt="Analyst">
+            {% else %}
+                <i class="fas fa-user-shield" id="avatarIcon"></i>
+            {% endif %}
+            {% if is_own_profile %}
+            <div class="avatar-overlay">
+                <i class="fas fa-camera"></i>
+            </div>
+            {% endif %}
+        </div>
+        <input type="file" id="profilePicInput" style="display: none;" accept="image/*">
+        <h2 class="id-name" id="displayUsername">{{ user.username }}</h2>
+        <span class="id-role">System Analyst</span>
+        
+        <div class="security-badge">
+            <i class="fas fa-certificate"></i>
+            <div class="security-text">
+                <h4>Verified Analyst</h4>
+                <p>Status: L3 Security Clearance</p>
+                <p style="font-size:0.65rem;margin-top:2px;opacity:0.8;">Member since: {{ user.created_at.strftime('%b %d, %Y') if user.created_at else 'New Operative' }}</p>
+            </div>
+        </div>
+
+        <div class="id-stats">
+            <div class="id-stat-box">
+                <span class="id-stat-val">Online</span>
+                <span class="id-stat-label">Session</span>
+            </div>
+            <div class="id-stat-box">
+                <span class="id-stat-val">98%</span>
+                <span class="id-stat-label">Trust Score</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ─── Main Content ─── -->
+    <div class="prof-main">
+        <div id="alert-container"></div>
+
+        <!-- Personal Intelligence -->
+        <section class="prof-panel">
+            <div class="panel-header" style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 class="panel-title" style="margin-bottom:0; border-bottom:none; padding-bottom:0;">
+                    <i class="fas fa-fingerprint"></i> Personal Intelligence
+                </h3>
+                {% if is_own_profile %}
+                <button type="button" id="editToggleBtn" class="btn btn-sm btn-outline">
+                    <i class="fas fa-edit"></i> Edit Profile
+                </button>
+                {% endif %}
+            </div>
+            <form id="profileForm" style="margin-top:1.5rem;">
+                <div class="prof-grid">
+                    <div class="prof-input-group">
+                        <label>Analyst Alias</label>
+                        <div id="usernameView" class="read-only-val">{{ user.username }}</div>
+                        <input type="text" id="username" name="username" value="{{ user.username }}" class="prof-control" style="display:none;" placeholder="Alias">
+                    </div>
+                    <div class="prof-input-group">
+                        <label>Secure Identifier (Email)</label>
+                        <div class="read-only-val">{{ user.email }}</div>
+                    </div>
+                    <div class="prof-input-group">
+                        <label>Comms Patch (Phone)</label>
+                        <div id="phoneView" class="read-only-val">{{ user.phone or 'Not Set' }}</div>
+                        <input type="text" id="phone" name="phone" value="{{ user.phone or '' }}" class="prof-control" style="display:none;" placeholder="+1 000 000 000">
+                    </div>
+                    <div class="prof-input-group">
+                        <label>Registry Date</label>
+                        <div class="read-only-val">{{ user.created_at.strftime('%b %d, %Y %I:%M %p') if user.created_at else 'N/A' }}</div>
+                    </div>
+                </div>
+                
+                {% if is_own_profile %}
+                <div id="editActions" class="save-action" style="display:none; gap:1rem;">
+                    <button type="button" id="cancelBtn" class="btn btn-outline">Cancel</button>
+                    <button type="submit" id="saveBtn" class="btn btn-primary">
+                        <i class="fas fa-shield-halved"></i> Save Changes
+                    </button>
+                </div>
+                {% endif %}
+            </form>
+        </section>
+
+
+        <!-- System Metadata -->
+        <section class="prof-panel">
+            <h3 class="panel-title"><i class="fas fa-server"></i> System Metadata</h3>
+            <div class="prof-grid">
+                <div class="prof-input-group">
+                    <label>Assigned Node</label>
+                    <div class="read-only-val">Primary_Edge_01</div>
+                </div>
+                <div class="prof-input-group">
+                    <label>Internal Analyst ID</label>
+                    <div class="read-only-val">#UEBA-{{ user.id }}-ALPHA</div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+{% if is_own_profile %}
+// --- Profile Edit Logic ---
+const editToggleBtn = document.getElementById('editToggleBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const editActions = document.getElementById('editActions');
+const usernameInput = document.getElementById('username');
+const phoneInput = document.getElementById('phone');
+const usernameView = document.getElementById('usernameView');
+const phoneView = document.getElementById('phoneView');
+
+function toggleEditMode(isEditing) {
+    if (!editToggleBtn || !editActions) return;
+    editToggleBtn.style.display = isEditing ? 'none' : 'block';
+    editActions.style.display = isEditing ? 'flex' : 'none';
+    
+    usernameInput.style.display = isEditing ? 'block' : 'none';
+    usernameView.style.display = isEditing ? 'none' : 'block';
+    
+    phoneInput.style.display = isEditing ? 'block' : 'none';
+    phoneView.style.display = isEditing ? 'none' : 'block';
+}
+
+if (editToggleBtn) {
+    editToggleBtn.addEventListener('click', () => toggleEditMode(true));
+}
+if (cancelBtn) {
+    cancelBtn.addEventListener('click', () => {
+        usernameInput.value = usernameView.innerText;
+        phoneInput.value = phoneView.innerText === 'Not Set' ? '' : phoneView.innerText;
+        toggleEditMode(false);
+    });
+}
+
+const profileForm = document.getElementById('profileForm');
+if (profileForm) {
+    profileForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('saveBtn');
+        const originalContent = btn.innerHTML;
+        const phone = phoneInput.value;
+        const username = usernameInput.value;
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Syncing...';
+
+        try {
+            const response = await fetch('/api/user/profile', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ phone, username })
+            });
+
+            const result = await response.json();
+            const container = document.getElementById('alert-container');
+
+            if (response.ok) {
+                container.innerHTML = `<div class="flash flash-success"><i class="fas fa-check-circle"></i> Info updated and synced.</div>`;
+                document.getElementById('displayUsername').innerText = username;
+                usernameView.innerText = username;
+                phoneView.innerText = phone || 'Not Set';
+                toggleEditMode(false);
+                setTimeout(() => { container.innerHTML = ''; }, 4000);
+            } else {
+                container.innerHTML = `<div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> Sync Failure: ${result.detail || 'Access Denied'}</div>`;
+            }
+        } catch (err) {
+            console.error("Profile sync error:", err);
+            const container = document.getElementById('alert-container');
+            container.innerHTML = `<div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> Sync Error.</div>`;
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
+        }
+    });
+}
+
+// --- Avatar Upload Logic ---
+const avatarHex = document.getElementById('avatarClickable');
+const picInput = document.getElementById('profilePicInput');
+const profileImg = document.getElementById('profileImg');
+
+if (avatarHex && picInput) {
+    avatarHex.addEventListener('click', () => picInput.click());
+
+    picInput.addEventListener('change', async (e) => {
+        if (!e.target.files[0]) return;
+
+        const formData = new FormData();
+        formData.append('file', e.target.files[0]);
+
+        try {
+            const response = await fetch('/api/user/upload-profile-pic', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            const container = document.getElementById('alert-container');
+
+            if (response.ok) {
+                container.innerHTML = `<div class="flash flash-success"><i class="fas fa-check-circle"></i> Biometric photo integrated.</div>`;
+                if (profileImg) {
+                    profileImg.src = result.profile_pic;
+                } else {
+                    avatarHex.innerHTML = `<img src="${result.profile_pic}" id="profileImg" alt="Analyst">
+                                           <div class="avatar-overlay"><i class="fas fa-camera"></i></div>`;
+                }
+                setTimeout(() => { container.innerHTML = ''; }, 4000);
+            } else {
+                alert(result.detail || "Upload failed");
+            }
+        } catch (err) {
+            console.error("Upload error:", err);
+        }
+    });
+}
+{% endif %}
+</script>
+{% endblock %}
+

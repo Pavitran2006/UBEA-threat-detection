@@ -1,0 +1,887 @@
+D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pydantic\_internal\_config.py:383: UserWarning: Valid config keys have changed in V2:
+* 'orm_mode' has been renamed to 'from_attributes'
+  warnings.warn(message, UserWarning)
+2026-03-23 22:52:25,216 [INFO] ueba: UEBA Security System Starting up...
+INFO:     Started server process [6900]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1054, "Unknown column 'activities.is_anomaly' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\applications.py", line 1160, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\sessions.py", line 85, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\app\routes.py", line 318, in login
+    risk_score, risk_reasons = RiskEngine.calculate_risk_score(db, user, activity_data)
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\app\services\risk_engine.py", line 50, in calculate_risk_score
+    ).order_by(Activity.login_time.desc()).limit(10).all()
+                                                     ~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2704, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2857, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1054, "Unknown column 'activities.is_anomaly' in 'field list'")
+[SQL: SELECT activities.id AS activities_id, activities.tenant_id AS activities_tenant_id, activities.user_id AS activities_user_id, activities.login_time AS activities_login_time, activities.ip_address AS activities_ip_address, activities.device_info AS activities_device_info, activities.browser AS activities_browser, activities.device AS activities_device, activities.location AS activities_location, activities.city AS activities_city, activities.country AS activities_country, activities.latitude AS activities_latitude, activities.longitude AS activities_longitude, activities.status AS activities_status, activities.device_fingerprint AS activities_device_fingerprint, activities.session_duration AS activities_session_duration, activities.risk_score AS activities_risk_score, activities.is_anomaly AS activities_is_anomaly 
+FROM activities 
+WHERE activities.user_id = %(user_id_1)s AND activities.status = %(status_1)s ORDER BY activities.login_time DESC 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 3, 'status_1': 'success', 'param_1': 10}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-03-23 22:53:45,693 [WARNING] ueba: Account locked due to consecutive failures: alogesh122005@gmail.com
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1054, "Unknown column 'is_anomaly' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\applications.py", line 1160, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\sessions.py", line 85, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\app\routes.py", line 279, in login
+    db.commit()
+    ~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2030, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1311, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 1286, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4331, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4466, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 121, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 4427, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\persistence.py", line 1233, in _emit_insert_statements
+    result = connection.execute(
+        statement,
+        params,
+        execution_options=execution_options,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1054, "Unknown column 'is_anomaly' in 'field list'")
+[SQL: INSERT INTO activities (tenant_id, user_id, login_time, ip_address, device_info, browser, device, location, city, country, latitude, longitude, status, device_fingerprint, session_duration, risk_score, is_anomaly) VALUES (%(tenant_id)s, %(user_id)s, %(login_time)s, %(ip_address)s, %(device_info)s, %(browser)s, %(device)s, %(location)s, %(city)s, %(country)s, %(latitude)s, %(longitude)s, %(status)s, %(device_fingerprint)s, %(session_duration)s, %(risk_score)s, %(is_anomaly)s)]
+[parameters: {'tenant_id': 'default', 'user_id': 6, 'login_time': datetime.datetime(2026, 3, 23, 17, 23, 45, 703806), 'ip_address': '127.0.0.1', 'device_info': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36', 'browser': 'Chrome 146.0.0', 'device': 'Windows Other', 'location': 'Unknown, Unknown', 'city': 'Unknown', 'country': 'Unknown', 'latitude': 0.0, 'longitude': 0.0, 'status': 'failed', 'device_fingerprint': None, 'session_duration': 0, 'risk_score': 0.0, 'is_anomaly': 0}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1054, "Unknown column 'activities.is_anomaly' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\applications.py", line 1160, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\sessions.py", line 85, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\app\routes.py", line 318, in login
+    risk_score, risk_reasons = RiskEngine.calculate_risk_score(db, user, activity_data)
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\app\services\risk_engine.py", line 50, in calculate_risk_score
+    ).order_by(Activity.login_time.desc()).limit(10).all()
+                                                     ~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2704, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2857, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1054, "Unknown column 'activities.is_anomaly' in 'field list'")
+[SQL: SELECT activities.id AS activities_id, activities.tenant_id AS activities_tenant_id, activities.user_id AS activities_user_id, activities.login_time AS activities_login_time, activities.ip_address AS activities_ip_address, activities.device_info AS activities_device_info, activities.browser AS activities_browser, activities.device AS activities_device, activities.location AS activities_location, activities.city AS activities_city, activities.country AS activities_country, activities.latitude AS activities_latitude, activities.longitude AS activities_longitude, activities.status AS activities_status, activities.device_fingerprint AS activities_device_fingerprint, activities.session_duration AS activities_session_duration, activities.risk_score AS activities_risk_score, activities.is_anomaly AS activities_is_anomaly 
+FROM activities 
+WHERE activities.user_id = %(user_id_1)s AND activities.status = %(status_1)s ORDER BY activities.login_time DESC 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 6, 'status_1': 'success', 'param_1': 10}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+pymysql.err.OperationalError: (1054, "Unknown column 'activities.is_anomaly' in 'field list'")
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\uvicorn\protocols\http\httptools_impl.py", line 416, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\uvicorn\middleware\proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\applications.py", line 1160, in __call__
+    await super().__call__(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\errors.py", line 186, in __call__
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\sessions.py", line 85, in __call__
+    await self.app(scope, receive, send_wrapper)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\middleware\exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\middleware\asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 130, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\starlette\_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 116, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 670, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\fastapi\routing.py", line 324, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\app\routes.py", line 318, in login
+    risk_score, risk_reasons = RiskEngine.calculate_risk_score(db, user, activity_data)
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\app\services\risk_engine.py", line 50, in calculate_risk_score
+    ).order_by(Activity.login_time.desc()).limit(10).all()
+                                                     ~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2704, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2857, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2351, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2249, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\orm\context.py", line 306, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 527, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2363, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\sqlalchemy\engine\default.py", line 952, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 153, in execute
+    result = self._query(query)
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\cursors.py", line 322, in _query
+    conn.query(q)
+    ~~~~~~~~~~^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 575, in query
+    self._affected_rows = self._read_query_result(unbuffered=unbuffered)
+                          ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 826, in _read_query_result
+    result.read()
+    ~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 1203, in read
+    first_packet = self.connection._read_packet()
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\connections.py", line 782, in _read_packet
+    packet.raise_for_error()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\protocol.py", line 219, in raise_for_error
+    err.raise_mysql_exception(self._data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "D:\pavi projects\Blockchain and Cybersecurity\UEBA-Project\.venv\Lib\site-packages\pymysql\err.py", line 150, in raise_mysql_exception
+    raise errorclass(errno, errval)
+sqlalchemy.exc.OperationalError: (pymysql.err.OperationalError) (1054, "Unknown column 'activities.is_anomaly' in 'field list'")
+[SQL: SELECT activities.id AS activities_id, activities.tenant_id AS activities_tenant_id, activities.user_id AS activities_user_id, activities.login_time AS activities_login_time, activities.ip_address AS activities_ip_address, activities.device_info AS activities_device_info, activities.browser AS activities_browser, activities.device AS activities_device, activities.location AS activities_location, activities.city AS activities_city, activities.country AS activities_country, activities.latitude AS activities_latitude, activities.longitude AS activities_longitude, activities.status AS activities_status, activities.device_fingerprint AS activities_device_fingerprint, activities.session_duration AS activities_session_duration, activities.risk_score AS activities_risk_score, activities.is_anomaly AS activities_is_anomaly 
+FROM activities 
+WHERE activities.user_id = %(user_id_1)s AND activities.status = %(status_1)s ORDER BY activities.login_time DESC 
+ LIMIT %(param_1)s]
+[parameters: {'user_id_1': 3, 'status_1': 'success', 'param_1': 10}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2026-03-23 22:57:28,668 [INFO] ueba: Successful login for user: pavitran08official@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-23 22:57:58,947 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+INFO:     127.0.0.1:57540 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:64878 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:57271 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+2026-03-23 22:58:45,645 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:58:45,674 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-23 22:58:56,650 [WARNING] ueba: Login attempted on locked account: pavitrananand@gmail.com
+2026-03-23 22:59:23,315 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+INFO:     127.0.0.1:64032 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:58111 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:64125 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:64673 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:59865 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+2026-03-23 23:00:18,967 [WARNING] ueba: Login attempted on locked account: pavitrananand@gmail.com
+2026-03-23 23:03:10,081 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+INFO:     127.0.0.1:54017 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed
+INFO:     127.0.0.1:63882 - "WebSocket /ws/dashboard" [accepted]
+INFO:     connection open
+INFO:     connection closed

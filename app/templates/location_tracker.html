@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Location Tracker | UEBA SOC</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=geometry,places"></script>
+    <style>
+        body { background: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; }
+        #map { height: 600px; border-radius: 12px; border: 1px solid #334155; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .user-label { background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-weight: bold; font-size: 11px; }
+        /* Smooth marker movement */
+        .leaflet-marker-icon { transition: all 2s linear !important; }
+        .leaflet-marker-shadow { transition: all 2s linear !important; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-6xl mx-auto space-y-6">
+        <header class="flex justify-between items-center glass p-6 rounded-2xl">
+            <div>
+                <h1 class="text-2xl font-bold text-blue-400">Tactical Geolocation Hub</h1>
+                <p class="text-slate-400 text-sm">Real-time user tracking & synchronization</p>
+            </div>
+            <div class="text-right">
+                <span id="status" class="px-3 py-1 bg-yellow-500/20 text-yellow-500 rounded-full text-xs font-bold uppercase tracking-wider">Connecting...</span>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <div class="lg:col-span-3">
+                <div id="map"></div>
+            </div>
+            <div class="space-y-6">
+                <div class="glass p-6 rounded-2xl h-full">
+                    <h2 class="text-lg font-semibold mb-4 text-slate-200">Session Controls</h2>
+                    <div id="user-info" class="p-4 bg-slate-800/50 rounded-xl border border-slate-700 mb-4">
+                        <div class="text-xs text-slate-500 uppercase font-black mb-1">Authenticated As</div>
+                        <div class="font-bold text-blue-300">{{ user.username }}</div>
+                    </div>
+                    <button id="trackBtn" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg shadow-blue-900/40 transition-all flex items-center justify-center gap-3 mb-6">
+                        <i class="fas fa-satellite-dish animate-pulse"></i>
+                        Start Live Tracking
+                    </button>
+                    <div class="text-sm text-slate-400 leading-relaxed">
+                        Your location is being synchronized every 5 seconds. Movement is recorded to the central UEBA database.
+                    </div>
+                    <div id="log" class="mt-6 text-[10px] font-mono text-slate-500 space-y-1 h-64 overflow-y-auto">
+                        <!-- Log updates -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const userId = Number("{{ user.id if user else 0 }}");
+        const username = "{{ user.username if user else 'Unknown' }}";
+        const role = "{{ user.role if user else 'user' }}";
+
+        // Initialize Map
+        const map = L.map('map').setView([0, 0], 2);
+        L.tileLayer('https://{s}.google.com/vt/lyrs=y&hl=en-US&x={x}&y={y}&z={z}&key={{ google_maps_api_key }}', {
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '&copy; <a href="https://www.google.com/maps">Google Maps</a>'
+        }).addTo(map);
+
+        const markers = {};
+
+        /**
+         * 1. WebSocket Hub
+         */
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const socket = new WebSocket(`${protocol}//${window.location.host}/ws/location`);
+
+        socket.onopen = () => {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = 'Live Sync Active';
+            statusEl.classList.remove('bg-yellow-500/20', 'text-yellow-500');
+            statusEl.classList.add('bg-emerald-500/20', 'text-emerald-500');
+            addLog("System: WebSocket established.");
+        };
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.type === 'location_update') {
+                if (role !== 'admin' && data.user_id !== userId) return;
+                updateMarker(data);
+            }
+        };
+
+        function updateMarker(data) {
+            const { user_id, username, lat, lon } = data;
+            // Quality check: Skip 0,0
+            if (!lat || !lon || (lat === 0 && lon === 0)) return;
+            
+            if (markers[user_id]) {
+                if (!map.hasLayer(markers[user_id])) markers[user_id].addTo(map);
+                markers[user_id].setLatLng([lat, lon]);
+            } else {
+                const marker = L.marker([lat, lon]).addTo(map);
+                marker.bindTooltip(username, { permanent: true, direction: 'top', className: 'user-label' });
+                markers[user_id] = marker;
+            }
+            if (user_id === userId) {
+                map.setView([lat, lon], 13);
+            }
+        }
+
+        /**
+         * 2. Geolocation Watcher
+         */
+        let watchId = null;
+        document.getElementById('trackBtn').addEventListener('click', function() {
+            const btn = this;
+            if (watchId) {
+                navigator.geolocation.clearWatch(watchId);
+                watchId = null;
+                btn.innerHTML = '<i class="fas fa-satellite-dish"></i> Start Live Tracking';
+                btn.className = "w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 mb-6";
+                addLog("System: Tracking stopped.");
+                return;
+            }
+
+            if ("geolocation" in navigator) {
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Accessing GPS...';
+                
+                // Immediate ping
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    sendLocation(pos.coords.latitude, pos.coords.longitude, true);
+                });
+
+                watchId = navigator.geolocation.watchPosition(
+                    (position) => {
+                        const { latitude, longitude } = position.coords;
+                        sendLocation(latitude, longitude);
+                        btn.innerHTML = '<i class="fas fa-broadcast-tower animate-bounce"></i> Tracking Active';
+                        btn.className = "w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 mb-6";
+                    },
+                    (error) => {
+                        addLog(`Error: ${error.message}`);
+                        btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Sensor Error';
+                        btn.className = "w-full py-4 bg-red-600 text-white font-bold rounded-xl flex items-center justify-center gap-3 mb-6";
+                    },
+                    { enableHighAccuracy: true, maximumAge: 10000, timeout: 10000 }
+                );
+            } else {
+                addLog("Error: Geolocation unsupported.");
+            }
+        });
+
+        /**
+         * 3. Send Location API
+         */
+        let lastSend = 0;
+        async function sendLocation(lat, lon, force = false) {
+            const now = Date.now();
+            if (!force && (now - lastSend < 2000)) return; // 2 second frequency
+            lastSend = now;
+
+            try {
+                const response = await fetch('/api/location', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ lat, lon })
+                });
+                const result = await response.json();
+                if (result.status !== 'success') {
+                    addLog(`Error: ${result.message}`);
+                }
+            } catch (e) {
+                console.error("Fetch Error:", e);
+                addLog(`Error: Network sync failed.`);
+            }
+        }
+
+        function addLog(msg) {
+            const log = document.getElementById('log');
+            const div = document.createElement('div');
+            div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            log.prepend(div);
+        }
+    </script>
+</body>
+</html>

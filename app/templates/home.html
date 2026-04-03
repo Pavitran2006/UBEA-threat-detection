@@ -1,159 +1,574 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="UEBA Security Intelligence Platform - AI-Powered Behavioral Threat Detection using Machine Learning and Blockchain Security">
-    <title>UEBA Security Intelligence Platform | AI Cybersecurity</title>
-    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
-</head>
-<body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">UEBA Security Intelligence</div>
-            <div class="nav-links">
-                <a href="/" class="nav-link active">Home</a>
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#about" class="nav-link">About</a>
-                <a href="/login" class="nav-link">Login</a>
-                <a href="/signup" class="nav-link">Sign Up</a>
+{% extends "base.html" %}
+{% block title %}UEBA – AI-Powered Cybersecurity Analytics{% endblock %}
+
+{% block extra_head %}
+<style>
+/* ======= HOME PAGE STYLES ======= */
+.hero {
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    padding: 2rem 0;
+}
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(0,240,255,0.08);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-size: 0.8rem;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin-bottom: 1.5rem;
+}
+.hero-title { font-size: 3.6rem; line-height: 1.1; margin-bottom: 1.5rem; }
+.hero-title .cyan { color: var(--accent); text-shadow: var(--glow); }
+.hero-sub { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2.5rem; line-height: 1.7; }
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-img-wrap { position: relative; }
+.hero-img-wrap img {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+.img-caption { font-size: 0.82rem; color: var(--text-muted); text-align: center; margin-top: 0.75rem; font-style: italic; }
+.hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+.stat { flex: 1; }
+.stat-val { font-size: 1.8rem; font-weight: 800; color: var(--accent); text-shadow: var(--glow-sm); }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.2rem; }
+
+/* WHAT IS UEBA */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+.about-text h2 { font-size: 2rem; margin-bottom: 1.5rem; }
+.about-text p { color: var(--text-muted); line-height: 1.7; margin-bottom: 1.25rem; }
+.about-img img {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+/* HOW IT WORKS */
+.steps-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.5rem;
+    counter-reset: steps;
+}
+.step-card {
+    background: var(--bg-panel);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 14px;
+    padding: 2.5rem 1.25rem 2rem;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.step-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--border);
+    box-shadow: var(--glow-sm);
+}
+.step-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 30px;
+    background: var(--accent);
+    color: var(--bg-dark);
+    border-radius: 50%;
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--glow-sm);
+}
+.step-icon {
+    font-size: 2.4rem;
+    color: var(--accent-neon);
+    margin-bottom: 1.25rem;
+}
+.step-card h3 { font-size: 1rem; margin-bottom: 0.75rem; }
+.step-card p { font-size: 0.87rem; color: var(--text-muted); line-height: 1.5; }
+
+/* FEATURES */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+.feature-card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem;
+    transition: all 0.3s;
+}
+.feature-card:hover { transform: translateY(-4px); box-shadow: var(--glow-sm); }
+.feat-icon {
+    width: 48px; height: 48px;
+    background: rgba(0,240,255,0.1);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+}
+.feature-card h3 { font-size: 1.05rem; margin-bottom: 0.6rem; }
+.feature-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+
+/* CTA */
+.cta-section {
+    padding: 8rem 0;
+    text-align: center;
+    background: radial-gradient(ellipse at center, rgba(0,240,255,0.07) 0%, transparent 65%);
+}
+.cta-section h2 { font-size: 3rem; margin-bottom: 1.5rem; }
+.cta-section p { color: var(--text-muted); margin-bottom: 2rem; font-size: 1.1rem; }
+
+/* ======= NEW SECTIONS STYLES ======= */
+
+.tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 2rem;
+    align-items: center;
+    justify-items: center;
+    opacity: 0.7;
+}
+.tech-item { font-size: 2.5rem; color: var(--text-muted); transition: color 0.3s; }
+.tech-item:hover { color: var(--accent); }
+
+.faq-grid {
+    max-width: 800px;
+    margin: 0 auto;
+}
+.faq-item {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+.faq-item h3 { font-size: 1.1rem; margin-bottom: 0.75rem; color: var(--accent); }
+.faq-item p { color: var(--text-muted); font-size: 0.95rem; }
+
+@media (max-width: 1024px) {
+    .hero-grid, .about-grid { grid-template-columns: 1fr; text-align: center; }
+    .hero-actions { justify-content: center; }
+    .hero-stats { justify-content: center; }
+    .steps-row { grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ======= HERO ======= -->
+<section class="section hero">
+    <div class="container">
+        <div class="hero-grid">
+            <div class="hero-text">
+                <div class="hero-eyebrow"><i class="fas fa-bolt"></i> AI-Powered Security Intelligence</div>
+                <h1 class="hero-title"><span class="cyan">UEBA</span><br>User & Entity<br>Behaviour Analytics</h1>
+                <p class="hero-sub">AI-powered platform that detects abnormal user activity and insider threats — in real time, before damage is done.</p>
+                <div class="hero-actions">
+                    <a href="/signup"    class="btn btn-primary"><i class="fas fa-rocket"></i> Get Started</a>
+                    <a href="/dashboard" class="btn btn-outline"><i class="fas fa-desktop"></i> View Dashboard</a>
+
+                    <button id="adminBtn" style="display:none; background:red; color:white; padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; font-family: inherit; cursor: pointer; z-index: 10; font-size: 1rem;"><i class="fas fa-cog"></i> Admin Panel</button>
+                    <a href="#" class="btn btn-outline" style="border-radius:50%; width:50px; height:50px; padding:0; display:inline-flex;"><i class="fas fa-play" style="margin-left:3px;"></i></a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat"><div class="stat-val">99.8%</div><div class="stat-label">Detection</div></div>
+                    <div class="stat"><div class="stat-val">SaaS</div><div class="stat-label">Ready Cloud</div></div>
+                    <div class="stat"><div class="stat-val">10+</div><div class="stat-label">Deployments</div></div>
+                </div>
+            </div>
+            <div class="hero-img-wrap">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=900"
+                     alt="SOC Dashboard">
+                <p class="img-caption">Real-time security operations center monitoring suspicious behavior patterns.</p>
             </div>
         </div>
-    </nav>
+    </div>
+</section>
 
-    <!-- Animated background elements -->
-    <div class="cyber-bg"></div>
-
-    <!-- Hero Section -->
-    <section class="hero-homepage">
-        <div class="overlay"></div>
-        <div class="content">
-            <h1>AI-Powered Cybersecurity Monitoring System</h1>
-            <p>Detect anomalies, monitor user behavior, and prevent cyber threats in real time.</p>
-            <div class="hero-buttons">
-                <a href="/login" class="btn-primary">Login</a>
-                <a href="/signup" class="btn-secondary">Create Account</a>
+<!-- ======= WHAT IS UEBA ======= -->
+<section class="section section-dark">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800"
+                     alt="AI Threat Detection">
+                <p class="img-caption" style="text-align:center;margin-top:0.6rem;">AI network analysis flagging anomalous entity behavior flows.</p>
+            </div>
+            <div class="about-text">
+                <h2>What is <span style="color:var(--accent);">UEBA?</span></h2>
+                <p>User and Entity Behavior Analytics (UEBA) is a cybersecurity technology that analyzes user activities and system behavior to detect anomalies and potential threats.</p>
+                <p>By building behavioral baselines with machine learning, UEBA can identify deviations — such as unusual login patterns, suspicious file access, or unauthorized data movement — that traditional rule-based systems miss entirely.</p>
+                <a href="#more-info" class="btn btn-outline" style="margin-top:1rem;"><i class="fas fa-search"></i> Learn More</a>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- About the System Section -->
-    <section class="about-section" id="about">
-        <div class="about-image"></div>
-        <div class="about-content">
-            <h2>What is UEBA Security?</h2>
-            <p>UEBA (User and Entity Behavior Analytics) is an advanced cybersecurity system that uses artificial intelligence and machine learning to analyze user activities and detect abnormal behavior patterns that may indicate insider threats or cyber attacks.</p>
+<!-- ======= BLOCKCHAIN IMMUTABILITY ======= -->
+<section class="section">
+    <div class="container">
+        <div class="about-grid" style="direction: rtl;">
+            <div class="about-img" style="direction: ltr;">
+                <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&q=80&w=800"
+                     alt="Blockchain Security">
+                <p class="img-caption">Decentralized ledger technology ensuring tamper-proof audit trails.</p>
+            </div>
+            <div class="about-text" style="direction: ltr;">
+                <div class="hero-eyebrow"><i class="fas fa-link"></i> Data Integrity</div>
+                <h2>Blockchain <span style="color:var(--accent);">Auditing</span></h2>
+                <p>UEBA leverages private blockchain technology to create an immutable record of all security events and administrative actions.</p>
+                <p>This ensures that audit trails cannot be altered or deleted, even by users with high-level privileges, satisfying the most stringent compliance requirements like SOC2 and HIPAA.</p>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1rem; margin-top:1.5rem;">
+                    <div><i class="fas fa-check-circle" style="color:var(--accent);"></i> Tamper-Proof Logs</div>
+                    <div><i class="fas fa-check-circle" style="color:var(--accent);"></i> Zero-Trust Audit</div>
+                    <div><i class="fas fa-check-circle" style="color:var(--accent);"></i> Smart Contracts</div>
+                    <div><i class="fas fa-check-circle" style="color:var(--accent);"></i> Distributed Trust</div>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Features Section -->
-    <section class="features-section" id="features">
-        <h2>Features</h2>
+<!-- ======= HOW UEBA WORKS ======= -->
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">How UEBA <span style="color:var(--accent);">Works</span></h2>
+        <p class="section-subtitle">A multi-stage analytical pipeline continuously monitors, profiles, and protects your enterprise.</p>
+
+        <div class="steps-row">
+            <div class="step-card">
+                <div class="step-badge">1</div>
+                <div class="step-icon"><i class="fas fa-server"></i></div>
+                <h3>Data Collection</h3>
+                <p>System collects login events and activity logs across all endpoints.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-badge">2</div>
+                <div class="step-icon"><i class="fas fa-brain"></i></div>
+                <h3>Behavior Modeling</h3>
+                <p>Machine learning builds normal behavior profiles for every user.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-badge">3</div>
+                <div class="step-icon"><i class="fas fa-magnifying-glass-chart"></i></div>
+                <h3>Anomaly Detection</h3>
+                <p>Activities are compared against established normal patterns.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-badge">4</div>
+                <div class="step-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>Risk Scoring</h3>
+                <p>Suspicious behaviors receive dynamic risk scores based on severity.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-badge">5</div>
+                <div class="step-icon"><i class="fas fa-bell"></i></div>
+                <h3>Threat Alerts</h3>
+                <p>High-risk actions trigger instant alerts to security analysts.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======= PLATFORM FEATURES ======= -->
+<section class="section section-dark">
+    <div class="container">
+        <h2 class="section-title">Platform <span style="color:var(--accent);">Features</span></h2>
+        <p class="section-subtitle">A complete security intelligence toolkit built for modern enterprise environments.</p>
+
         <div class="features-grid">
             <div class="feature-card">
-                <i class="fas fa-brain icon"></i>
-                <h3>AI Anomaly Detection</h3>
-                <p>Intelligent models uncover unusual patterns to stop threats early.</p>
+                <div class="feat-icon"><i class="fas fa-lock"></i></div>
+                <h3>User Authentication</h3>
+                <p>Secure, multi-factor identity verification protecting all system access points.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-clock icon"></i>
-                <h3>Real-Time Threat Monitoring</h3>
-                <p>Live dashboards keep you informed of security events as they happen.</p>
+                <div class="feat-icon"><i class="fas fa-eye"></i></div>
+                <h3>Behavior Analytics</h3>
+                <p>Continuous profiling of user interactions to surface unusual patterns early.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-user-shield icon"></i>
-                <h3>User Risk Scoring</h3>
-                <p>Assign risk levels based on behavior to prioritize investigations.</p>
+                <div class="feat-icon"><i class="fas fa-robot"></i></div>
+                <h3>ML Anomaly Detection</h3>
+                <p>Unsupervised algorithms catch zero-day insider threats rule-based systems miss.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-map-marker-alt icon"></i>
-                <h3>Geo Login Tracking</h3>
-                <p>Visualize login locations on a world map to spot anomalies.</p>
+                <div class="feat-icon"><i class="fas fa-tachometer-alt"></i></div>
+                <h3>Security Dashboard</h3>
+                <p>Real-time SOC-style command center displaying threats, trends, and risk levels.</p>
             </div>
             <div class="feature-card">
-                <i class="fas fa-exclamation-triangle icon"></i>
-                <h3>Threat Intelligence Alerts</h3>
-                <p>Receive automated warnings when indicators of compromise are detected.</p>
+                <div class="feat-icon"><i class="fas fa-user-shield"></i></div>
+                <h3>User Management</h3>
+                <p>Instantly enable or disable user accounts to contain suspected compromises.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-icon"><i class="fas fa-fire-alt"></i></div>
+                <h3>Risk Scoring Engine</h3>
+                <p>Dynamic cumulative risk scoring to prioritize analyst attention intelligently.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                <h3>Security Alerts</h3>
+                <p>Actionable notifications fired instantly when threshold violations occur.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feat-icon"><i class="fas fa-clipboard-list"></i></div>
+                <h3>Audit Logging</h3>
+                <p>Immutable, timestamped event logs satisfying compliance and forensics needs.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- System Statistics Section -->
-    <section class="stats-section">
-        <h2>System Statistics</h2>
-        <div class="stats-grid">
-            <div class="stats-card">
-                <i class="fas fa-users icon"></i>
-                <span class="counter" data-target="12500">0</span>
-                <p>Protected Users</p>
+<!-- ======= DASHBOARD PREVIEW ======= -->
+<section class="section">
+    <div class="container" style="text-align:center;">
+        <h2 class="section-title">Command <span style="color:var(--accent);">Center</span> Preview</h2>
+        <p class="section-subtitle">The UEBA dashboard allows administrators to monitor user behavior, detect anomalies, and respond to threats in real time.</p>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 2rem;">
+            <div>
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=600"
+                     alt="Cybersecurity Dashboard Preview"
+                     style="width:100%; border-radius:12px; border:1px solid var(--border); box-shadow:0 10px 30px rgba(0,0,0,0.5); display:block; margin:0 auto;">
+                <p class="img-caption">Behavior analytics interface highlighting real-time security risk indicators.</p>
             </div>
-            <div class="stats-card">
-                <i class="fas fa-bug icon"></i>
-                <span class="counter" data-target="3421">0</span>
-                <p>Detected Threats</p>
+            <div>
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=600"
+                     alt="Anomaly Detection Analytics"
+                     style="width:100%; border-radius:12px; border:1px solid var(--border); box-shadow:0 10px 30px rgba(0,0,0,0.5); display:block; margin:0 auto;">
+                <p class="img-caption">Comprehensive data visualization for rapid threat assessment.</p>
             </div>
-            <div class="stats-card">
-                <i class="fas fa-signal icon"></i>
-                <span class="counter" data-target="768">0</span>
-                <p>Active Sessions</p>
-            </div>
-            <div class="stats-card">
-                <i class="fas fa-bell icon"></i>
-                <span class="counter" data-target="214">0</span>
-                <p>Security Alerts</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cybersecurity Illustration Section -->
-    <section class="illustration-section">
-        <div class="illustration-content">
-            <h2>Smart Security Powered by AI</h2>
-            <p>Our system continuously monitors user behavior and detects suspicious patterns using machine learning algorithms.</p>
-        </div>
-        <div class="illustration-image"></div>
-    </section>
-
-    <!-- Call to Action Section -->
-    <section class="cta-section">
-        <div class="overlay"></div>
-        <div class="content">
-            <h2>Secure your system with AI-driven monitoring.</h2>
-            <div class="hero-buttons">
-                <a href="/signup" class="btn-primary">Get Started</a>
-                <a href="/login" class="btn-secondary">Login</a>
+            <div>
+                <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=600"
+                     alt="Network Traffic Analysis"
+                     style="width:100%; border-radius:12px; border:1px solid var(--border); box-shadow:0 10px 30px rgba(0,0,0,0.5); display:block; margin:0 auto;">
+                <p class="img-caption">Detailed network monitoring mapping out potential vulnerabilities.</p>
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <a href="/">Home</a> |
-        <a href="/dashboard">Dashboard</a> |
-        <a href="/login">Login</a> |
-        <a href="/docs">Documentation</a>
-        <p style="margin-top:8px;">© 2026 UEBA Cybersecurity System</p>
-    </footer>
 
-    <script>
-    document.addEventListener('DOMContentLoaded',()=>{
-      const counters=document.querySelectorAll('.counter');
-      counters.forEach(counter=>{
-        const updateCount=()=>{
-          const target = +counter.getAttribute('data-target');
-          const count = +counter.innerText;
-          const increment = target/200;
-          if(count<target){
-            counter.innerText = Math.ceil(count+increment);
-            setTimeout(updateCount,10);
-          } else {
-            counter.innerText = target;
-          }
-        };
-        updateCount();
-      });
-    });
-    </script>
-</body>
-</html>
+
+
+<!-- ======= MORE INFORMATION ======= -->
+<section id="more-info" class="section section-dark">
+    <div class="container">
+        <h2 class="section-title">Deep Dive <span style="color:var(--accent);">Intelligence</span></h2>
+        <p class="section-subtitle">Comprehensive technical details on how UEBA protects your digital perimeter.</p>
+        
+        <div class="about-grid">
+            <div class="about-text">
+                <h3>Behavioral Fingerprinting</h3>
+                <p>Our system creates a unique "behavioral DNA" for every user on the network. By monitoring hundreds of parameters—from keystroke dynamics to typical file access sequences—we can identify a compromised account within seconds, even if the credentials used are valid.</p>
+                
+                <h3>SaaS Scalability</h3>
+                <p>Designed for the cloud age, UEBA scales horizontally to handle millions of events per second. Our distributed processing architecture ensures low latency alerts whether you have ten users or ten thousand.</p>
+            </div>
+            <div class="about-img">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800" alt="Cyber Intelligence">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======= FAQ ======= -->
+<section class="section section-dark">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked <span style="color:var(--accent);">Questions</span></h2>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <h3>How does the AI detect anomalies?</h3>
+                <p>We use unsupervised machine learning models like Isolation Forest and Local Outlier Factor to build behavioral baselines. Any deviation from these patterns triggers a risk calculation.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Is my data secure?</h3>
+                <p>Yes. All data is encrypted at rest and in transit. Our blockchain integration ensures that even if a system is compromised, the audit trails remain immutable and trustworthy.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I integrate this with my existing SIEM?</h3>
+                <p>Absolutely. Our platform provides webhooks and a full REST API for seamless integration with Splunk, Sentinel, and other popular SIEM tools.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ======= INQUIRY DESK ======= -->
+<section id="contact" class="section section-dark" style="border-top:1px solid var(--border);">
+    <div class="container">
+        <div style="text-align:center; margin-bottom:3rem;">
+            <h2 class="section-title">Inquiry <span style="color:var(--accent);">Desk</span></h2>
+            <p class="section-subtitle">Secure communication channel for platform intelligence and technical support.</p>
+        </div>
+        
+        <div class="contact-card" style="max-width:800px; margin:0 auto; background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:15px; padding:2.5rem; backdrop-filter:blur(10px);">
+            <form id="contactForm" style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                <div class="form-group">
+                    <label style="display:block; margin-bottom:0.5rem; font-size:0.85rem; color:var(--text-muted);">Full Name</label>
+                    <input type="text" id="contactName" required style="width:100%; padding:0.8rem; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:8px; color:var(--text-main); outline:none;">
+                </div>
+                <div class="form-group">
+                    <label style="display:block; margin-bottom:0.5rem; font-size:0.85rem; color:var(--text-muted);">Secure Email</label>
+                    <input type="email" id="contactEmail" required style="width:100%; padding:0.8rem; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:8px; color:var(--text-main); outline:none;">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label style="display:block; margin-bottom:0.5rem; font-size:0.85rem; color:var(--text-muted);">Subject</label>
+                    <input type="text" id="contactSubject" required style="width:100%; padding:0.8rem; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:8px; color:var(--text-main); outline:none;" placeholder="Platform Inquiry / Technical Support / Breach Report">
+                </div>
+                <div class="form-group" style="grid-column: span 2;">
+                    <label style="display:block; margin-bottom:0.5rem; font-size:0.85rem; color:var(--text-muted);">Intelligence Report</label>
+                    <textarea id="contactMessage" required style="width:100%; padding:0.8rem; background:rgba(0,0,0,0.2); border:1px solid var(--border); border-radius:8px; color:var(--text-main); outline:none; min-height:120px; resize:vertical;" placeholder="Describe your inquiry in detail..."></textarea>
+                </div>
+                <div style="grid-column: span 2; text-align:center; margin-top: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="padding:0.8rem 2.5rem; font-size:1rem; min-width:200px;">
+                        <i class="fas fa-paper-plane" style="margin-right:8px;"></i> Report to Administrator
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+document.getElementById('contactForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const originalText = btn.innerHTML;
+    
+    // UI Loading State - Improved Mission Feedback
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-microchip fa-spin"></i> Processing Intelligence...';
+    
+    const payload = {
+        name: document.getElementById('contactName').value,
+        email: document.getElementById('contactEmail').value,
+        subject: document.getElementById('contactSubject').value,
+        message: document.getElementById('contactMessage').value
+    };
+    
+    try {
+        const resp = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await resp.json();
+        
+        if (resp.ok) {
+            btn.classList.add('btn-success');
+            btn.innerHTML = '<i class="fas fa-check-double"></i> Intelligence Transmitted';
+            
+            // UI Update: Success Message in-page instead of alert
+            const formGrid = e.target;
+            const successDiv = document.createElement('div');
+            successDiv.style.gridColumn = "span 2";
+            successDiv.style.marginTop = "1.5rem";
+            successDiv.style.padding = "1.5rem";
+            successDiv.style.background = "rgba(16,185,129,0.1)";
+            successDiv.style.border = "1px solid var(--success)";
+            successDiv.style.borderRadius = "12px";
+            successDiv.style.textAlign = "center";
+            successDiv.innerHTML = `
+                <div style="color:var(--success); font-weight:700; margin-bottom:0.5rem;">
+                    <i class="fas fa-rss"></i> Intelligence Logged into Backend
+                </div>
+                <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:1rem;">
+                    Your report has been successfully transmitted and cross-referenced with our core intelligence engine.
+                </p>
+                <a href="/dashboard" class="btn btn-outline" style="font-size:0.85rem; padding:0.5rem 1.25rem;">
+                    <i class="fas fa-desktop"></i> View in SOC Dashboard
+                </a>
+            `;
+            formGrid.appendChild(successDiv);
+            formGrid.reset();
+            
+            // Revert button after delay
+            setTimeout(() => {
+                btn.classList.remove('btn-success');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 5000);
+        } else {
+            throw new Error(data.message || "Reporting failed");
+        }
+    } catch (err) {
+        alert("Intelligence Processing Error: " + err.message);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+});
+</script>
+
+<!-- ======= CALL TO ACTION ======= -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Start Securing Your System <span style="color:var(--accent);">Today</span></h2>
+        <p>Join enterprise security teams using UEBA to detect insider threats before they escalate.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <a href="/signup" class="btn btn-primary" style="padding:0.9rem 2.5rem;font-size:1.05rem;"><i class="fas fa-user-plus"></i> Create Account</a>
+            <a href="/login"  class="btn btn-outline" style="padding:0.9rem 2.5rem;font-size:1.05rem;"><i class="fas fa-sign-in-alt"></i> Login</a>
+        </div>
+    </div>
+</section>
+
+<script>
+async function loadUser() {
+    try {
+        const res = await fetch("/api/me");
+        const user = await res.json();
+        console.log("User Data:", user); // Debug
+        if (user.role === "admin") {
+            const btn = document.getElementById("adminBtn");
+            if (btn) btn.style.display = "block";
+        }
+    } catch (err) {
+        console.error("Error loading user:", err);
+    }
+}
+loadUser();
+
+const adminBtn = document.getElementById("adminBtn");
+if (adminBtn) {
+    adminBtn.onclick = function() {
+        window.location.href = "/admin-dashboard";
+    };
+}
+</script>
+{% endblock %}

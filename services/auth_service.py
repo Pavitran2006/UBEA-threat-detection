@@ -1,7 +1,8 @@
 from app.database import SessionLocal
 from app.models import User, Activity
-from app.auth import get_password_hash, verify_password
-from datetime import datetime
+from app.auth import hash_password
+from app.otp_service import generate_otp, send_email_otp, otp_expiry
+from datetime import datetime, timedelta
 import hashlib
 import logging
 
@@ -19,7 +20,7 @@ class AuthService:
                 return {"error": "Email already exists"}, 400
 
             # Hash the password
-            hashed_password = get_password_hash(password)
+            hashed_password = hash_password(password)
             
             # Create new user
             new_user = User(
@@ -56,7 +57,7 @@ class AuthService:
             # Create a fingerprint
             fingerprint = hashlib.sha256(f"{client_ip}{user_agent}".encode()).hexdigest()
             
-            if user and verify_password(password, user.hashed_password):
+            if user and user.verify_password(password):
                 # Capture Successful Login Activity
                 login_activity = Activity(
                     user_id=user.id,
@@ -69,6 +70,11 @@ class AuthService:
                     tenant_id='default'
                 )
                 db.add(login_activity)
+                
+                # Update User record with last login info
+                user.last_login = datetime.utcnow()
+                user.last_login_ip = client_ip
+                
                 db.commit()
                 
                 # Trigger Anomaly Detection & Risk Scoring (optional, non-blocking)
@@ -108,3 +114,65 @@ class AuthService:
         except Exception as e:
             logger.error(f"Login error: {str(e)}")
             return {"error": "Login failed"}, 500
+
+    @staticmethod
+    def forgot_password(db, email):
+        """Send reset OTP to user email."""
+        user = db.query(User).filter(func.lower(User.email) == email.lower()).first()
+        if not user:
+            return {"error": "Email not found"}, 404
+        
+        otp = generate_otp()
+        expiry = otp_expiry()
+        
+        user.otp_code = otp
+        user.otp_expiry = expiry
+        user.otp_attempts = 0
+        user.otp_request_count = getattr(user, 'otp_request_count', 0) + 1
+        user.otp_sent_at = datetime.utcnow()
+        
+        db.commit()
+        
+        send_email_otp(email, otp)
+        
+        return {"message": "OTP sent to your email"}, 200
+
+    @staticmethod
+    def verify_reset_otp(db, email, otp):
+        """Verify reset OTP."""
+        user = db.query(User).filter(func.lower(User.email) == email.lower()).first()
+        if not user:
+            return False, "Email not found"
+        
+        if user.otp_attempts >= 3:
+            return False, "Max attempts exceeded"
+        
+        if not user.otp_code or not user.otp_expiry or user.otp_expiry < datetime.utcnow():
+            return False, "OTP expired or invalid"
+        
+        if user.otp_code == otp:
+            user.otp_attempts = 0
+            db.commit()
+            return True, "Valid OTP"
+        
+        user.otp_attempts += 1
+        db.commit()
+        return False, "Invalid OTP"
+
+    @staticmethod
+    def reset_password(db, email, new_password):
+        """Reset user password after OTP verification."""
+        user = db.query(User).filter(func.lower(User.email) == email.lower()).first()
+        if not user:
+            return False, "Email not found"
+        
+        hashed_password = hash_password(new_password)
+        user.hashed_password = hashed_password
+        
+        # Clear OTP fields
+        user.otp_code = None
+        user.otp_expiry = None
+        user.otp_attempts = 0
+        
+        db.commit()
+        return True, "Password reset successful"

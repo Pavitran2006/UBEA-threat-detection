@@ -1,0 +1,62 @@
+﻿{% extends "base.html" %}
+{% block title %}UEBA | SOC Dashboard{% endblock %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{% endblock %}
+{% block content %}
+<section class="dashboard-header">
+  <div>
+    <p class="eyebrow">SOC Dashboard</p>
+    <h1>Behavior Analytics Command Center</h1>
+    <p class="lead">Real-time monitoring of user activity, anomalies, and threat alerts.</p>
+  </div>
+</section>
+
+<section class="dashboard-grid">
+  <div class="panel">
+    <h3>Threat Alerts</h3>
+    <div id="threat-alerts" class="list"></div>
+  </div>
+  <div class="panel">
+    <h3>User Activity</h3>
+    <canvas id="activity-chart" height="160"></canvas>
+  </div>
+  <div class="panel">
+    <h3>Behavior Risk Score</h3>
+    <div id="risk-score" class="risk-score">--</div>
+  </div>
+  <div class="panel">
+    <h3>Security Events Feed</h3>
+    <div id="events-feed" class="list"></div>
+  </div>
+  <div class="panel">
+    <h3>Anomaly Detection</h3>
+    <canvas id="anomaly-chart" height="160"></canvas>
+  </div>
+  <div class="panel">
+    <h3>System Status</h3>
+    <div class="status-grid" id="system-status"></div>
+  </div>
+</section>
+
+<section class="panel">
+  <h3>Admin User Management</h3>
+  <div class="user-grid">
+    {% for usr in users %}
+    <div class="user-card">
+      <div>
+        <h4>{{ usr.username }}</h4>
+        <p>{{ usr.email }}</p>
+      </div>
+      <button class="toggle-btn" data-user-id="{{ usr.id }}" data-action="{{ 'disable' if usr.status == 'active' else 'enable' }}">
+        {{ 'Disable' if usr.status == 'active' else 'Enable' }}
+      </button>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

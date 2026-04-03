@@ -1,72 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block title %}Login | UEBA Security Platform{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Secure Login - Cloud-Native UEBA Platform">
-    <title>CyberGuard UEBA | Login</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-</head>
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-icon-wrap">
+            <div class="auth-icon"><i class="fas fa-fingerprint"></i></div>
+        </div>
+        <h2>Analyst Login</h2>
+        <p class="sub">Authenticate to access the SOC platform</p>
 
-<body>
-    <!-- simplified login form container -->
-    <div class="auth-container">
-        <h1>Login</h1>
+        <div id="flash-container">
+            {% if error %}
+            <div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> {{ error }}</div>
+            {% endif %}
+
+            {% if success %}
+            <div class="flash flash-success"><i class="fas fa-check-circle"></i> {{ success }}</div>
+            {% endif %}
+        </div>
+
         <form id="loginForm">
             <div class="form-group">
-                <label for="username">Username or Email</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" required style="width:100%;padding:8px;margin:4px 0;">
+                <label class="form-label" for="email"><i class="fas fa-envelope"></i> Email Address</label>
+                <input class="form-control" type="email" id="email" name="email" placeholder="analyst@ueba.sec" required>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required style="width:100%;padding:8px;margin:4px 0;">
+                <label class="form-label" for="password"><i class="fas fa-key"></i> Password</label>
+                <input class="form-control" type="password" id="password" name="password" placeholder="••••••••••" required>
             </div>
-            <button type="submit" id="submitBtn" style="padding:10px 20px;margin-top:8px;">Login</button>
+            <button type="submit" id="submitBtn" class="btn btn-primary btn-block" style="margin-top:0.5rem;">
+                Login &nbsp;<i class="fas fa-arrow-right"></i>
+            </button>
         </form>
-        <div id="messageBox" class="message" style="margin-top:10px;color:red;"></div>
-        <p>Don't have an account? <a href="/signup">Sign up</a></p>
+
+        <div class="auth-foot">
+            <p style="margin-bottom:0.5rem;">New analyst? <a href="/signup">Create Account</a></p>
+            <p style="margin-bottom:1.5rem;"><a href="/forgot-password" style="font-size:0.82rem;color:var(--text-muted);">Forgot password?</a></p>
+            
+            <div style="border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1.5rem; margin-top: 0.5rem;">
+                <a href="/admin/login" class="btn" style="width:100%; background: rgba(59, 130, 246, 0.1); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.8rem;">
+                    <i class="fas fa-lock-shield"></i> Secure Admin Portal
+                </a>
+            </div>
+        </div>
     </div>
+</div>
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const btn = document.getElementById('submitBtn');
-            const messageBox = document.getElementById('messageBox');
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-
-            // Reset UI
-            btn.classList.add('loading');
-            messageBox.style.display = 'none';
-            messageBox.className = 'message';
-
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    messageBox.textContent = 'Login successful! Redirecting...';
-                    messageBox.classList.add('success');
-                    setTimeout(() => {
-                        window.location.href = '/dashboard';
-                    }, 1500);
-                } else {
-                    throw new Error(data.message || 'Invalid credentials. Please try again.');
-                }
-            } catch (error) {
-                messageBox.textContent = error.message;
-                messageBox.classList.add('error');
-                btn.classList.remove('loading');
+<script>
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const originalHtml = btn.innerHTML;
+    const form = e.target;
+    const formData = new FormData(form);
+    
+    // UI state
+    btn.disabled = true;
+    btn.innerHTML = `<span class="spinner"></span> Capturing Location...`;
+    
+    let location = { lat: null, lon: null, accuracy: null };
+    
+    // 1. Capture GPS Location
+    try {
+        const geoPromise = new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true,
+                timeout: 6000,
+                maximumAge: 0
+            });
+        });
+        
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 6500));
+        
+        const position = await Promise.race([geoPromise, timeoutPromise]);
+        
+        if (position && position.coords) {
+            location.lat = position.coords.latitude;
+            location.lon = position.coords.longitude;
+            location.accuracy = position.coords.accuracy;
+            console.log("GPS Captured:", location);
+        } else {
+            console.warn("Geolocation timed out or returned no data.");
+        }
+    } catch (err) {
+        console.warn("Geolocation failed or denied:", err.message);
+        // We continue anyway, security can't wait for GPS if hardware fails
+    }
+    
+    btn.innerHTML = `<span class="spinner"></span> Authenticating...`;
+    
+    // 2. Perform AJAX Login
+    try {
+        const response = await fetch('/login', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
             }
         });
-    </script>
-</body>
+        
+        if (response.redirected) {
+             // Handle standard redirect if backend doesn't detect XHR correctly
+             window.location.href = response.url;
+             return;
+        }
 
-</html>
+        const result = await response.json();
+        
+        if (response.ok && result.status === "success") {
+            // 3. Send captured GPS to backend for precise tracking
+            if (location.lat) {
+                btn.innerHTML = `<span class="spinner"></span> Finalizing...`;
+                await fetch('/api/activity/location', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: result.user_id,
+                        latitude: location.lat,
+                        longitude: location.lon,
+                        accuracy: location.accuracy,
+                        device: navigator.platform,
+                        browser: navigator.userAgent
+                    })
+                });
+            }
+            // Redirect to dashboard
+            window.location.href = result.redirect || '/dashboard';
+        } else {
+            // Show error
+            const container = document.getElementById('flash-container');
+            container.innerHTML = `<div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> ${result.error || 'Authentication failed'}</div>`;
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+        }
+    } catch (err) {
+        console.error("Login Error:", err);
+        const container = document.getElementById('flash-container');
+        container.innerHTML = `<div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> Sync Error. Please try again.</div>`;
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+    }
+});
+</script>
+{% endblock %}
+

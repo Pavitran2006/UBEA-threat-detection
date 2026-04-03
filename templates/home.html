@@ -1,736 +1,311 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="UEBA - User and Entity Behavior Analytics System">
-  <title>UEBA - AI-Powered Threat Detection & User Behavior Analytics</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ url_for('static', path='css/cyber-theme.css') }}">
-</head>
-<body class="home-page">
-  <!-- Animated Background -->
-  <div class="cyber-bg"></div>
-  <div class="cyber-grid"></div>
-  <div class="scanline"></div>
+{% extends "base.html" %}
 
-  {% include "_navbar.html" %}
+{% block title %}Home | UEBA Platform{% endblock %}
 
-  <main>
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-content fade-in">
-        <div class="hero-badge">
-          <span>AI + Behavioral Threat Intelligence</span>
-        </div>
-        <h1 class="hero-title">AI-Powered Threat Detection</h1>
-        <h2 class="hero-subtitle-text">& User Behavior Analytics</h2>
-        <p class="hero-subtitle">
-          Monitor user activity, detect anomalies, and prevent insider threats using intelligent analytics.
-        </p>
-        <div class="hero-actions">
-          <a href="/login" class="btn btn-primary btn-lg">
-            <i class="fas fa-sign-in-alt"></i> Login
-          </a>
-          <a href="/signup" class="btn btn-secondary btn-lg">
-            <i class="fas fa-user-plus"></i> Sign Up
-          </a>
-          <a href="/dashboard" class="btn btn-secondary btn-lg">
-            <i class="fas fa-chart-line"></i> Dashboard
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Feature Cards Section -->
-    <section class="features-section">
-      <div class="stats-grid">
-        <article class="stat-card fade-in stagger-1">
-          <div class="stat-card-icon users">
-            <i class="fas fa-users"></i>
-          </div>
-          <div class="stat-card-content">
-            <span class="stat-card-label">Total Users</span>
-            <span class="stat-card-value cyan">1,247</span>
-          </div>
-          <div class="stat-card-trend up">
-            <i class="fas fa-arrow-up"></i>
-            <span>Active monitoring</span>
-          </div>
-        </article>
-
-        <article class="stat-card fade-in stagger-2">
-          <div class="stat-card-icon signals">
-            <i class="fas fa-wave-square"></i>
-          </div>
-          <div class="stat-card-content">
-            <span class="stat-card-label">Active Signals</span>
-            <span class="stat-card-value purple">3,842</span>
-          </div>
-          <div class="stat-card-trend up">
-            <i class="fas fa-arrow-up"></i>
-            <span>Real-time</span>
-          </div>
-        </article>
-
-        <article class="stat-card fade-in stagger-3">
-          <div class="stat-card-icon alerts">
-            <i class="fas fa-exclamation-triangle"></i>
-          </div>
-          <div class="stat-card-content">
-            <span class="stat-card-label">Threat Alerts</span>
-            <span class="stat-card-value warning">24</span>
-          </div>
-          <div class="stat-card-trend down">
-            <i class="fas fa-arrow-down"></i>
-            <span>Requires attention</span>
-          </div>
-        </article>
-
-        <article class="stat-card fade-in stagger-4">
-          <div class="stat-card-icon score">
-            <i class="fas fa-shield-halved"></i>
-          </div>
-          <div class="stat-card-content">
-            <span class="stat-card-label">Security Score</span>
-            <span class="stat-card-value success">92%</span>
-          </div>
-          <div class="stat-card-trend up">
-            <i class="fas fa-arrow-up"></i>
-            <span>Excellent</span>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <!-- About Section -->
-    <section id="about" class="features-section">
-      <h2 class="section-title fade-in">About the Project</h2>
-      <div class="glass-card fade-in">
-        <div class="about-grid">
-          <div class="about-image">
-            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80" alt="SOC cybersecurity monitoring dashboard" loading="lazy">
-          </div>
-          <div class="about-content">
-            <p>
-              <strong>UEBA (User and Entity Behavior Analytics)</strong> is an advanced cybersecurity solution designed to detect abnormal user activities inside an organization. The system analyzes login behavior, device fingerprints, IP address changes, and login patterns using Machine Learning algorithms.
-            </p>
-            <ul class="feature-list">
-              <li><i class="fas fa-shield-halved"></i> Insider threats detection</li>
-              <li><i class="fas fa-user-lock"></i> Account compromise protection</li>
-              <li><i class="fas fa-fingerprint"></i> Device fingerprinting</li>
-              <li><i class="fas fa-location-dot"></i> Location anomaly detection</li>
-              <li><i class="fas fa-database"></i> Data exfiltration prevention</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Key Features Section -->
-    <section id="features" class="features-section">
-      <h2 class="section-title fade-in">Key Features</h2>
-      <div class="features-grid">
-        <article class="feature-card fade-in stagger-1">
-          <div class="feature-icon">
-            <i class="fas fa-brain"></i>
-          </div>
-          <h3 class="feature-title">AI Anomaly Detection</h3>
-          <p class="feature-description">Uses Isolation Forest machine learning algorithm to detect abnormal user behavior in real-time.</p>
-        </article>
-
-        <article class="feature-card fade-in stagger-2">
-          <div class="feature-icon">
-            <i class="fas fa-gauge-high"></i>
-          </div>
-          <h3 class="feature-title">Real-Time Risk Scoring</h3>
-          <p class="feature-description">Each user is assigned a dynamic risk score based on activity patterns and behavioral analysis.</p>
-        </article>
-
-        <article class="feature-card fade-in stagger-3">
-          <div class="feature-icon">
-            <i class="fas fa-mobile-screen-button"></i>
-          </div>
-          <h3 class="feature-title">Device Fingerprinting</h3>
-          <p class="feature-description">Tracks login devices to detect suspicious new devices attempting to access the system.</p>
-        </article>
-
-        <article class="feature-card fade-in stagger-4">
-          <div class="feature-icon">
-            <i class="fas fa-clock"></i>
-          </div>
-          <h3 class="feature-title">Login Behaviour Analytics</h3>
-          <p class="feature-description">Analyzes login time, IP address, location, and frequency to identify anomalies.</p>
-        </article>
-
-        <article class="feature-card fade-in stagger-1">
-          <div class="feature-icon">
-            <i class="fas fa-chart-pie"></i>
-          </div>
-          <h3 class="feature-title">Threat Intelligence Dashboard</h3>
-          <p class="feature-description">Admin dashboard shows alerts, risk levels, and suspicious activity in real-time.</p>
-        </article>
-
-        <article class="feature-card fade-in stagger-2">
-          <div class="feature-icon">
-            <i class="fas fa-arrows-rotate"></i>
-          </div>
-          <h3 class="feature-title">Admin Feedback Loop</h3>
-          <p class="feature-description">Security admins can mark alerts as SAFE or THREAT to retrain the ML model.</p>
-        </article>
-      </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section id="workflow" class="features-section">
-      <h2 class="section-title fade-in">How the System Works</h2>
-      <div class="glass-card fade-in">
-        <div class="steps-grid">
-          <div class="step-item">
-            <div class="step-number">01</div>
-            <div class="step-content">
-              <h4>Data Collection</h4>
-              <p>User login activity is captured</p>
-            </div>
-          </div>
-          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
-          <div class="step-item">
-            <div class="step-number">02</div>
-            <div class="step-content">
-              <h4>Processing</h4>
-              <p>System processes activity data</p>
-            </div>
-          </div>
-          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
-          <div class="step-item">
-            <div class="step-number">03</div>
-            <div class="step-content">
-              <h4>ML Analysis</h4>
-              <p>Machine learning model analyzes patterns</p>
-            </div>
-          </div>
-          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
-          <div class="step-item">
-            <div class="step-number">04</div>
-            <div class="step-content">
-              <h4>Detection</h4>
-              <p>Anomalies are detected</p>
-            </div>
-          </div>
-          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
-          <div class="step-item">
-            <div class="step-number">05</div>
-            <div class="step-content">
-              <h4>Scoring</h4>
-              <p>Risk score is calculated</p>
-            </div>
-          </div>
-          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
-          <div class="step-item">
-            <div class="step-number">06</div>
-            <div class="step-content">
-              <h4>Alerting</h4>
-              <p>Admin dashboard displays alerts</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Advantages Section -->
-    <section class="features-section">
-      <h2 class="section-title fade-in">Advantages</h2>
-      <div class="advantages-grid">
-        <div class="advantage-item fade-in stagger-1">
-          <i class="fas fa-bell"></i>
-          <span>Early threat detection</span>
-        </div>
-        <div class="advantage-item fade-in stagger-2">
-          <i class="fas fa-user-shield"></i>
-          <span>Prevent insider attacks</span>
-        </div>
-        <div class="advantage-item fade-in stagger-3">
-          <i class="fas fa-robot"></i>
-          <span>Automated security monitoring</span>
-        </div>
-        <div class="advantage-item fade-in stagger-4">
-          <i class="fas fa-network-wired"></i>
-          <span>Machine learning analysis</span>
-        </div>
-        <div class="advantage-item fade-in stagger-1">
-          <i class="fas fa-bolt"></i>
-          <span>Real-time threat intelligence</span>
-        </div>
-        <div class="advantage-item fade-in stagger-2">
-          <i class="fas fa-cloud"></i>
-          <span>Scalable cloud architecture</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Technology Stack Section -->
-    <section class="features-section">
-      <h2 class="section-title fade-in">Technology Stack</h2>
-      <div class="tech-grid">
-        <div class="tech-card fade-in stagger-1">
-          <div class="tech-icon"><i class="fas fa-server"></i></div>
-          <h4>Backend</h4>
-          <span>FastAPI + Python</span>
-        </div>
-        <div class="tech-card fade-in stagger-2">
-          <div class="tech-icon"><i class="fas fa-brain"></i></div>
-          <h4>Machine Learning</h4>
-          <span>Scikit-Learn</span>
-        </div>
-        <div class="tech-card fade-in stagger-3">
-          <div class="tech-icon"><i class="fas fa-database"></i></div>
-          <h4>Database</h4>
-          <span>SQLite / MySQL</span>
-        </div>
-        <div class="tech-card fade-in stagger-4">
-          <div class="tech-icon"><i class="fas fa-stream"></i></div>
-          <h4>Streaming</h4>
-          <span>Apache Kafka</span>
-        </div>
-        <div class="tech-card fade-in stagger-1">
-          <div class="tech-icon"><i class="fas fa-magnifying-glass"></i></div>
-          <h4>Search Engine</h4>
-          <span>Elasticsearch</span>
-        </div>
-        <div class="tech-card fade-in stagger-2">
-          <div class="tech-icon"><i class="fas fa-box"></i></div>
-          <h4>Deployment</h4>
-          <span>Docker + AWS</span>
-        </div>
-        <div class="tech-card fade-in stagger-3">
-          <div class="tech-icon"><i class="fas fa-code"></i></div>
-          <h4>Frontend</h4>
-          <span>HTML + CSS + JS</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Use Cases Section -->
-    <section class="features-section">
-      <h2 class="section-title fade-in">Real World Use Cases</h2>
-      <div class="glass-card fade-in">
-        <div class="use-cases-grid">
-          <ul class="use-cases-list">
-            <li><i class="fas fa-university"></i> Banking systems</li>
-            <li><i class="fas fa-cloud"></i> Cloud infrastructure security</li>
-            <li><i class="fas fa-building"></i> Enterprise employee monitoring</li>
-            <li><i class="fas fa-credit-card"></i> Fraud detection</li>
-            <li><i class="fas fa-shield-cat"></i> Government cyber defense</li>
-          </ul>
-          <div class="use-cases-image">
-            <img src="https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Cyber defense operations center" loading="lazy">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Dashboard Preview Section -->
-    <section class="features-section">
-      <h2 class="section-title fade-in">Cybersecurity Dashboard Preview</h2>
-      <div class="preview-grid fade-in">
-        <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" alt="Risk score charts and alert analytics" loading="lazy">
-        <img src="https://images.pexels.com/photos/2582937/pexels-photo-2582937.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Threat table and login activity graph" loading="lazy">
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta-section fade-in">
-      <div class="cta-content">
-        <h2>Start monitoring your organization's security with AI-powered behaviour analytics.</h2>
-        <div class="hero-actions">
-          <a href="/signup" class="btn btn-primary btn-lg">
-            <i class="fas fa-user-plus"></i> Create Account
-          </a>
-          <a href="/dashboard" class="btn btn-secondary btn-lg">
-            <i class="fas fa-chart-line"></i> Go to Dashboard
-          </a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="home-footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h4>About the Project</h4>
-        <p>UEBA - User and Entity Behavior Analytics System for real-time insider threat detection.</p>
-      </div>
-      <div class="footer-section">
-        <h4>Developer</h4>
-        <p>UEBA Cybersecurity Engineering Team</p>
-        <p>Contact: security@ueba.local</p>
-      </div>
-      <div class="footer-section">
-        <h4>Resources</h4>
-        <a href="/docs"><i class="fas fa-book"></i> API Documentation</a>
-        <a href="https://github.com/" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub Repository</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 UEBA Security Cloud. All rights reserved.</p>
-    </div>
-  </footer>
-
-  <style>
-    .home-page {
-      padding-top: 70px;
-    }
-
-    .hero-subtitle-text {
-      font-size: 2.5rem;
-      font-weight: 600;
-      color: var(--accent-cyan);
-      margin-bottom: var(--space-lg);
-    }
-
-    /* About Section */
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-2xl);
-      align-items: center;
-    }
-
-    .about-image img {
-      width: 100%;
-      border-radius: var(--radius-lg);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    .about-content p {
-      font-size: 1.1rem;
-      line-height: 1.8;
-      margin-bottom: var(--space-lg);
-    }
-
-    .feature-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .feature-list li {
-      padding: var(--space-sm) 0;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-    }
-
-    .feature-list li i {
-      color: var(--accent-cyan);
-      width: 24px;
-    }
-
-    /* Steps Grid */
-    .steps-grid {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-md);
-      flex-wrap: wrap;
-    }
-
-    .step-item {
-      text-align: center;
-      min-width: 120px;
-    }
-
-    .step-number {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--accent-cyan);
-      font-family: var(--font-mono);
-      margin-bottom: var(--space-sm);
-    }
-
-    .step-content h4 {
-      font-size: 1rem;
-      margin-bottom: var(--space-xs);
-    }
-
-    .step-content p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    .step-arrow {
-      color: var(--accent-cyan);
-      font-size: 1.5rem;
-      opacity: 0.5;
-    }
-
-    /* Advantages Grid */
-    .advantages-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-lg);
-    }
-
-    .advantage-item {
-      background: var(--bg-card);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-lg);
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      transition: all var(--transition-normal);
-    }
-
-    .advantage-item:hover {
-      border-color: var(--accent-cyan);
-      transform: translateY(-4px);
-    }
-
-    .advantage-item i {
-      color: var(--accent-cyan);
-      font-size: 1.5rem;
-    }
-
-    /* Tech Grid */
-    .tech-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-lg);
-    }
-
-    .tech-card {
-      background: var(--bg-card);
-      backdrop-filter: var(--glass-blur);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: var(--space-xl);
-      text-align: center;
-      transition: all var(--transition-normal);
-    }
-
-    .tech-card:hover {
-      border-color: var(--accent-purple);
-      transform: translateY(-4px);
-    }
-
-    .tech-icon {
-      width: 56px;
-      height: 56px;
-      margin: 0 auto var(--space-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.2));
-      border-radius: var(--radius-md);
-      font-size: 1.5rem;
-      color: var(--accent-purple);
-    }
-
-    .tech-card h4 {
-      font-size: 1rem;
-      margin-bottom: var(--space-xs);
-    }
-
-    .tech-card span {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    /* Use Cases */
-    .use-cases-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-2xl);
-      align-items: center;
-    }
-
-    .use-cases-list {
-      list-style: none;
-      padding: 0;
-    }
-
-    .use-cases-list li {
-      padding: var(--space-md) 0;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: var(--space-md);
-      font-size: 1.1rem;
-      border-bottom: 1px solid var(--glass-border);
-    }
-
-    .use-cases-list li:last-child {
-      border-bottom: none;
-    }
-
-    .use-cases-list li i {
-      color: var(--accent-cyan);
-      width: 24px;
-    }
-
-    .use-cases-image img {
-      width: 100%;
-      border-radius: var(--radius-lg);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-    }
-
-    /* Preview Grid */
-    .preview-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-lg);
-    }
-
-    .preview-grid img {
-      width: 100%;
-      border-radius: var(--radius-lg);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-      transition: transform var(--transition-normal);
-    }
-
-    .preview-grid img:hover {
-      transform: scale(1.02);
-    }
-
-    /* CTA Section */
-    .cta-section {
-      padding: var(--space-2xl);
-      text-align: center;
-    }
-
-    .cta-content {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .cta-content h2 {
-      font-size: 2rem;
-      margin-bottom: var(--space-xl);
-    }
-
-    /* Footer */
-    .home-footer {
-      background: rgba(2, 6, 23, 0.9);
-      border-top: 1px solid var(--glass-border);
-      padding: var(--space-2xl) var(--space-xl) var(--space-lg);
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-2xl);
-    }
-
-    .footer-section h4 {
-      font-size: 1rem;
-      margin-bottom: var(--space-md);
-      color: var(--text-primary);
-    }
-
-    .footer-section p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      margin-bottom: var(--space-xs);
-    }
-
-    .footer-section a {
-      display: block;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-      margin-bottom: var(--space-xs);
-    }
-
-    .footer-section a:hover {
-      color: var(--accent-cyan);
-    }
-
-    .footer-bottom {
-      max-width: 1200px;
-      margin: var(--space-xl) auto 0;
-      padding-top: var(--space-lg);
-      border-top: 1px solid var(--glass-border);
-      text-align: center;
-    }
-
-    .footer-bottom p {
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .about-grid,
-      .use-cases-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .tech-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .advantages-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .hero-title {
-        font-size: 2.5rem;
-      }
-
-      .hero-subtitle-text {
-        font-size: 1.75rem;
-      }
-
-      .steps-grid {
-        flex-direction: column;
-      }
-
-      .step-arrow {
-        transform: rotate(90deg);
-      }
-
-      .tech-grid,
-      .advantages-grid,
-      .preview-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-content {
-        grid-template-columns: 1fr;
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero {
         text-align: center;
-      }
+        padding: 6rem 2rem 4rem;
+        max-width: 900px;
+        margin: 0 auto;
     }
-  </style>
 
-  <script>
-    // Intersection Observer for fade-in animations
-    (() => {
-      const items = document.querySelectorAll(".fade-in");
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = "1";
-            entry.target.style.transform = "translateY(0)";
-          }
-        });
-      }, { threshold: 0.1 });
+    .hero h1 {
+        font-size: 3.5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    }
 
-      items.forEach((item) => {
-        item.style.opacity = "0";
-        item.style.transform = "translateY(30px)";
-        item.style.transition = "opacity 0.6s ease, transform 0.6s ease";
-        observer.observe(item);
-      });
-    })();
-  </script>
-</body>
-</html>
+    .hero-accent {
+        color: var(--accent-blue);
+        background: none;
+        -webkit-text-fill-color: var(--accent-blue);
+        text-shadow: var(--cyber-glow);
+    }
 
+    .hero p {
+        font-size: 1.25rem;
+        color: var(--text-dim);
+        line-height: 1.6;
+        margin-bottom: 2.5rem;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1.5rem;
+        justify-content: center;
+    }
+
+    /* Section Styles */
+    .section-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 4rem 2rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--accent-blue);
+        text-shadow: var(--cyber-glow);
+        margin-bottom: 1rem;
+    }
+
+    .section-header p {
+        color: var(--text-dim);
+        font-size: 1.1rem;
+    }
+
+    /* What is UEBA */
+    .about-text {
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: var(--text-main);
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    /* How it works */
+    .process-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+    }
+
+    .process-step {
+        flex: 1;
+        min-width: 200px;
+        max-width: 250px;
+        text-align: center;
+        padding: 2rem;
+        position: relative;
+    }
+
+    .step-icon {
+        width: 70px;
+        height: 70px;
+        background: rgba(59, 130, 246, 0.1);
+        border: 2px solid var(--accent-blue);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: var(--accent-blue);
+        margin: 0 auto 1.5rem;
+        box-shadow: var(--cyber-glow);
+    }
+
+    /* Advantages */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .feature-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .feature-icon {
+        font-size: 2rem;
+        color: var(--accent-blue);
+        text-shadow: var(--cyber-glow);
+    }
+
+    .feature-text h3 {
+        margin: 0 0 0.5rem;
+        font-size: 1.25rem;
+    }
+
+    .feature-text p {
+        margin: 0;
+        color: var(--text-dim);
+        line-height: 1.5;
+    }
+
+    /* Visuals */
+    .visuals-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 2rem;
+    }
+
+    .visual-item {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        box-shadow: var(--cyber-glow);
+        position: relative;
+        aspect-ratio: 16/9;
+        background: var(--card-bg);
+    }
+
+    .visual-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+    }
+
+    .visual-item:hover img {
+        opacity: 1;
+    }
+
+    .visual-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        background: linear-gradient(transparent, rgba(2, 6, 23, 0.9));
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <h1><span class="hero-accent">UEBA</span> – User and Entity Behaviour Analytics</h1>
+    <p>AI powered cybersecurity monitoring system for detecting insider threats and suspicious behaviour within your enterprise network.</p>
+    <div class="hero-buttons">
+        <a href="/dashboard" class="cyber-btn"><i class="fas fa-chart-line"></i> Go to Dashboard</a>
+        <a href="/signup" class="cyber-btn-outline"><i class="fas fa-user-plus"></i> Create Account</a>
+    </div>
+</section>
+
+<!-- Section 1: What is UEBA -->
+<section class="section-container">
+    <div class="cyber-card">
+        <div class="section-header" style="margin-bottom: 1.5rem;">
+            <h2>What is UEBA?</h2>
+        </div>
+        <p class="about-text">
+            <strong>User and Entity Behaviour Analytics</strong> (UEBA) is a cutting-edge cybersecurity solution that maps and analyzes user activity patterns over time. By establishing a baseline of normal behavior, the AI engine can instantly detect anomalies, isolate insider threats, and flag suspicious system interactions before a breach occurs.
+        </p>
+    </div>
+</section>
+
+<!-- Section 2: How the System Works -->
+<section class="section-container">
+    <div class="section-header">
+        <h2>How the System Works</h2>
+        <p>A continuous pipeline of intelligence</p>
+    </div>
+    <div class="process-grid">
+        <div class="process-step cyber-card">
+            <div class="step-icon"><i class="fas fa-sign-in-alt"></i></div>
+            <h3>Step 1</h3>
+            <p style="color: var(--text-dim);">User login</p>
+        </div>
+        <div class="process-step cyber-card">
+            <div class="step-icon"><i class="fas fa-database"></i></div>
+            <h3>Step 2</h3>
+            <p style="color: var(--text-dim);">Activity collection</p>
+        </div>
+        <div class="process-step cyber-card">
+            <div class="step-icon"><i class="fas fa-brain"></i></div>
+            <h3>Step 3</h3>
+            <p style="color: var(--text-dim);">Behaviour analysis</p>
+        </div>
+        <div class="process-step cyber-card">
+            <div class="step-icon"><i class="fas fa-tachometer-alt"></i></div>
+            <h3>Step 4</h3>
+            <p style="color: var(--text-dim);">Risk scoring</p>
+        </div>
+        <div class="process-step cyber-card">
+            <div class="step-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3>Step 5</h3>
+            <p style="color: var(--text-dim);">Threat detection</p>
+        </div>
+    </div>
+</section>
+
+<!-- Section 3: Advantages -->
+<section class="section-container">
+    <div class="section-header">
+        <h2>Advantages</h2>
+        <p>Why modern SOC teams rely on UEBA</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card cyber-card">
+            <div class="feature-icon"><i class="fas fa-user-secret"></i></div>
+            <div class="feature-text">
+                <h3>Detect Insider Threats</h3>
+                <p>Identify rogue employees or compromised accounts operating from the inside.</p>
+            </div>
+        </div>
+        <div class="feature-card cyber-card">
+            <div class="feature-icon"><i class="fas fa-eye"></i></div>
+            <div class="feature-text">
+                <h3>Monitor Behaviour Patterns</h3>
+                <p>Track deviations from baseline normal usage on a per-user basis.</p>
+            </div>
+        </div>
+        <div class="feature-card cyber-card">
+            <div class="feature-icon"><i class="fas fa-bell"></i></div>
+            <div class="feature-text">
+                <h3>Real-Time Security Alerts</h3>
+                <p>Get notified instantly when critical anomaly thresholds are breached.</p>
+            </div>
+        </div>
+        <div class="feature-card cyber-card">
+            <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+            <div class="feature-text">
+                <h3>Risk Score Evaluation</h3>
+                <p>Quantify risk objectively to prioritize analyst incident response times.</p>
+            </div>
+        </div>
+        <div class="feature-card cyber-card">
+            <div class="feature-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="feature-text">
+                <h3>Login Location Tracking</h3>
+                <p>Detect impossible travel and restricted geographical access attempts.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 4: Project Visuals -->
+<section class="section-container" style="padding-bottom: 6rem;">
+    <div class="section-header">
+        <h2>Intelligence Feeds</h2>
+        <p>Visualizing the invisible network edge</p>
+    </div>
+    <div class="visuals-grid">
+        <div class="visual-item">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800" alt="Threat Monitoring Dashboard">
+            <div class="visual-overlay">Threat Monitoring Dashboards</div>
+        </div>
+        <div class="visual-item">
+            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800" alt="Network Security">
+            <div class="visual-overlay">Network Security Matrix</div>
+        </div>
+        <div class="visual-item">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="SOC Monitoring Center">
+            <div class="visual-overlay">SOC Analytics Center</div>
+        </div>
+        <div class="visual-item">
+            <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800" alt="AI Analytics">
+            <div class="visual-overlay">AI Pattern Recognition Engine</div>
+        </div>
+    </div>
+</section>
+{% endblock %}

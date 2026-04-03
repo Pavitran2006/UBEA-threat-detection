@@ -1,442 +1,143 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Create Account | UEBA</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <link rel="stylesheet" href="{{ url_for('static', path='css/cyber-theme.css') }}" />
-</head>
-<body class="auth-page">
-  <!-- Animated Background -->
-  <div class="cyber-bg"></div>
-  <div class="cyber-grid"></div>
+{% extends "base.html" %}
 
-  <main class="auth-container">
-    <div class="auth-card scale-in">
-      <!-- Brand Header -->
-      <div class="auth-brand">
-        <div class="brand-logo">
-          <i class="fas fa-shield-halved"></i>
+{% block title %}Signup | UEBA Platform{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-container {
+        width: 100%;
+        max-width: 450px;
+        margin: 4rem auto;
+    }
+
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .auth-header h2 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .auth-header p {
+        color: var(--text-dim);
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--text-dim);
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background: rgba(15, 23, 42, 0.5);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        border-radius: 8px;
+        color: var(--text-main);
+        font-family: inherit;
+        font-size: 1rem;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+    }
+
+    .auth-footer {
+        text-align: center;
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: var(--text-dim);
+    }
+
+    .auth-link {
+        color: var(--accent-blue);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .auth-link:hover {
+        text-decoration: underline;
+    }
+    
+    .btn-block {
+        width: 100%;
+        justify-content: center;
+        margin-top: 1.5rem;
+    }
+
+    .alert {
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .alert-error {
+        background: rgba(239, 68, 68, 0.1);
+        border: 1px solid rgba(239, 68, 68, 0.5);
+        color: var(--danger-red);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="cyber-card">
+        <div class="auth-header">
+            <h2>Initialize Access</h2>
+            <p>Create your secure SOC operator account</p>
         </div>
-        <div class="brand-text">
-          <span class="brand-name">UEBA</span>
-          <span class="brand-tagline">Security Cloud</span>
+
+        {% if error %}
+        <div class="alert alert-error">
+            <i class="fas fa-exclamation-triangle"></i> {{ error }}
         </div>
-      </div>
+        {% endif %}
 
-      <!-- Auth Header -->
-      <div class="auth-header">
-        <h1 class="auth-title">Join the Network</h1>
-        <p class="auth-subtitle">Initialize your operator profile to get started</p>
-      </div>
-
-      <!-- Messages -->
-      {% if error %}
-      <div class="alert alert-error fade-in">
-        <i class="fas fa-exclamation-circle"></i>
-        {{ error }}
-      </div>
-      {% endif %}
-
-      <!-- Signup Form -->
-      <form id="signupForm" method="post" action="/signup">
-        <div class="form-group">
-          <label for="username" class="form-label">
-            <i class="fas fa-user"></i> Username
-          </label>
-          <div class="input-wrapper">
-            <input 
-              class="form-input" 
-              id="username" 
-              name="username" 
-              type="text" 
-              minlength="3" 
-              placeholder="Operator ID" 
-              required 
-            />
-            <span class="input-icon"><i class="fas fa-id-card"></i></span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="email" class="form-label">
-            <i class="fas fa-envelope"></i> Email Address
-          </label>
-          <div class="input-wrapper">
-            <input 
-              class="form-input" 
-              id="email" 
-              name="email" 
-              type="email" 
-              placeholder="name@security.com" 
-              required 
-            />
-            <span class="input-icon"><i class="fas fa-at"></i></span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="password" class="form-label">
-            <i class="fas fa-lock"></i> Password
-          </label>
-          <div class="input-wrapper">
-            <input 
-              class="form-input" 
-              id="password" 
-              name="password" 
-              type="password" 
-              minlength="6" 
-              placeholder="At least 6 characters" 
-              required 
-            />
-            <span class="input-icon"><i class="fas fa-key"></i></span>
-          </div>
-          <div class="password-strength">
-            <div class="strength-bar">
-              <div class="strength-fill" id="strengthFill"></div>
+        <form action="/signup" method="POST">
+            <div class="form-group">
+                <label for="username" class="form-label">Operator ID (Username)</label>
+                <input type="text" id="username" name="username" class="form-input" placeholder="e.g. analyst01" required>
             </div>
-            <span class="strength-text" id="strengthText"></span>
-          </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="name@security.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" id="phone" name="phone" class="form-input" placeholder="+1 (555) 000-0000" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
+            </div>
+
+            <button type="submit" class="cyber-btn btn-block">
+                Initialize Account <i class="fas fa-user-shield"></i>
+            </button>
+        </form>
+
+        <div class="auth-footer">
+            Already have clearance? <a href="/login" class="auth-link">Login here</a>
         </div>
-
-        <div class="form-group">
-          <label for="confirmPassword" class="form-label">
-            <i class="fas fa-lock"></i> Confirm Password
-          </label>
-          <div class="input-wrapper">
-            <input 
-              class="form-input" 
-              id="confirmPassword" 
-              name="confirm_password" 
-              type="password" 
-              minlength="6" 
-              placeholder="Re-enter password" 
-              required 
-            />
-            <span class="input-icon"><i class="fas fa-check-double"></i></span>
-          </div>
-        </div>
-
-        <div class="form-options">
-          <label class="checkbox-wrapper">
-            <input type="checkbox" name="terms" required />
-            <span class="checkmark"></span>
-            I agree to the <a href="/terms">Terms of Service</a>
-          </label>
-        </div>
-
-        <button id="signupButton" class="btn btn-primary btn-lg btn-block" type="submit">
-          <i class="fas fa-user-plus"></i> Initialize Registration
-        </button>
-      </form>
-
-      <!-- Divider -->
-      <div class="auth-divider">
-        <span>or</span>
-      </div>
-
-      <!-- Social Login -->
-      <div class="social-login">
-        <button class="btn btn-secondary social-btn">
-          <i class="fab fa-google"></i> Continue with Google
-        </button>
-      </div>
-
-      <!-- Footer -->
-      <div class="auth-footer">
-        <p>Already have an account? <a href="/login">Sign In</a></p>
-      </div>
     </div>
-  </main>
-
-  <style>
-    .auth-page {
-      min-height: 100vh;
-    }
-
-    .auth-brand {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-md);
-      margin-bottom: var(--space-xl);
-    }
-
-    .brand-logo {
-      width: 56px;
-      height: 56px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
-      border-radius: var(--radius-md);
-      font-size: 1.5rem;
-      color: var(--bg-primary);
-      box-shadow: 0 4px 20px var(--glow-cyan);
-    }
-
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .brand-name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      letter-spacing: 0.05em;
-    }
-
-    .brand-tagline {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .input-wrapper {
-      position: relative;
-    }
-
-    .input-wrapper .form-input {
-      padding-left: 3rem;
-    }
-
-    .input-icon {
-      position: absolute;
-      left: 1rem;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-muted);
-      pointer-events: none;
-    }
-
-    .password-strength {
-      margin-top: var(--space-sm);
-    }
-
-    .strength-bar {
-      height: 4px;
-      background: var(--bg-tertiary);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .strength-fill {
-      height: 100%;
-      width: 0;
-      transition: all var(--transition-normal);
-      border-radius: 2px;
-    }
-
-    .strength-fill.weak { width: 33%; background: var(--color-danger); }
-    .strength-fill.medium { width: 66%; background: var(--color-warning); }
-    .strength-fill.strong { width: 100%; background: var(--color-success); }
-
-    .strength-text {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-top: var(--space-xs);
-      display: block;
-    }
-
-    .form-options {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--space-lg);
-    }
-
-    .checkbox-wrapper {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      color: var(--text-secondary);
-      font-size: 0.875rem;
-      cursor: pointer;
-    }
-
-    .checkbox-wrapper input {
-      display: none;
-    }
-
-    .checkmark {
-      width: 18px;
-      height: 18px;
-      border: 2px solid var(--glass-border);
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition-fast);
-    }
-
-    .checkbox-wrapper input:checked + .checkmark {
-      background: var(--accent-cyan);
-      border-color: var(--accent-cyan);
-    }
-
-    .checkbox-wrapper input:checked + .checkmark::after {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      color: var(--bg-primary);
-      font-size: 0.625rem;
-    }
-
-    .checkbox-wrapper a {
-      color: var(--accent-cyan);
-    }
-
-    .auth-divider {
-      display: flex;
-      align-items: center;
-      margin: var(--space-lg) 0;
-    }
-
-    .auth-divider::before,
-    .auth-divider::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: var(--glass-border);
-    }
-
-    .auth-divider span {
-      padding: 0 var(--space-md);
-      color: var(--text-muted);
-      font-size: 0.875rem;
-      text-transform: uppercase;
-    }
-
-    .social-login {
-      margin-bottom: var(--space-lg);
-    }
-
-    .social-btn {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-sm);
-    }
-
-    /* Particle animation */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .particle {
-      position: absolute;
-      width: 4px;
-      height: 4px;
-      background: var(--accent-cyan);
-      border-radius: 50%;
-      opacity: 0.3;
-      animation: particleFloat 15s infinite;
-    }
-
-    @keyframes particleFloat {
-      0% {
-        transform: translateY(100vh) rotate(0deg);
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.5;
-      }
-      90% {
-        opacity: 0.5;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(720deg);
-        opacity: 0;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .auth-card {
-        padding: var(--space-lg);
-      }
-    }
-  </style>
-
-  <script>
-    // Add floating particles
-    (function() {
-      const container = document.createElement('div');
-      container.className = 'particles';
-      document.body.appendChild(container);
-      
-      const particleCount = 20;
-      for (let i = 0; i < particleCount; i++) {
-        const p = document.createElement('span');
-        p.className = 'particle';
-        p.style.left = Math.random() * 100 + '%';
-        p.style.animationDelay = Math.random() * 15 + 's';
-        p.style.animationDuration = (15 + Math.random() * 10) + 's';
-        container.appendChild(p);
-      }
-    })();
-
-    // Password strength indicator
-    const passwordInput = document.getElementById('password');
-    const strengthFill = document.getElementById('strengthFill');
-    const strengthText = document.getElementById('strengthText');
-
-    passwordInput.addEventListener('input', function() {
-      const password = this.value;
-      let strength = 0;
-      
-      if (password.length >= 6) strength++;
-      if (password.length >= 10) strength++;
-      if (/[A-Z]/.test(password)) strength++;
-      if (/[0-9]/.test(password)) strength++;
-      if (/[^A-Za-z0-9]/.test(password)) strength++;
-
-      strengthFill.className = 'strength-fill';
-      if (password.length === 0) {
-        strengthText.textContent = '';
-      } else if (strength <= 2) {
-        strengthFill.classList.add('weak');
-        strengthText.textContent = 'Weak password';
-        strengthText.style.color = 'var(--color-danger)';
-      } else if (strength <= 3) {
-        strengthFill.classList.add('medium');
-        strengthText.textContent = 'Medium strength';
-        strengthText.style.color = 'var(--color-warning)';
-      } else {
-        strengthFill.classList.add('strong');
-        strengthText.textContent = 'Strong password';
-        strengthText.style.color = 'var(--color-success)';
-      }
-    });
-
-    // Form submission animation
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
-      
-      if (password !== confirmPassword) {
-        e.preventDefault();
-        alert('Passwords do not match!');
-        return;
-      }
-      
-      const btn = document.getElementById('signupButton');
-      btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Creating Account...';
-      btn.disabled = true;
-    });
-  </script>
-</body>
-</html>
-
+</div>
+{% endblock %}

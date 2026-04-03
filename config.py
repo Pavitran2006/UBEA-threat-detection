@@ -7,6 +7,8 @@ load_dotenv()
 class Config:
     """Base configuration."""
     SECRET_KEY = os.environ.get('SECRET_KEY', 'default-secret-key')
+    GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY', '')
+
     
     # Check if we should use MySQL or SQLite
     # Default to SQLite if DB_TYPE is not set or MySQL connection fails

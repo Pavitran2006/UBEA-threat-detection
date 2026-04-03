@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify OTP | UEBA Security</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --card-bg: #1a2332;
+            --accent-cyan: #06b6d4;
+            --text-primary: #e2e8f0;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --status-success: #22c55e;
+            --status-danger: #ef4444;
+            --gradient-accent: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+        }
+        body { background: linear-gradient(135deg, #0f172a 0%, #0a0f1d 100%); color: var(--text-primary); font-family: 'Poppins', sans-serif; min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+        .navbar { position: fixed; top: 0; left: 0; right: 0; background: rgba(10, 15, 29, 0.8); backdrop-filter: blur(10px); padding: 16px 32px; z-index: 100; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.3rem; font-weight: 700; background: var(--gradient-accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-links { display: flex; gap: 24px; }
+        .nav-link { color: var(--text-secondary); text-decoration: none; }
+        .nav-link:hover { color: var(--accent-cyan); }
+        .container { position: relative; z-index: 1; width: 100%; max-width: 450px; padding: 24px; margin-top: 80px; }
+        .card { background: rgba(26, 35, 50, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 16px; padding: 40px; box-shadow: 0 8px 32px rgba(6, 182, 212, 0.1); }
+        .card-header { text-align: center; margin-bottom: 40px; }
+        .card-icon { width: 60px; height: 60px; margin: 0 auto 16px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(59, 130, 246, 0.2)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--accent-cyan); }
+        .card-title { font-size: 1.75rem; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+        .card-subtitle { font-size: 0.95rem; color: var(--text-secondary); }
+        .otp-inputs { display: flex; gap: 12px; justify-content: center; margin: 24px 0; }
+        .otp-input { width: 60px; height: 60px; font-size: 1.5rem; text-align: center; background: rgba(10, 15, 29, 0.6); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 8px; color: var(--text-primary); }
+        .otp-input:focus { outline: none; border-color: var(--accent-cyan); box-shadow: 0 0 20px rgba(6, 182, 212, 0.3); }
+        .form-group { margin-bottom: 24px; }
+        .label { display: block; font-size: 0.95rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; }
+        .input-field { width: 100%; padding: 12px 16px; background: rgba(10, 15, 29, 0.6); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 8px; color: var(--text-primary); }
+        .btn-submit { width: 100%; padding: 12px; background: var(--gradient-accent); color: white; border: none; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; margin-top: 16px; }
+        .btn-back { width: 100%; padding: 12px; background: transparent; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); border-radius: 8px; margin-top: 12px; }
+        .alert { padding: 12px 16px; border-radius: 8px; margin-bottom: 24px; }
+        .alert-error { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--status-danger); color: #fca5a5; }
+        .countdown { text-align: center; color: var(--status-warning); font-weight: 600; }
+        @media (max-width: 600px) { .otp-inputs { flex-direction: column; align-items: center; } .otp-input { width: 100%; max-width: 200px; } }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo"><i class="fas fa-shield-alt"></i> UEBA</a>
+            <div class="nav-links">
+                <a href="/" class="nav-link">Home</a>
+                <a href="/login" class="nav-link">Login</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <i class="fas fa-mobile-screen-button"></i>
+                </div>
+                <h1 class="card-title">Verify OTP</h1>
+                <p class="card-subtitle">Enter the 6-digit code sent to <strong id="userEmail">{{ session.get('reset_email', '') }}</strong></p>
+                <div id="countdown" class="countdown" style="display: none;">Resend in <span id="timer">60</span>s</div>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i> {{ error }}
+            </div>
+            {% endif %}
+
+            <form id="verifyOtpForm" method="post" action="/verify-otp">
+                <input type="hidden" name="email" value="{{ session.get('reset_email', '') }}">
+                <div class="otp-inputs">
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                    <input type="text" class="otp-input" maxlength="1" inputmode="numeric">
+                </div>
+                <button type="submit" class="btn-submit" id="submitBtn">
+                    <i class="fas fa-check"></i> Verify OTP
+                </button>
+            </form>
+
+            <button class="btn-back" onclick="location.reload()">
+                <i class="fas fa-arrow-left"></i> Back to Forgot Password
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('.otp-input');
+        inputs[0].focus();
+        
+        inputs.forEach((input, index) => {
+            input.addEventListener('input', (e) => {
+                if (e.target.value.length === 1 && index < 5) inputs[index + 1].focus();
+                document.getElementById('submitBtn').disabled = Array.from(inputs).some(i => i.value.length !== 1);
+            });
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Backspace' && !e.target.value && index > 0) inputs[index - 1].focus();
+            });
+        });
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const otp = Array.from(inputs).map(i => i.value).join('');
+            const formData = new FormData(form);
+            formData.append('otp', otp);
+            
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            
+            try {
+                const response = await fetch('/verify-otp', {
+                    method: 'POST',
+                    body: formData
+                });
+                const html = await response.text();
+                document.open();
+                document.write(html);
+                document.close();
+            } catch (error) {
+                alert('Error verifying OTP');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Verify OTP';
+            }
+        });
+    </script>
+</body>
+</html>

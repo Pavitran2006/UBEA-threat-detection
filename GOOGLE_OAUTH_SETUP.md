@@ -79,6 +79,7 @@ This guide provides step-by-step instructions to integrate Google OAuth 2.0 auth
        - `https://yourdomain.com` (for production)
      - **Authorized redirect URIs:**
        - `http://localhost:8000/auth/google/callback`
+       
        - `https://yourdomain.com/auth/google/callback` (for production)
    - Click "Create"
    - Copy your Client ID and Client Secret (keep these secret!)

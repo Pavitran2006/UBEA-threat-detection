@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UEBA | Signup</title>
+  <link rel="stylesheet" href="/static/css/soc.css">
+</head>
+<body class="app-body">
+  <div class="background"></div>
+  <div class="bubbles">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <nav class="nav">
+    <div class="logo">UEBA</div>
+    <div class="links">
+      <a href="/" data-auth="guest">Home</a>
+      <a href="/login" data-auth="guest">Login</a>
+      <a href="/signup" data-auth="guest">Signup</a>
+      <a href="/dashboard" data-auth="user">Dashboard</a>
+      <a href="#" id="logout-link" data-auth="user">Logout</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section class="auth">
+      <div class="auth-card">
+        <h2>Create Account</h2>
+        <div id="auth-message" class="alert" style="display: none;"></div>
+        <form class="form" id="signup-form">
+          <label>Full Name</label>
+          <input id="signup-name" type="text" required>
+          <label>Email</label>
+          <input id="signup-email" type="email" required>
+          <label>Phone</label>
+          <input id="signup-phone" type="tel" required>
+          <label>Password</label>
+          <input id="signup-password" type="password" required>
+          <label>Confirm Password</label>
+          <input id="signup-confirm" type="password" required>
+          <button class="primary-btn" type="submit">Create Account</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/nav.js"></script>
+  <script src="/static/js/signup.js"></script>
+</body>
+</html>

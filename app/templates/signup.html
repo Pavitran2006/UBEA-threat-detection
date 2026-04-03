@@ -1,136 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
+{% block title %}Create Account | UEBA Security Platform{% endblock %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Create Account - Cloud-Native UEBA Platform">
-    <title>CyberGuard UEBA | Sign Up</title>
-    <link rel="stylesheet" href="../static/css/style.css">
-</head>
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <div class="auth-icon-wrap">
+            <div class="auth-icon"><i class="fas fa-network-wired"></i></div>
+        </div>
+        <h2>Create Operative</h2>
+        <p class="sub">Register to join the UEBA security network</p>
 
-<body>
-    <div class="background-canvas">
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-    </div>
+        {% if error %}
+        <div class="flash flash-error"><i class="fas fa-circle-exclamation"></i> {{ error }}</div>
+        {% endif %}
 
-    <div class="auth-container">
-        <div class="auth-card">
-            <div class="auth-header">
-                <h1>Join the Network</h1>
-                <p>Initialize your operator profile to get started</p>
+        <form action="/signup" method="POST">
+            <div class="form-group">
+                <label class="form-label" for="username"><i class="fas fa-user"></i> Username</label>
+                <input class="form-control" type="text" id="username" name="username" placeholder="analyst01" required>
             </div>
-
-            <div id="messageBox" class="message"></div>
-
-            <form id="signupForm">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="username" name="username" class="auth-input" placeholder="Operator ID"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <div class="input-wrapper">
-                        <input type="email" id="email" name="email" class="auth-input" placeholder="name@security.com"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="password" name="password" class="auth-input" placeholder="••••••••"
-                            required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword">Confirm Password</label>
-                    <div class="input-wrapper">
-                        <input type="password" id="confirmPassword" name="confirmPassword" class="auth-input"
-                            placeholder="••••••••" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="role">Operator Role</label>
-                    <div class="input-wrapper">
-                        <select id="role" name="role" class="auth-input" required>
-                            <option value="" disabled selected>Select your role</option>
-                            <option value="user">Security Analyst (User)</option>
-                            <option value="admin">System Administrator (Admin)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <button type="submit" id="submitBtn" class="btn-primary">
-                    <span>Initialize Registration</span>
-                    <div class="loader"></div>
-                </button>
-            </form>
-
-            <div class="auth-footer">
-                Already have an account? <a href="login.html">Sign In</a>
+            <div class="form-group">
+                <label class="form-label" for="email"><i class="fas fa-envelope"></i> Email</label>
+                <input class="form-control" type="email" id="email" name="email" placeholder="analyst@ueba.sec" required>
             </div>
+            <div class="form-group">
+                <label class="form-label" for="phone"><i class="fas fa-phone"></i> Phone Number</label>
+                <input class="form-control" type="tel" id="phone" name="phone" placeholder="+1 (555) 000-0000" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="password"><i class="fas fa-key"></i> Password</label>
+                <input class="form-control" type="password" id="password" name="password" placeholder="••••••••••" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top:0.5rem;">
+                <i class="fas fa-user-plus"></i> Create Account
+            </button>
+        </form>
+
+        <div class="auth-foot">
+            <p>Already registered? <a href="/login">Login here</a></p>
         </div>
     </div>
+</div>
 
-    <script>
-        document.getElementById('signupForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
+<script>
+document.querySelector('form').addEventListener('submit', async function(e) {
+    const form = e.target;
+    if (form.getAttribute('data-ajax-enabled')) return;
+    e.preventDefault();
+    
+    const btn = form.querySelector('button');
+    const originalHtml = btn.innerHTML;
+    const formData = new FormData(form);
+    
+    // UI state
+    btn.disabled = true;
+    btn.innerHTML = `<i class="fas fa-satellite-dish animate-pulse"></i> Capturing Location...`;
+    
+    let location = { lat: null, lon: null };
 
-            const btn = document.getElementById('submitBtn');
-            const messageBox = document.getElementById('messageBox');
-
-            const formData = {
-                username: document.getElementById('username').value,
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value,
-                confirmPassword: document.getElementById('confirmPassword').value,
-                role: document.getElementById('role').value
-            };
-
-            if (formData.password !== formData.confirmPassword) {
-                messageBox.textContent = 'Passwords do not match.';
-                messageBox.className = 'message error';
-                return;
-            }
-
-            // Reset UI
-            btn.classList.add('loading');
-            messageBox.style.display = 'none';
-            messageBox.className = 'message';
-
-            try {
-                const response = await fetch('/api/register', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-
-                const data = await response.json();
-
-                if (response.ok) {
-                    messageBox.textContent = 'Registration successful! Proceeding to login...';
-                    messageBox.classList.add('success');
-                    setTimeout(() => {
-                        window.location.href = 'login.html';
-                    }, 2000);
-                } else {
-                    throw new Error(data.message || 'Registration failed. Please try again.');
-                }
-            } catch (error) {
-                messageBox.textContent = error.message;
-                messageBox.classList.add('error');
-                btn.classList.remove('loading');
-            }
+    // 1. Capture GPS Location
+    try {
+        const geoPromise = new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject, {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            });
         });
-    </script>
-</body>
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 5500));
+        const position = await Promise.race([geoPromise, timeoutPromise]);
+        
+        if (position && position.coords) {
+            location.lat = position.coords.latitude;
+            location.lon = position.coords.longitude;
+        }
+    } catch (err) {
+        console.warn("Signup Geolocation failed:", err.message);
+    }
 
-</html>
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Creating Account...`;
+    
+    // 2. Perform Form Submission
+    try {
+        form.setAttribute('data-ajax-enabled', 'true');
+        const response = await fetch('/signup', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else {
+            const text = await response.text();
+            if (text.includes("flash-error")) {
+                // If it returned a template (error), replace the body or redirect
+                document.open();
+                document.write(text);
+                document.close();
+            } else {
+                window.location.href = "/verify-otp";
+            }
+        }
+    } catch (err) {
+        console.error("Signup Error:", err);
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+    }
+});
+</script>
+{% endblock %}

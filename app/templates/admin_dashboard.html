@@ -1,0 +1,453 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | UEBA Platform{% endblock %}
+
+{% block extra_head %}
+<style>
+.admin-wrapper { padding: 2rem 3rem; max-width: 1700px; margin: 0 auto; width: 100%; }
+.admin-header { display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 1.5rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); }
+.admin-header h1 { font-size: 1.9rem; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.75rem; }
+.admin-header h1 i { color: var(--accent); }
+.admin-header p { color: var(--text-muted); font-size: 0.9rem; }
+.panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 14px; padding: 1.5rem; display: flex; flex-direction: column; margin-bottom: 2rem; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
+.panel-title { font-size: 1.1rem; font-weight: 600; display: flex; align-items: center; gap: 0.5rem; }
+.panel-title i { color: var(--accent); }
+.table-wrap { overflow-x: auto; }
+.action-col { display: flex; gap: 0.5rem; }
+.btn-sm { padding: 0.4rem 0.8rem; font-size: 0.85rem; border-radius: 6px; cursor: pointer; color: #fff; border: none; transition: 0.2s; font-weight: 600; }
+.btn-danger { background: rgba(239,68,68,0.2); color: var(--danger); border: 1px solid var(--danger); }
+.btn-success { background: rgba(16,185,129,0.2); color: var(--success); border: 1px solid var(--success); }
+.btn-danger:hover { background: var(--danger); color: white; }
+.btn-success:hover { background: var(--success); color: white; }
+.badge { padding: 0.3rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: bold; }
+.badge-active { background: rgba(16,185,129,0.2); color: var(--success); border: 1px solid var(--success); }
+.badge-disabled { background: rgba(239,68,68,0.2); color: var(--danger); border: 1px solid var(--danger); }
+.risk-bar-container { display: flex; align-items: center; gap: 10px; }
+.risk-bar { flex: 1; height: 6px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden; }
+.risk-fill { height: 100%; transition: width 0.3s; }
+.soc-table th { background: rgba(0,240,255,0.05); color: var(--text-muted); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.8rem; padding: 1rem; text-align: left; }
+.soc-table td { padding: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; }
+.soc-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-wrapper">
+    <!-- ─── Header ─── -->
+    <div class="admin-header">
+        <div>
+            <h1><i class="fas fa-cogs"></i> Admin Control Panel</h1>
+            <p>System-wide User Management & Security Alerts Oversight</p>
+        </div>
+        <div style="background: rgba(0,240,255,0.07); border: 1px solid var(--border); border-radius: 10px; padding: 0.8rem 1.2rem; display: flex; align-items: center; gap: 0.8rem;">
+            <i class="fas fa-shield-check" style="color:var(--success); font-size: 1.2rem;"></i>
+            <div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px;">Admin Access</div>
+                <div style="font-weight: 600;">{{ user.username }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── High Risk Users Section ─── -->
+    <div class="panel" style="border-color: rgba(239,68,68,0.3); box-shadow: 0 0 20px rgba(239,68,68,0.05);">
+        <div class="panel-head">
+            <span class="panel-title"><i class="fas fa-exclamation-triangle" style="color:var(--danger)"></i> High Risk Entities (Risk > 50)</span>
+            <span class="badge" style="background: var(--danger); color: white;" id="highRiskCount">0</span>
+        </div>
+        <div class="table-wrap">
+            <table class="soc-table" id="highRiskTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th style="min-width: 150px;">Risk Score</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="7" style="text-align:center; padding: 2rem;"><span class="spinner"></span> Loading high risk data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ─── All Users Section ─── -->
+    <div class="panel">
+        <div class="panel-head">
+            <span class="panel-title"><i class="fas fa-users" style="color:var(--accent)"></i> Global User Directory</span>
+            <span class="badge" style="background: var(--accent); color: #000;" id="totalUsersCount">0</span>
+        </div>
+        <div class="table-wrap">
+            <table class="soc-table" id="allUsersTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>User</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th style="min-width: 150px;">Risk Score</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="7" style="text-align:center; padding: 2rem;"><span class="spinner"></span> Loading global directory...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ─── All Alerts Section ─── -->
+    <div class="panel">
+        <div class="panel-head">
+            <span class="panel-title"><i class="fas fa-bell" style="color:var(--warning)"></i> Master Alerts Log</span>
+        </div>
+        <div class="table-wrap">
+            <table class="soc-table" id="allAlertsTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Target User</th>
+                        <th>Severity</th>
+                        <th>Triggered Rule</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="5" style="text-align:center; padding: 2rem;"><span class="spinner"></span> Interrogating alert logs...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ─── Global Activity Stream Section ─── -->
+    <div class="panel">
+        <div class="panel-head">
+            <span class="panel-title"><i class="fas fa-history" style="color:var(--accent)"></i> Global Activity Stream</span>
+            <button class="btn-sm btn-danger" onclick="clearAllActivities()"><i class="fas fa-trash-alt"></i> Clear Activity Stream</button>
+        </div>
+        <div class="table-wrap">
+            <table class="soc-table" id="allActivitiesTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Timestamp</th>
+                        <th>User</th>
+                        <th>Action</th>
+                        <th>IP Address</th>
+                        <th>Location</th>
+                        <th>Risk</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="7" style="text-align:center; padding: 2rem;"><span class="spinner"></span> Monitoring activity flow...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ─── Live Analyst Sessions Section ─── -->
+    <div class="panel">
+        <div class="panel-head">
+            <span class="panel-title"><i class="fas fa-user-clock" style="color:var(--success)"></i> Live Analyst Sessions</span>
+        </div>
+        <div class="table-wrap">
+            <table class="soc-table" id="activeUsersTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Analyst</th>
+                        <th>Email</th>
+                        <th>Last Activity</th>
+                        <th>Current Risk</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="5" style="text-align:center; padding: 2rem;"><span class="spinner"></span> Scanning for active sessions...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ─── Intelligence Tasks Section ─── -->
+    <div class="panel" id="inquiriesSection">
+        <div class="panel-head">
+            <span class="panel-title"><i class="fas fa-tasks" style="color:#f59e0b"></i> Security Intelligence Tasks</span>
+        </div>
+        <div class="table-wrap">
+            <table class="soc-table" id="inquiriesTable" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th>Received At</th>
+                        <th>Sender</th>
+                        <th>Subject</th>
+                        <th>Intelligence Detail</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td colspan="5" style="text-align:center; padding: 2rem;"><span class="spinner"></span> Retrieving intelligence queue...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+async function setBlockStatus(userId, block) {
+    const action = block ? 'block' : 'unblock';
+    const actionText = block ? 'disable' : 'enable';
+    if (!confirm(`Are you sure you want to ${actionText} user #${userId}?`)) return;
+    try {
+        const res = await fetch(`/api/admin/users/${userId}/${action}`, { method: "PUT" });
+        if (res.ok) {
+            // Flash success
+            loadAllData();
+        } else {
+            const data = await res.json();
+            alert(`Failed: ${data.detail || data.error || 'Server error'}`);
+        }
+    } catch (e) { console.error(e); }
+}
+
+function renderUsersTable(users, targetTbodyId, countId) {
+    const tbody = document.querySelector(`#${targetTbodyId} tbody`);
+    if (countId) document.getElementById(countId).textContent = users.length;
+    
+    if (!users || users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 3rem; color: var(--text-muted);"><i class="fas fa-ghost" style="font-size: 2rem; margin-bottom: 1rem; display:block;"></i>No entities detected.</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = users.map(u => {
+        const statusBadge = u.is_active 
+            ? `<span class="badge badge-active"><i class="fas fa-check-circle" style="margin-right:4px;"></i> Active</span>` 
+            : `<span class="badge badge-disabled"><i class="fas fa-times-circle" style="margin-right:4px;"></i> Blocked</span>`;
+        
+        const actionBtn = u.role === "admin" 
+            ? `<a href="/profile/${u.id}" class="btn-sm btn-outline" style="margin-right:0.5rem;"><i class="fas fa-user-shield"></i> Profile</a><span style="color:var(--text-muted);font-size:0.8rem; font-family: monospace; padding: 0.4rem;"><i class="fas fa-shield-alt"></i> System Admin</span>`
+            : `<a href="/profile/${u.id}" class="btn-sm btn-outline" style="margin-right:0.5rem;"><i class="fas fa-user-shield"></i> Profile</a>` + (u.is_active 
+                ? `<button class="btn-sm btn-danger" onclick="setBlockStatus(${u.id}, true)"><i class="fas fa-ban"></i> Disable</button>` 
+                : `<button class="btn-sm btn-success" onclick="setBlockStatus(${u.id}, false)"><i class="fas fa-unlock"></i> Enable</button>`);
+                
+        const riskScore = parseFloat(u.risk_score || 0);
+        const riskWidth = Math.min((riskScore / 100) * 100, 100);
+        
+        let riskColor, icon;
+        if (riskScore > 60) { riskColor = 'var(--danger)'; icon = '<i class="fas fa-fire" style="color:var(--danger)"></i>'; }
+        else if (riskScore > 30) { riskColor = 'var(--warning)'; icon = '<i class="fas fa-exclamation-circle" style="color:var(--warning)"></i>'; }
+        else { riskColor = 'var(--success)'; icon = '<i class="fas fa-shield-check" style="color:var(--success)"></i>'; }
+        
+        const riskDisplay = `
+            <div class="risk-bar-container">
+                <div class="risk-bar">
+                    <div class="risk-fill" style="width:${riskWidth}%; background:${riskColor}; box-shadow: 0 0 10px ${riskColor};"></div>
+                </div>
+                <span style="color:${riskColor};font-weight:700; width: 35px; text-align: right; font-family: monospace;">${riskScore.toFixed(0)}</span>
+                ${icon}
+            </div>
+        `;
+
+        return `<tr>
+            <td style="color:var(--text-muted); font-family: monospace;">#${u.id.toString().padStart(4, '0')}</td>
+            <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    ${u.profile_pic 
+                        ? `<img src="${u.profile_pic}" alt="${u.username}" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); object-fit: cover;">`
+                        : `<div style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center;"><i class="fas fa-user" style="font-size: 14px; color: var(--text-muted);"></i></div>`
+                    }
+                    <div style="font-weight:600; font-size: 1.05rem;">${u.username}</div>
+                </div>
+            </td>
+            <td style="color:var(--text-muted);font-size:0.9rem;">${u.email}</td>
+            <td><span style="text-transform: capitalize; color: ${u.role === 'admin' ? 'var(--accent)' : 'inherit'}; font-weight: ${u.role === 'admin' ? 'bold' : 'normal'}">${u.role}</span></td>
+            <td>${riskDisplay}</td>
+            <td>${statusBadge}</td>
+            <td><div class="action-col">${actionBtn}</div></td>
+        </tr>`;
+    }).join("");
+}
+
+function renderAlertsTable(alerts) {
+    const tbody = document.querySelector('#allAlertsTable tbody');
+    if (!alerts || alerts.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 3rem; color: var(--text-muted);"><i class="fas fa-shield-check" style="font-size: 2rem; margin-bottom: 1rem; display:block; color: var(--success)"></i>No alerts logged in the system.</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = alerts.map(a => {
+        const date = new Date(a.timestamp).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'medium' });
+        
+        let sevColor, cls;
+        const s = (a.severity || "").toLowerCase();
+        if (s === 'critical' || s === 'high') { sevColor = 'var(--danger)'; cls = 'badge-disabled'; }
+        else if (s === 'medium') { sevColor = 'var(--warning)'; cls = 'badge'; }
+        else { sevColor = 'var(--success)'; cls = 'badge-active'; }
+        
+        const sevDisplay = `<span class="${cls}" style="${s === 'medium' ? 'background:rgba(245,158,11,0.2); color:var(--warning); border:1px solid var(--warning);' : ''}">${a.severity.toUpperCase()}</span>`;
+        
+        return `<tr style="${s === 'critical' || s === 'high' ? 'background: rgba(239,68,68,0.02);' : ''}">
+            <td style="font-size:0.85rem;color:var(--text-muted); font-family: monospace;" class="rt-time" data-timestamp="${a.timestamp}">${window.RealTime ? window.RealTime.timeAgo(a.timestamp) : '...'}</td>
+            <td style="font-weight:600;">${a.user}</td>
+            <td>${sevDisplay}</td>
+            <td style="color:${sevColor};font-weight:600;"><i class="fas fa-bolt" style="margin-right: 5px;"></i>${a.alert_type}</td>
+            <td style="font-size:0.9rem;color:var(--text-muted);">${a.description}</td>
+        </tr>`;
+    }).join("");
+}
+
+function renderActivitiesTable(activities) {
+    const tbody = document.querySelector('#allActivitiesTable tbody');
+    if (!activities || activities.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; padding: 3rem; color: var(--text-muted);"><i class="fas fa-ghost" style="font-size: 2rem; margin-bottom: 1rem; display:block;"></i>No activity detected in the stream.</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = activities.map(act => {
+        const date = act.login_time ? new Date(act.login_time).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) : 'Unknown';
+        const riskColor = act.risk_score > 60 ? 'var(--danger)' : act.risk_score > 30 ? 'var(--warning)' : 'var(--success)';
+        const statusIcon = act.status === 'success' ? '<i class="fas fa-check-circle" style="color:var(--success)"></i>' : '<i class="fas fa-times-circle" style="color:var(--danger)"></i>';
+        
+        const avatarHtml = act.profile_pic 
+            ? `<img src="${act.profile_pic}" alt="${act.username}" style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); object-fit: cover;">`
+            : `<div style="width: 32px; height: 32px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); display: flex; align-items: center; justify-content: center;"><i class="fas fa-user" style="font-size: 14px; color: var(--text-muted);"></i></div>`;
+        
+        return `<tr>
+            <td style="font-family: monospace; color: var(--text-muted); font-size: 0.8rem;">#${act.id}</td>
+            <td style="font-size: 0.85rem; color: var(--text-muted); font-family: monospace;" class="rt-time" data-timestamp="${act.login_time}">${window.RealTime ? window.RealTime.timeAgo(act.login_time) : '...'}</td>
+            <td>
+                <div style="display: flex; align-items: center; gap: 0.75rem;">
+                    ${avatarHtml}
+                    <span style="font-weight: 600;">${act.username}</span>
+                </div>
+            </td>
+            <td>${statusIcon} ${act.status === 'success' ? 'Authenticated' : 'Failed Attempt'}</td>
+            <td style="font-family: monospace; font-size: 0.85rem;">${act.ip_address}</td>
+            <td style="font-size: 0.85rem; color: ${act.location === 'Internal Network' || act.location === 'Unknown, Unknown' ? 'var(--text-muted)' : '#ffffff'};">
+                ${act.location === 'Internal Network' ? '🏠 ' : act.location === 'Unknown, Unknown' ? '❓ ' : '📍 '} ${act.location}
+            </td>
+            <td><span style="color:${riskColor}; font-weight: 800; font-family: monospace;">${act.risk_score || 0}</span></td>
+        </tr>`;
+    }).join("");
+}
+
+function renderActiveSessionsTable(sessions) {
+    const tbody = document.querySelector('#activeUsersTable tbody');
+    if (!sessions || sessions.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--text-muted);">No active analyst sessions.</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = sessions.map(s => {
+        const lastSeen = new Date(s.last_activity).toLocaleTimeString();
+        return `<tr>
+            <td><strong>${s.username}</strong></td>
+            <td style="color:var(--text-muted); font-size: 0.9rem;">${s.email}</td>
+            <td class="rt-time" data-timestamp="${s.last_activity}">${window.RealTime ? window.RealTime.timeAgo(s.last_activity) : '...'}</td>
+            <td><span style="color:var(--success); font-weight:700;">${s.risk_score}</span></td>
+            <td><span class="badge badge-active">ONLINE</span></td>
+        </tr>`;
+    }).join("");
+}
+
+async function completeInquiry(id) {
+    if (!confirm("Interface marked for archival. Confirm completion?")) return;
+    try {
+        const res = await fetch(`/api/admin/inquiries/${id}`, { method: 'DELETE' });
+        if (res.ok) loadAllData();
+    } catch (e) { console.error(e); }
+}
+
+async function clearAllActivities() {
+    if (!confirm("WARNING: This will permanently delete ALL login activity records from the database. This action cannot be undone. \n\nAre you sure you want to proceed?")) return;
+    
+    try {
+        const res = await fetch("/api/admin/activities", { method: "DELETE" });
+        if (res.ok) {
+            alert("All activity logs have been cleared successfully.");
+            loadAllData();
+        } else {
+            const data = await res.json();
+            alert(`Failed to clear activities: ${data.detail || 'Server error'}`);
+        }
+    } catch (e) {
+        console.error("Error clearing activities:", e);
+        alert("A technical error occurred while trying to clear the activity logs.");
+    }
+}
+
+function renderInquiriesTable(inquiries) {
+    const tbody = document.querySelector('#inquiriesTable tbody');
+    if (!inquiries || inquiries.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--text-muted);">All intelligence tasks completed.</td></tr>';
+        return;
+    }
+    
+    tbody.innerHTML = inquiries.map(i => {
+        const date = new Date(i.created_at).toLocaleString();
+        return `<tr>
+            <td style="font-size:0.85rem; color:var(--text-muted);" class="rt-time" data-timestamp="${i.created_at}">${window.RealTime ? window.RealTime.timeAgo(i.created_at) : '...'}</td>
+            <td><strong>${i.name}</strong><br><small>${i.email}</small></td>
+            <td><span style="color:var(--accent);">${i.subject}</span></td>
+            <td style="font-size:0.9rem; max-width: 300px;">${i.message}</td>
+            <td>
+                <button class="btn-sm btn-success" onclick="completeInquiry(${i.id})"><i class="fas fa-check"></i> Complete</button>
+            </td>
+        </tr>`;
+    }).join("");
+}
+
+async function loadAllData() {
+    try {
+        const [usersRes, highRiskRes, alertsRes, activitiesRes, activeUsersRes, inquiriesRes] = await Promise.all([
+            fetch("/api/admin/users"),
+            fetch("/api/admin/high-risk-users"),
+            fetch("/api/admin/alerts"),
+            fetch("/api/admin/activities"),
+            fetch("/api/admin/active-users"),
+            fetch("/api/admin/inquiries")
+        ]);
+        
+        if (usersRes.status === 401 || usersRes.status === 403) {
+            alert("Unauthorized. Admin access required.");
+            window.location.href = "/dashboard";
+            return;
+        }
+        
+        const [users, highRiskUsers, alerts, activities, activeUsers, inquiries] = await Promise.all([
+            usersRes.json(),
+            highRiskRes.json(),
+            alertsRes.json(),
+            activitiesRes.json(),
+            activeUsersRes.json(),
+            inquiriesRes.json()
+        ]);
+        
+        renderUsersTable(users, "allUsersTable", "totalUsersCount");
+        renderUsersTable(highRiskUsers, "highRiskTable", "highRiskCount");
+        renderAlertsTable(alerts);
+        renderActivitiesTable(activities);
+        renderActiveSessionsTable(activeUsers);
+        renderInquiriesTable(inquiries);
+        
+    } catch (e) {
+        console.error("Error loading admin data:", e);
+    }
+}
+
+// Listen for global real-time events
+document.addEventListener('rt-event', (e) => {
+    const data = e.detail;
+    if (data.type === 'login' || data.type === 'alert' || data.type === 'location_update') {
+        loadAllData();
+    }
+});
+
+document.addEventListener("DOMContentLoaded", loadAllData);
+</script>
+{% endblock %}

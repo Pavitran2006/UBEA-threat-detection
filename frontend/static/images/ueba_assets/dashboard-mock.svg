@@ -1,0 +1,21 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#00f5ff"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+  </defs>
+  <rect width="720" height="420" rx="24" fill="url(#bg)" stroke="#1f2937"/>
+  <rect x="32" y="32" width="656" height="50" rx="12" fill="#0b1222" stroke="#233047"/>
+  <rect x="32" y="100" width="420" height="260" rx="14" fill="#0b1222" stroke="#233047"/>
+  <rect x="472" y="100" width="216" height="120" rx="14" fill="#0b1222" stroke="#233047"/>
+  <rect x="472" y="240" width="216" height="120" rx="14" fill="#0b1222" stroke="#233047"/>
+  <polyline points="60,320 120,240 180,260 240,190 300,210 360,150 420,180" fill="none" stroke="url(#accent)" stroke-width="4"/>
+  <circle cx="120" cy="240" r="4" fill="#00f5ff"/>
+  <circle cx="240" cy="190" r="4" fill="#00f5ff"/>
+  <circle cx="360" cy="150" r="4" fill="#00f5ff"/>
+</svg>

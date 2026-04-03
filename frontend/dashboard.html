@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UEBA | Dashboard</title>
+  <link rel="stylesheet" href="/static/css/soc.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+</head>
+<body class="app-body">
+  <div class="background"></div>
+  <div class="bubbles">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <nav class="nav">
+    <div class="logo">UEBA</div>
+    <div class="links">
+      <a href="/" data-auth="guest">Home</a>
+      <a href="/login" data-auth="guest">Login</a>
+      <a href="/signup" data-auth="guest">Signup</a>
+      <a href="/dashboard" data-auth="user">Dashboard</a>
+      <a href="#" id="logout-link" data-auth="user">Logout</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section class="dashboard-header">
+      <div>
+        <p class="eyebrow">SOC Operations</p>
+        <h1>UEBA Cyber Defense Platform</h1>
+        <p class="lead">Real-time telemetry, anomaly detection, and threat response orchestration.</p>
+      </div>
+      <div class="status-badges">
+        <div class="badge">Status: <span class="badge-value">Operational</span></div>
+        <div class="badge">Incidents: <span id="incident-count" class="badge-value">--</span></div>
+        <div class="badge">Risk: <span id="global-risk" class="badge-value">--</span></div>
+      </div>
+    </section>
+
+    <section class="dashboard-grid">
+      <div class="panel">
+        <h3>Threat Alerts</h3>
+        <div id="threat-alerts" class="list"></div>
+      </div>
+      <div class="panel">
+        <h3>Live Event Stream</h3>
+        <div id="live-events" class="feed"></div>
+      </div>
+      <div class="panel">
+        <h3>User Activity</h3>
+        <canvas id="activity-chart" height="160"></canvas>
+      </div>
+      <div class="panel">
+        <h3>Threat Frequency</h3>
+        <canvas id="threat-chart" height="160"></canvas>
+      </div>
+      <div class="panel">
+        <h3>Anomaly Detection</h3>
+        <canvas id="anomaly-chart" height="160"></canvas>
+      </div>
+      <div class="panel">
+        <h3>Risk Score</h3>
+        <div class="risk-meter" id="risk-meter">
+          <div class="risk-value" id="risk-score">--</div>
+          <div class="risk-label" id="risk-level">--</div>
+        </div>
+      </div>
+      <div class="panel">
+        <h3>System Status</h3>
+        <div id="system-status" class="status-grid"></div>
+      </div>
+      <div class="panel wide">
+        <h3>Cyber Attack Map</h3>
+        <div class="map-wrap">
+          <div id="world-map" aria-hidden="true"></div>
+          <canvas id="attack-canvas"></canvas>
+          <div id="attack-tooltip" class="tooltip" aria-hidden="true"></div>
+        </div>
+        <aside id="country-panel" class="country-panel" aria-hidden="true">
+          <div class="panel-header">
+            <div id="country-name">Select a country</div>
+            <button id="country-close" type="button">×</button>
+          </div>
+          <div id="country-meta" class="panel-meta">Threat Level: --</div>
+          <div id="country-events" class="panel-list"></div>
+        </aside>
+      </div>
+      <div class="panel">
+        <h3>Threat Heatmap</h3>
+        <canvas id="threat-heatmap" height="220"></canvas>
+      </div>
+      <div class="panel wide">
+        <h3>3D Cyber Network Graph</h3>
+        <div id="network-graph" class="graph-canvas"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/auth.js"></script>
+  <script src="/static/js/nav.js"></script>
+  <script src="/static/js/attack-map.js"></script>
+  <script src="/static/js/heatmap.js"></script>
+  <script src="/static/js/network-graph.js"></script>
+  <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

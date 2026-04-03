@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UEBA | Verify OTP</title>
+  <link rel="stylesheet" href="/static/css/soc.css">
+</head>
+<body class="app-body">
+  <div class="background"></div>
+  <div class="bubbles">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <nav class="nav">
+    <div class="logo">UEBA</div>
+    <div class="links">
+      <a href="/" data-auth="guest">Home</a>
+      <a href="/login" data-auth="guest">Login</a>
+      <a href="/signup" data-auth="guest">Signup</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <section class="auth">
+      <div class="auth-card">
+        <h2>OTP Verification</h2>
+        <div id="auth-message" class="alert" style="display: none;"></div>
+        <form class="form" id="otp-form">
+          <label>Enter OTP</label>
+          <input id="otp-code" type="text" maxlength="6" required>
+          <button class="primary-btn" type="submit">Verify OTP</button>
+        </form>
+        <div class="otp-actions">
+          <button class="secondary-btn" id="resend-otp" type="button">Resend OTP</button>
+          <span id="otp-countdown" class="muted"></span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/js/otp.js"></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<header class="navbar">
+  <div class="navbar-container">
+    <a class="navbar-brand" href="/">
+      <div class="navbar-brand-icon">
+        <i class="fas fa-shield-halved"></i>
+      </div>
+      <span>UEBA Security</span>
+    </a>
+    <nav class="navbar-nav">
+      <a href="/" class="navbar-link {% if request.path == '/' %}active{% endif %}">
+        <i class="fas fa-home"></i> Home
+      </a>
+      {% if not current_user %}
+      <a href="/login" class="navbar-link {% if request.path == '/login' %}active{% endif %}">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+      <a href="/signup" class="navbar-link navbar-cta {% if request.path == '/signup' %}active{% endif %}">
+        <i class="fas fa-user-plus"></i> Create Account
+      </a>
+      {% else %}
+      <a href="/dashboard" class="navbar-link {% if request.path == '/dashboard' %}active{% endif %}">
+        <i class="fas fa-chart-line"></i> Dashboard
+      </a>
+      {% if current_user.role == "admin" %}
+      <a href="/admin/users" class="navbar-link">
+        <i class="fas fa-users-gear"></i> Users
+      </a>
+      <a href="/admin/activity" class="navbar-link">
+        <i class="fas fa-list-check"></i> Activity
+      </a>
+      <a href="/admin/alerts" class="navbar-link">
+        <i class="fas fa-bell"></i> Alerts
+      </a>
+      {% endif %}
+      <a href="/logout" class="navbar-link">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </a>
+      <div class="navbar-user">
+        <i class="fas fa-user-circle"></i> {{ current_user.username }}
+      </div>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .navbar-user {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: rgba(6, 182, 212, 0.1);
+    border: 1px solid rgba(6, 182, 212, 0.3);
+    border-radius: var(--radius-md);
+    color: var(--accent-cyan);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .navbar-link i {
+    margin-right: var(--space-xs);
+  }
+
+  @media (max-width: 768px) {
+    .navbar-container {
+      flex-wrap: wrap;
+    }
+
+    .navbar-nav {
+      order: 3;
+      width: 100%;
+      justify-content: center;
+      padding-top: var(--space-md);
+      border-top: 1px solid var(--glass-border);
+      margin-top: var(--space-md);
+    }
+
+    .navbar-link {
+      padding: var(--space-sm);
+      font-size: 0.875rem;
+    }
+
+    .navbar-brand span {
+      display: none;
+    }
+  }
+</style>
+

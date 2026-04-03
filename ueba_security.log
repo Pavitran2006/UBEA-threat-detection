@@ -1,0 +1,710 @@
+2026-03-15 12:49:23,595 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 12:49:28,052 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 12:51:28,550 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 12:52:25,321 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 12:54:57,850 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 12:55:33,085 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 16:06:23,648 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 16:13:04,330 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 16:54:18,980 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 17:02:13,989 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 17:02:14,490 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 17:05:20,173 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 17:05:21,083 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 17:06:10,254 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 17:06:11,041 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 18:44:04,032 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 18:51:45,705 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 18:52:29,088 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 18:52:30,103 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 18:59:44,731 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 19:03:14,807 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 19:03:15,619 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 19:11:08,672 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 19:23:12,935 [INFO] ueba: Failed login attempt for user: pavitran08official@gmail.com from IP: 127.0.0.1
+2026-03-15 19:23:36,164 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 19:23:42,662 [INFO] ueba: Failed login attempt for user: pavitran08official@gmail.com from IP: 127.0.0.1
+2026-03-15 19:23:51,943 [INFO] ueba: Failed login attempt for user: pavitran08official@gmail.com from IP: 127.0.0.1
+2026-03-15 19:26:37,045 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 19:26:43,037 [INFO] ueba: Failed login attempt for user: pavitran08official@gmail.com from IP: 127.0.0.1
+2026-03-15 19:27:27,986 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 19:29:20,641 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 19:29:43,422 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 19:33:02,974 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 19:33:11,205 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 22:43:45,807 [INFO] ueba: UEBA Security System Starting up...
+2026-03-15 22:53:41,988 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 22:53:57,056 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 22:53:57,373 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-15 22:54:11,931 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 22:54:26,108 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:28:38,408 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:28:57,354 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:29:22,314 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:30:22,681 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:30:29,952 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:30:30,226 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-15 23:36:09,295 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:40:08,448 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:40:30,273 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:43:28,544 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:43:52,577 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:44:17,880 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:44:26,536 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:44:56,374 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-15 23:59:40,138 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 00:09:32,591 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 00:13:32,887 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 00:13:59,084 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 00:17:08,670 [INFO] ueba: Failed login attempt for user: admin@cyberguard.sec from IP: 127.0.0.1
+2026-03-16 00:18:13,871 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 00:19:52,856 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 00:21:28,313 [INFO] ueba: Successful login for user: admin@cyberguard.sec | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 00:22:56,851 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 08:55:27,994 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 08:57:52,896 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 15.0
+2026-03-16 12:28:19,621 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 12:28:29,262 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 12:31:03,968 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 15:27:13,371 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 15:27:53,536 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 15:27:54,354 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-16 15:28:55,788 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 15:28:56,488 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-16 15:28:57,956 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 16:10:31,916 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 16:12:49,725 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 16:13:10,364 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 16:14:07,528 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 16:31:32,371 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 16:31:47,635 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 16:39:53,432 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 16:40:48,578 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 19:59:30,897 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 20:29:28,539 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 20:32:07,208 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 20:40:29,557 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 21:14:01,230 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 21:23:50,749 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 21:23:51,328 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-16 21:24:09,950 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 21:24:10,318 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-16 21:24:18,011 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 21:24:18,402 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-16 21:24:22,771 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 21:25:43,929 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 22:01:40,689 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 22:04:19,237 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 22:04:25,982 [INFO] ueba: Profile updated for user: pavitrananand@gmail.com
+2026-03-16 22:08:58,499 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 23:25:48,955 [INFO] ueba: UEBA Security System Starting up...
+2026-03-16 23:26:42,043 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 23:26:42,464 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-16 23:27:23,412 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 23:27:23,925 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-16 23:27:32,530 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-16 23:44:57,965 [INFO] ueba: Profile updated for user: pavitrananand@gmail.com
+2026-03-17 08:35:42,495 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 08:41:07,452 [INFO] ueba: New inquiry received from: pavitrananand@gmail.com
+2026-03-17 08:41:32,000 [INFO] ueba: New inquiry received from: pavitrananand@gmail.com
+2026-03-17 08:43:26,955 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 08:48:47,443 [INFO] ueba: New inquiry received from: pavitrananand@gmail.com
+2026-03-17 08:54:21,539 [INFO] ueba: New inquiry received from: pavitrananand@gmail.com
+2026-03-17 13:38:21,330 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 13:39:35,683 [INFO] ueba: New inquiry received from: pavitrananand@gmail.com
+2026-03-17 13:43:39,821 [INFO] ueba: New inquiry received from: pavitrananand@gmail.com
+2026-03-17 13:46:50,193 [INFO] ueba: New inquiry received from: pavitrananand@gmail.com
+2026-03-17 13:48:04,359 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 13:48:40,590 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 13:50:31,811 [INFO] ueba: New report received from: pavitrananand@gmail.com
+2026-03-17 13:51:00,021 [INFO] ueba: New report received from: pavitrananand@gmail.com
+2026-03-17 13:53:22,246 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-17 13:55:13,860 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 13:55:39,463 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 13:58:18,767 [INFO] ueba: Intelligence report processed for: pavitrananand@gmail.com
+2026-03-17 14:21:43,363 [INFO] ueba: Intelligence report processed for: pavitrananand@gmail.com
+2026-03-17 14:37:51,952 [ERROR] ueba: Intelligence processing error: (pymysql.err.IntegrityError) (1048, "Column 'user_id' cannot be null")
+[SQL: INSERT INTO security_alerts (tenant_id, user_id, alert_type, severity, description, ip_address, timestamp) VALUES (%(tenant_id)s, %(user_id)s, %(alert_type)s, %(severity)s, %(description)s, %(ip_address)s, %(timestamp)s)]
+[parameters: {'tenant_id': 'default', 'user_id': None, 'alert_type': 'Intelligence Report', 'severity': 'Medium', 'description': 'External intelligence transmitted: Incident Report – Possible Unauthorized Activity. Report from Nathin (nathinan30115@gmail.com). Msg: Timeline:\nThe issue was first noticed on [insert date and time], and it may have occurred multiple t...', 'ip_address': '127.0.0.1', 'timestamp': datetime.datetime(2026, 3, 17, 9, 7, 51, 941646)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-03-17 14:37:56,373 [ERROR] ueba: Intelligence processing error: (pymysql.err.IntegrityError) (1048, "Column 'user_id' cannot be null")
+[SQL: INSERT INTO security_alerts (tenant_id, user_id, alert_type, severity, description, ip_address, timestamp) VALUES (%(tenant_id)s, %(user_id)s, %(alert_type)s, %(severity)s, %(description)s, %(ip_address)s, %(timestamp)s)]
+[parameters: {'tenant_id': 'default', 'user_id': None, 'alert_type': 'Intelligence Report', 'severity': 'Medium', 'description': 'External intelligence transmitted: Incident Report – Possible Unauthorized Activity. Report from Nathin (nathinan30115@gmail.com). Msg: Timeline:\nThe issue was first noticed on [insert date and time], and it may have occurred multiple t...', 'ip_address': '127.0.0.1', 'timestamp': datetime.datetime(2026, 3, 17, 9, 7, 56, 347545)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-03-17 14:39:55,708 [ERROR] ueba: Intelligence processing error: (pymysql.err.IntegrityError) (1048, "Column 'user_id' cannot be null")
+[SQL: INSERT INTO security_alerts (tenant_id, user_id, alert_type, severity, description, ip_address, timestamp) VALUES (%(tenant_id)s, %(user_id)s, %(alert_type)s, %(severity)s, %(description)s, %(ip_address)s, %(timestamp)s)]
+[parameters: {'tenant_id': 'default', 'user_id': None, 'alert_type': 'Intelligence Report', 'severity': 'Medium', 'description': 'External intelligence transmitted: Incident Report – Possible Unauthorized Activity. Report from Nathin (nathinan30115@gmail.com). Msg: Timeline:\nThe issue was first noticed on [insert date and time], and it may have occurred multiple t...', 'ip_address': '127.0.0.1', 'timestamp': datetime.datetime(2026, 3, 17, 9, 9, 55, 684110)}]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)
+2026-03-17 14:40:19,080 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-17 14:40:19,658 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-17 14:40:21,027 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-17 14:40:21,415 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly: Divergent login pattern detected via IsolationForest.
+2026-03-17 14:42:42,945 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0
+2026-03-17 15:12:53,056 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 15:19:19,589 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 15:33:59,357 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 15:43:28,315 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 15:43:54,162 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 15:44:58,526 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 15:45:13,292 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 15:45:27,771 [INFO] ueba: UEBA Security System Starting up...
+2026-03-17 15:56:49,803 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-17 16:04:58,125 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 15:35:52,939 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 15:36:33,507 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 15:41:18,497 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-23 15:50:15,828 [INFO] ueba: Intelligence report processed for: pavitrananand@gmail.com
+2026-03-23 15:58:02,923 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 17:22:39,243 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-23 17:24:49,199 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-23 17:25:02,995 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-23 17:25:36,215 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-23 17:26:04,092 [INFO] ueba: Failed login attempt for user: alogesh122005@gmail.com from IP: 127.0.0.1
+2026-03-23 17:26:50,259 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 17:26:50,292 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-23 17:27:02,674 [WARNING] ueba: Login attempted on locked account: pavitrananand@gmail.com
+2026-03-23 17:27:22,065 [INFO] ueba: Failed login attempt for user: rockingpoova@gmail.com from IP: 127.0.0.1
+2026-03-23 17:27:25,519 [INFO] ueba: Failed login attempt for user: rockingpoova@gmail.com from IP: 127.0.0.1
+2026-03-23 17:31:18,226 [INFO] ueba: Failed login attempt for user: alogesh122005@gmail.com from IP: 127.0.0.1
+2026-03-23 17:31:43,053 [INFO] ueba: Failed login attempt for user: alogesh122005@gmail.com from IP: 127.0.0.1
+2026-03-23 17:32:03,538 [WARNING] ueba: Login attempted on locked account: pavitrananand@gmail.com
+2026-03-23 17:35:24,747 [WARNING] ueba: Login attempted on locked account: pavitrananand@gmail.com
+2026-03-23 17:36:03,600 [WARNING] ueba: Login attempted on locked account: pavitrananand@gmail.com
+2026-03-23 17:36:13,010 [INFO] ueba: Failed login attempt for user: alogesh122005@gmail.com from IP: 127.0.0.1
+2026-03-23 17:36:20,525 [WARNING] ueba: Account locked due to consecutive failures: alogesh122005@gmail.com
+2026-03-23 17:36:20,564 [INFO] ueba: Failed login attempt for user: alogesh122005@gmail.com from IP: 127.0.0.1
+2026-03-23 17:38:03,725 [WARNING] ueba: Login attempted on locked account: alogesh122005@gmail.com
+2026-03-23 17:38:28,759 [WARNING] ueba: Login attempted on locked account: alogesh122005@gmail.com
+2026-03-23 17:38:32,822 [INFO] ueba: Failed login attempt for user: rockingpoova@gmail.com from IP: 127.0.0.1
+2026-03-23 17:38:40,808 [INFO] ueba: Failed login attempt for user: rockingpoova@gmail.com from IP: 127.0.0.1
+2026-03-23 17:38:52,548 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-23 18:07:50,237 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 18:08:12,837 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:03:09,388 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:25:52,889 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:26:02,248 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:26:04,513 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:26:12,148 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:26:13,895 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:26:14,545 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:26:22,143 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:26:35,081 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:35:00,261 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:35:19,259 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:36:28,607 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:37:38,400 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:38:23,547 [WARNING] ueba: Account locked due to consecutive failures: alogesh122005@gmail.com
+2026-03-23 22:46:45,038 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:47:57,046 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:49:01,344 [WARNING] ueba: Account locked due to consecutive failures: alogesh122005@gmail.com
+2026-03-23 22:49:18,759 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:49:20,353 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:52:25,216 [INFO] ueba: UEBA Security System Starting up...
+2026-03-23 22:53:45,693 [WARNING] ueba: Account locked due to consecutive failures: alogesh122005@gmail.com
+2026-03-23 22:57:28,668 [INFO] ueba: Successful login for user: pavitran08official@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-23 22:57:58,947 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-23 22:58:45,645 [WARNING] ueba: Account locked due to consecutive failures: pavitrananand@gmail.com
+2026-03-23 22:58:45,674 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-23 22:58:56,650 [WARNING] ueba: Login attempted on locked account: pavitrananand@gmail.com
+2026-03-23 22:59:23,315 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-23 23:00:18,967 [WARNING] ueba: Login attempted on locked account: pavitrananand@gmail.com
+2026-03-23 23:03:10,081 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-24 08:30:06,820 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 08:30:47,251 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-24 08:31:06,527 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Unusual login time (late night).
+2026-03-24 08:31:07,002 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 7.7): Divergent behavior in timing/frequency/access detected.
+2026-03-24 08:41:52,052 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 08:44:40,058 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 08:45:54,804 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 08:49:34,244 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 15:38:53,559 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 15:39:37,193 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-24 15:39:37,860 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 1.9): Divergent behavior in timing/frequency/access detected.
+2026-03-24 16:12:15,631 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-24 17:58:54,550 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 18:08:57,764 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-24 22:47:20,888 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 22:47:53,426 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-24 22:47:57,070 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-24 23:36:17,123 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 23:36:34,756 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 23:37:39,775 [INFO] ueba: UEBA Security System Starting up...
+2026-03-24 23:41:06,012 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-25 09:53:25,600 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 10:44:39,063 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 10:48:46,747 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-25 11:07:49,099 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 11:19:31,515 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-25 11:19:31,820 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 7.3): Divergent behavior in timing/frequency/access detected.
+2026-03-25 11:24:19,267 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 11:52:21,481 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 11:55:23,614 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-25 11:55:24,120 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 0.3): Divergent behavior in timing/frequency/access detected.
+2026-03-25 12:30:02,291 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-25 18:05:02,179 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 18:11:21,911 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-25 18:14:19,757 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 18:15:15,829 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 18:20:13,538 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-25 18:25:10,232 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 20.0 | Reasons: Multiple login attempts detected.
+2026-03-25 18:26:59,558 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 18:27:14,551 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 18:28:51,011 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 22:40:29,532 [INFO] ueba: UEBA Security System Starting up...
+2026-03-25 23:49:49,403 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 00:15:29,894 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 08:07:00,152 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 08:17:44,640 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-03-26 08:21:46,762 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-03-26 08:45:23,897 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-03-26 08:45:24,289 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 10.9): Divergent behavior in timing/frequency/access detected.
+2026-03-26 11:10:08,062 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 11:13:24,497 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 11:50:45,760 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 11:50:46,622 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 2.5): Divergent behavior in timing/frequency/access detected.
+2026-03-26 11:53:39,277 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 11:54:13,578 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 11:59:59,591 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 12:00:46,683 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 12:01:48,249 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 12:27:38,330 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 12:28:43,456 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 13:31:10,265 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 13:42:50,026 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 13:46:12,793 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 13:48:38,839 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 14:07:08,676 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:23:10,002 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:27:38,001 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 15:27:38,042 [INFO] ueba: Failed login attempt for user: admin@cyberguard.sec from IP: 127.0.0.1
+2026-03-26 15:29:38,940 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:29:38,967 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:30:01,903 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:30:08,771 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:33:54,344 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 15:33:54,405 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 15.0 | Reasons: Login from new city: Coimbatore.
+2026-03-26 15:38:32,842 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:42:29,894 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 15:42:29,932 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 15.0 | Reasons: Login from new city: Coimbatore.
+2026-03-26 15:49:00,093 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:49:00,097 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:53:20,001 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:53:26,709 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 15:54:18,426 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 15:54:18,461 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 16:01:49,709 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 16:01:51,033 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 16:04:39,027 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 16:04:39,047 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 16:12:59,384 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 16:12:59,401 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 16:20:56,240 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 16:20:56,241 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 16:22:24,575 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 16:22:24,599 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 16:25:13,157 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 16:25:13,166 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 16:28:20,373 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 16:29:25,539 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:18:09,488 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 22:19:29,740 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:19:29,780 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 15.0 | Reasons: Login from new city: Tirupur.
+2026-03-26 22:21:39,409 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:21:39,419 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 15.0 | Reasons: Login from new city: Tirupur.
+2026-03-26 22:21:52,894 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:21:55,709 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:22:32,082 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:22:37,255 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:27:26,723 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:27:26,747 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 15.0 | Reasons: Login from new city: Tirupur.
+2026-03-26 22:36:20,740 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:36:20,751 [INFO] ueba: Successful login for user: rockingpoova@gmail.com | IP: 127.0.0.1 | Risk Score: 15.0 | Reasons: Login from new city: Tirupur.
+2026-03-26 22:43:54,611 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 22:44:52,072 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:44:52,106 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 22:49:02,297 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:54:32,666 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:54:33,967 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:54:35,537 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:54:38,390 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:58:22,887 [INFO] httpx: HTTP Request: GET https://ipapi.co/json/ "HTTP/1.1 200 OK"
+2026-03-26 22:59:16,846 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:59:30,549 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:59:33,738 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 22:59:37,062 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:11:22,343 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 30.0 | Reasons: Suspicious login from new country: Corporate HQ.
+2026-03-26 23:13:06,951 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:13:06,958 [INFO] ueba: Successful login for user: sivasuriya6080@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 23:13:25,852 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:13:39,891 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:13:41,980 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:13:44,155 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:13:46,560 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:13:49,039 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:13:50,983 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:13:52,595 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:14:04,037 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:14:18,569 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:21:29,036 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 23:23:18,122 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:23:18,161 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 23:23:18,207 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:23:18,240 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-26 23:23:26,572 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:23:26,584 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-26 23:24:49,358 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:24:49,373 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 20.0 | Reasons: Multiple login attempts detected.
+2026-03-26 23:25:30,575 [INFO] httpx: HTTP Request: GET https://ipapi.co/json/ "HTTP/1.1 200 OK"
+2026-03-26 23:48:54,914 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 23:49:25,375 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:49:42,000 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:49:49,840 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:49:55,289 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:49:56,785 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:49:58,150 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:49:59,509 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:50:01,114 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:50:02,458 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:50:15,580 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:53:37,649 [INFO] ueba: UEBA Security System Starting up...
+2026-03-26 23:56:44,770 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:56:44,804 [INFO] ueba: Failed login attempt for user: pavitran08official@gmail.com from IP: 127.0.0.1
+2026-03-26 23:56:57,844 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:56:57,875 [INFO] ueba: Failed login attempt for user: pavitran08official@gmail.com from IP: 127.0.0.1
+2026-03-26 23:57:09,046 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:57:09,078 [INFO] ueba: Failed login attempt for user: pavitran08official@gmail.com from IP: 127.0.0.1
+2026-03-26 23:58:12,637 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:58:12,665 [INFO] ueba: Successful login for user: pavitran08official@gmail.com | IP: 127.0.0.1 | Risk Score: 55.0 | Reasons: Multiple login attempts detected. | Login from new device: Windows Other. | Login from new city: Tirupur.
+2026-03-26 23:58:12,680 [WARNING] ueba: Security Alert generated for user pavitran08official@gmail.com: Login risk score calculated at 55.0. Reasons: Multiple login attempts detected. | Login from new device: Windows Other. | Login from new city: Tirupur.
+2026-03-26 23:58:28,056 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:59:08,555 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-26 23:59:56,654 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:00:07,023 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:01:53,490 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:01:58,790 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:02:21,512 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 00:02:52,339 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 00:03:09,702 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 00:06:04,103 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953211&lon=77.953423&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 00:06:09,612 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:10:58,519 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 00:11:31,058 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 00:23:49,465 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 00:24:46,974 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:24:47,027 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 00:24:51,575 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 00:25:38,024 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:25:38,045 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 00:27:45,844 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:27:45,852 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 00:27:48,098 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 00:28:18,118 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 00:28:28,195 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 00:31:05,974 [WARNING] ueba: Reverse geocode failed: 
+2026-03-27 00:34:29,237 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 00:35:26,631 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:35:26,667 [INFO] ueba: Failed login attempt for user: alogesh122005@gmail.com from IP: 127.0.0.1
+2026-03-27 00:35:42,929 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:35:42,951 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 20.0 | Reasons: Multiple login attempts detected.
+2026-03-27 00:35:46,144 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953109&lon=77.953316&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 00:35:58,748 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:36:02,167 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:36:08,688 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:36:12,728 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 00:36:27,078 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:36:29,576 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:36:32,237 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:36:54,673 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:36:54,703 [INFO] ueba: Failed login attempt for user: admin@ueba.sec from IP: 127.0.0.1
+2026-03-27 00:38:56,881 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 00:38:56,893 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 00:38:59,366 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 00:39:15,894 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:02:15,475 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 08:07:37,758 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:07:37,791 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-03-27 08:07:45,485 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.954092000000001&lon=77.95417&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:07:55,902 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:07:59,876 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:08:11,880 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.954092000000001&lon=77.95417&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:08:40,749 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.954092000000001&lon=77.95417&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:15:29,165 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.954092000000001&lon=77.95417&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:16:48,690 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953258&lon=77.953445&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:18:41,904 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 08:18:46,411 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:18:51,813 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:19:02,418 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:19:32,408 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:19:51,290 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088000000001&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:19:51,895 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:19:53,343 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:19:55,220 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:20:05,260 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:20:25,430 [INFO] httpx: HTTP Request: GET https://ipapi.co/json/ "HTTP/1.1 200 OK"
+2026-03-27 08:20:31,255 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:21:44,343 [WARNING] ueba: Reverse geocode failed: 
+2026-03-27 08:22:35,036 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088000000001&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:22:37,360 [WARNING] ueba: Reverse geocode failed: 
+2026-03-27 08:22:40,454 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:33:59,746 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:35:15,049 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:35:18,106 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:37:35,669 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088000000001&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:37:45,215 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:37:49,166 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:42:09,186 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 08:43:32,120 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:43:32,137 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-03-27 08:43:32,585 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 7.3): Divergent behavior in timing/frequency/access detected.
+2026-03-27 08:43:33,465 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088000000001&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:43:34,860 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088000000001&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:43:46,097 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:43:47,615 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 08:48:40,878 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 08:48:45,581 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088000000001&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:49:06,930 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 08:49:25,857 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953314749353577&lon=77.95350397387699&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:49:42,363 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953314749353577&lon=77.95350397387699&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:50:29,224 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953088000000001&lon=77.953278&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 08:50:46,783 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 08:52:31,510 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 08:52:37,913 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 08:55:39,144 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 08:56:25,489 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 08:58:32,765 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 08:59:06,440 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:15:40,377 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:16:32,685 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 10:16:32,715 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-03-27 10:16:33,700 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 0.2): Divergent behavior in timing/frequency/access detected.
+2026-03-27 10:16:37,625 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:16:50,780 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:17:04,946 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:18:15,677 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:18:55,133 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:20:57,455 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:20:58,552 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:21:36,842 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:22:03,158 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:26:41,998 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:26:55,190 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:27:34,684 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:28:00,959 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:28:14,127 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 10:30:46,014 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:38:30,218 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:39:36,187 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:40:18,491 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:40:55,207 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:41:49,088 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:41:51,588 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:41:51,642 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:42:28,496 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:42:28,499 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:42:28,559 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:42:55,042 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:42:55,043 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:42:55,045 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:43:40,875 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:43:40,881 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:43:40,936 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:44:46,310 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:44:46,315 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:44:46,392 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:47:55,778 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:47:55,790 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:47:55,801 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:48:27,433 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:48:27,451 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:48:27,490 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:49:21,274 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:50:56,759 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:55:52,685 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:56:09,423 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:56:09,437 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:56:09,565 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:56:09,640 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 10:56:41,777 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 11:00:17,753 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 11:00:17,870 [INFO] ueba: Failed login attempt for user: admin@ueba.sec from IP: 127.0.0.1
+2026-03-27 12:02:24,867 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 12:03:00,385 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 12:03:00,417 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 12:03:04,409 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:03:17,537 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:03:55,054 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:03:58,385 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:04:25,350 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:04:41,650 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 12:04:58,066 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 12:04:58,343 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:15:20,946 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:15:34,015 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:16:13,587 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:16:53,119 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:18:21,640 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:18:25,331 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:18:39,186 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:18:55,604 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:19:20,621 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 12:19:20,639 [INFO] ueba: Successful login for user: admin@ueba.sec | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 12:19:21,036 [WARNING] ueba: ML Anomaly Alert generated for user admin@ueba.sec: ML Anomaly (Score: 10.9): Divergent behavior in timing/frequency/access detected.
+2026-03-27 12:19:24,451 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:19:37,651 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:19:50,855 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 12:20:17,192 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 13:39:06,183 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 13:56:30,059 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 14:25:19,149 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 15:12:32,310 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 15:12:55,089 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 15:13:53,361 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 15:13:53,420 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 15:14:02,387 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:14:22,959 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:14:39,798 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 15:15:16,110 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:16:28,465 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:16:46,519 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:17:22,657 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:17:39,708 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:18:15,949 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:18:26,744 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 15:18:52,139 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:19:10,199 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:19:40,047 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:19:40,975 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:19:59,161 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:21:11,845 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:21:16,187 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:21:17,465 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:21:20,690 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:22:06,932 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 15:22:08,365 [WARNING] ueba: Reverse geocode failed: [Errno 11001] getaddrinfo failed
+2026-03-27 15:22:37,063 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:22:37,992 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:23:31,686 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:24:10,016 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:24:46,177 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:25:04,271 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:25:22,333 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:25:41,105 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:29:30,449 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 15:29:30,482 [INFO] ueba: Failed login attempt for user: annathin89@gmail.com from IP: 127.0.0.1
+2026-03-27 15:31:06,092 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 15:31:06,101 [INFO] ueba: Successful login for user: annathin89@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 15:31:06,711 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:31:23,584 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:31:51,693 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:32:00,673 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:42:44,588 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:44:40,644 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:45:28,386 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 15:45:28,416 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-03-27 15:45:57,678 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 15:45:57,688 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 15:45:58,126 [WARNING] ueba: ML Anomaly Alert generated for user alogesh122005@gmail.com: ML Anomaly (Score: 4.5): Divergent behavior in timing/frequency/access detected.
+2026-03-27 15:45:58,979 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:46:17,518 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:51:38,625 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 15:52:16,656 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 15:57:23,037 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:57:40,131 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:57:55,032 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:58:15,262 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 15:58:46,949 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 15:58:46,969 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 15:58:48,957 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:00:09,890 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:06:04,642 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 16:06:04,652 [INFO] ueba: Successful login for user: alogesh122005@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 16:06:13,532 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.954521579925652&lon=77.9545463605948&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-03-27 16:06:20,973 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:06:23,570 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:07:23,841 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 16:07:23,848 [INFO] ueba: Successful login for user: annathin89@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 16:07:29,032 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:08:17,934 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:08:32,894 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:10:44,784 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 16:11:53,581 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:12:11,011 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 16:13:52,723 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 16:28:33,349 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 18:12:53,971 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 18:16:32,590 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-03-27 18:16:32,612 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-03-27 18:16:38,120 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:18:03,621 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:18:05,281 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:21:53,077 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:22:07,994 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:23:21,406 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:24:17,610 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:25:03,894 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:25:45,515 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:28:52,550 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:29:10,440 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:29:14,167 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:29:52,947 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:30:02,278 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:30:07,507 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:30:23,763 [ERROR] ueba: Error saving live location: Expecting value: line 1 column 1 (char 0)
+2026-03-27 18:31:22,348 [INFO] ueba: UEBA Security System Starting up...
+2026-03-27 18:31:56,878 [INFO] ueba: UEBA Security System Starting up...
+2026-04-01 09:56:06,822 [INFO] ueba: UEBA Security System Starting up...
+2026-04-01 09:56:52,317 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-04-01 09:56:52,351 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-04-01 10:05:00,907 [INFO] ueba: UEBA Security System Starting up...
+2026-04-01 10:05:17,626 [INFO] ueba: UEBA Security System Starting up...
+2026-04-01 10:13:54,147 [INFO] ueba: UEBA Security System Starting up...
+2026-04-01 10:18:05,201 [INFO] ueba: UEBA Security System Starting up...
+2026-04-01 10:18:22,692 [INFO] ueba: UEBA Security System Starting up...
+2026-04-01 10:28:12,180 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-04-01 10:28:12,196 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-04-01 10:28:12,710 [WARNING] ueba: ML Anomaly Alert generated for user pavitrananand@gmail.com: ML Anomaly (Score: 17.3): Divergent behavior in timing/frequency/access detected.
+2026-04-01 10:28:14,729 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95426&lon=77.954274&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 10:29:16,335 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-04-01 10:29:16,345 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 10.0 | Reasons: Login at unusual time (late night).
+2026-04-01 11:06:18,227 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-04-01 11:06:18,238 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 0.0 | Reasons: Normal behavior
+2026-04-01 11:06:20,059 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.954268&lon=77.954281&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:08:43,457 [INFO] httpx: HTTP Request: GET http://ip-api.com/json/?fields=status,country,countryCode,city,lat,lon "HTTP/1.1 200 OK"
+2026-04-01 11:08:43,472 [INFO] ueba: Failed login attempt for user: pavitrananand@gmail.com from IP: 127.0.0.1
+2026-04-01 11:48:09,547 [INFO] ueba: Successful login for user: pavitrananand@gmail.com | IP: 127.0.0.1 | Risk Score: 30.0 | Reasons: Suspicious login from new country: Corporate HQ.
+2026-04-01 11:48:44,645 [WARNING] ueba: Reverse geocode failed: [Errno 11001] getaddrinfo failed
+2026-04-01 11:48:45,372 [INFO] ueba: Resolved city Internal Network from GPS for user pavi
+2026-04-01 11:48:47,194 [WARNING] ueba: Reverse geocode failed: [Errno 11001] getaddrinfo failed
+2026-04-01 11:48:48,149 [INFO] ueba: Resolved city Internal Network from GPS for user pavi
+2026-04-01 11:48:50,140 [WARNING] ueba: Reverse geocode failed: [Errno 11001] getaddrinfo failed
+2026-04-01 11:48:50,906 [INFO] ueba: Resolved city Internal Network from GPS for user pavi
+2026-04-01 11:48:55,698 [WARNING] ueba: Reverse geocode failed: [Errno 11001] getaddrinfo failed
+2026-04-01 11:48:56,480 [INFO] ueba: Resolved city Internal Network from GPS for user pavi
+2026-04-01 11:48:57,594 [WARNING] ueba: Reverse geocode failed: [Errno 11001] getaddrinfo failed
+2026-04-01 11:48:58,463 [INFO] ueba: Resolved city Internal Network from GPS for user pavi
+2026-04-01 11:49:45,942 [WARNING] ueba: Reverse geocode failed: [Errno 11001] getaddrinfo failed
+2026-04-01 11:49:46,806 [INFO] ueba: Resolved city Internal Network from GPS for user pavi
+2026-04-01 11:50:19,818 [WARNING] ueba: Reverse geocode failed: [Errno 11001] getaddrinfo failed
+2026-04-01 11:50:20,617 [INFO] ueba: Resolved city Internal Network from GPS for user pavi
+2026-04-01 11:50:34,445 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.953845812785389&lon=77.95395211415526&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:50:34,448 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:19,619 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:19,622 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:19,624 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:19,629 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:19,631 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:19,633 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:19,635 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:19,641 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:19,643 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:19,647 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:19,649 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:19,658 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:22,709 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:22,713 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:22,715 [INFO] httpx: HTTP Request: GET https://nominatim.openstreetmap.org/reverse?lat=10.95394651826484&lon=77.9539525&format=json&accept-language=en "HTTP/1.1 200 OK"
+2026-04-01 11:51:22,721 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:22,723 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:51:22,724 [INFO] ueba: Resolved city K.Paramathi from GPS for user pavi
+2026-04-01 11:53:44,744 [INFO] ueba: UEBA Security System Starting up...
+2026-04-01 12:06:10,276 [INFO] ueba: UEBA Security System Starting up...
