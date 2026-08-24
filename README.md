@@ -1,330 +1,156 @@
-# AI Security Hub
+# 🛡️ UBEA Threat Detection — User & Entity Behavior Analytics
 
-A futuristic AI-powered web application with glassmorphism UI design for advanced threat detection and user behavior analytics.
+A full-stack User and Entity Behavior Analytics (UEBA) application built with Python FastAPI and SQLite, featuring real-time event activity logging, anomaly alert tracking, JWT authentication, OAuth2 integration, and a dark neon glassmorphism dashboard.
 
-## Features
+🔗 **GitHub Repository:** [github.com/Pavitran2006/UBEA-threat-detection](https://github.com/Pavitran2006/UBEA-threat-detection)
 
-- **Modern Glassmorphism UI**: Dark neon gradient background with glassmorphism effects
-- **User Authentication**: Secure JWT-based login and registration with OAuth support
-- **Secure Password Reset**: Forgot password workflow with email verification and secure token-based recovery
-- **OAuth2 Integration**: Google, GitHub, and Microsoft OAuth for seamless authentication
-- **Dashboard**: Real-time security monitoring and analytics
-- **Responsive Design**: Mobile and desktop optimized
-- **AI-Powered**: Machine learning for threat detection
+---
 
-## Tech Stack
+## ✨ Features
 
-- **Backend**: Python FastAPI
-- **Database**: SQLite with SQLAlchemy
-- **Authentication**: JWT tokens with bcrypt password hashing
-- **OAuth**: Authlib with Google, GitHub, Microsoft support
-- **Frontend**: HTML5, CSS3, JavaScript
-- **UI Framework**: Custom glassmorphism design with Poppins font
+- 🔐 **JWT & OAuth2 Authentication:** Secure JWT cookie session handling with bcrypt password hashing and OAuth2 integration support (Google, GitHub, Microsoft via Authlib).
+- 🔑 **Secure Password Recovery Workflow:** Email token-based password reset mechanism with 15-minute token expiration and password complexity enforcement.
+- 📊 **Security Dashboard:** User monitoring dashboard featuring real-time login activity logging, suspicious IP tracking, and risk score indicators.
+- 🚨 **Anomaly Alert Management:** Administrator alert review interface allowing security analysts to inspect high-risk event alerts and submit feedback actions.
+- 🎨 **Glassmorphism Dark UI:** Styled UI built with custom CSS3 backdrop blur filters, Poppins typography, and CSS micro-interactions.
 
-## Project Structure
+---
 
-```
-├── app/                    # FastAPI application
-│   ├── main.py            # Main application file with all routes
-│   ├── auth.py            # Authentication utilities (JWT, bcrypt, tokens)
-│   ├── database.py        # Database configuration
-│   └── models.py          # SQLAlchemy models (User, Activity, Alert, PasswordResetToken)
-├── templates/             # Jinja2 templates
-│   ├── home.html          # Landing page with pricing and features
-│   ├── login.html         # Login page with OAuth buttons
-│   ├── signup.html        # Registration page with role selection
-│   ├── dashboard.html     # User dashboard with real-time analytics
-│   ├── forgot_password.html      # Forgot password recovery page
-│   └── reset_password.html       # Password reset page with strength indicator
-├── static/                # Static files
-│   ├── css/
-│   │   └── style.css      # Main stylesheet with dark theme
-│   └── js/                # JavaScript files
-├── requirements.txt       # Python dependencies
-├── AUTHENTICATION_GUIDE.md # Complete authentication system documentation
-└── ueba_app.db           # SQLite database
+## 🏗️ Architecture
+
+```mermaid
+flowchart TD
+    subgraph Frontend [Jinja2 Templates & Glassmorphism UI]
+        View[HTML5 / CSS3 Dark Theme]
+        Forms[Auth & Password Reset Views]
+        Dash[Security Monitoring Dashboard]
+    end
+
+    subgraph Backend [FastAPI Application]
+        Auth[JWT & OAuth Security Module]
+        Routes[FastAPI API & View Routers]
+        ORM[SQLAlchemy Database Layer]
+    end
+
+    subgraph Database [SQLite Persistence]
+        DB[(ueba_app.db / Models)]
+    end
+
+    View -->|HTTP POST / GET| Routes
+    Dash -->|REST Endpoints /api/dashboard| Routes
+    Routes --> Auth
+    Routes --> ORM
+    ORM --> DB
 ```
 
-## Installation
+---
 
-1. **Clone the repository**
+## 🛠️ Tech Stack
+
+- **Backend:** Python 3.10+, FastAPI, Uvicorn, SQLAlchemy 2.0, Authlib, PyJWT, Passlib (Bcrypt)
+- **Frontend:** Jinja2 HTML Templates, CSS3 (Glassmorphism), JavaScript (Fetch API)
+- **Database:** SQLite (`ueba_app.db`)
+- **Testing:** Pytest (`test_auth.py`, `test_login.py`)
+
+---
+
+## 📂 Project Structure
+
+```text
+UBEA-threat-detection/
+├── app/
+│   ├── main.py            # Main FastAPI application entry & view routes
+│   ├── auth.py            # JWT token creation, bcrypt hashing & OAuth logic
+│   ├── database.py        # SQLAlchemy SQLite connection setup
+│   └── models.py          # User, Activity, Alert, PasswordResetToken models
+├── templates/             # Jinja2 HTML templates
+│   ├── home.html          # Landing page
+│   ├── login.html         # Login view with OAuth options
+│   ├── signup.html        # Registration view
+│   ├── dashboard.html     # Security analytics dashboard
+│   ├── forgot_password.html # Password recovery request view
+│   └── reset_password.html  # Token validation & new password view
+├── static/
+│   ├── css/style.css      # Dark glassmorphism stylesheet
+│   └── js/                # Client-side form handlers
+├── AUTHENTICATION_GUIDE.md # Comprehensive authentication system docs
+├── requirements.txt       # Python dependency manifest
+└── ueba_app.db            # SQLite database file
+```
+
+---
+
+## ⚙️ How It Works
+
+1. **Authentication Flow:** Users authenticate via `/login` or OAuth2 providers. Upon valid credentials, a signed HTTP-only JWT token cookie is generated.
+2. **Activity Logging:** Each user session logs IP address, timestamp, device metadata, and calculated risk indicators into the `Activity` SQLite table.
+3. **Alert Monitoring:** Suspicious logins or flagged activities generate `Alert` table records with risk scores, visible to administrators in `/dashboard`.
+4. **Password Reset:** `/forgot-password` generates a random 64-character token stored in `PasswordResetToken` with an expiration timestamp, dispatching a secure reset link.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.9+
+
+### Installation & Execution
+
+1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
-   cd ai-security-hub
+   git clone https://github.com/Pavitran2006/UBEA-threat-detection.git
+   cd UBEA-threat-detection
    ```
 
-2. **Create virtual environment**
+2. **Create and activate virtual environment:**
    ```bash
    python -m venv .venv
+   
+   # Windows:
+   .venv\Scripts\activate
+   # Linux/macOS:
+   source .venv/bin/activate
    ```
 
-3. **Activate virtual environment**
-   - Windows:
-     ```bash
-     .venv\Scripts\activate
-     ```
-   - Linux/Mac:
-     ```bash
-     source .venv/bin/activate
-     ```
-
-4. **Install dependencies**
+3. **Install Python dependencies:**
    ```bash
    pip install -r requirements.txt
    ```
 
-## Running the Application
-
-1. **Start the FastAPI server**
+4. **Launch the FastAPI Server:**
    ```bash
    uvicorn app.main:app --reload --port 8000
    ```
+   Open `http://localhost:8000` in your web browser.
 
-2. **Open your browser**
-   ```
-   http://localhost:8000
-   ```
+---
 
-## Configuration
+## 🧪 Testing
 
-### Environment Variables
+Run backend test suites covering authentication, user creation, and JWT token validation:
 
-Create a `.env` file in the project root:
-
-```env
-SECRET_KEY=your-secret-key-change-in-production
-DEBUG=False
-
-# Optional: Google OAuth
-GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-
-# Optional: GitHub OAuth
-GITHUB_CLIENT_ID=your-github-app-id
-GITHUB_CLIENT_SECRET=your-github-app-secret
-
-# Optional: Microsoft OAuth
-MICROSOFT_CLIENT_ID=your-azure-app-id
-MICROSOFT_CLIENT_SECRET=your-azure-app-secret
-MICROSOFT_TENANT_ID=common
-
-# Optional: Email Configuration
-SMTP_SERVER=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USERNAME=your-email@gmail.com
-SMTP_PASSWORD=your-app-password
-SMTP_FROM_EMAIL=noreply@your-domain.com
+```bash
+pytest test_auth.py test_login.py
 ```
 
-## API Endpoints
+---
 
-### Authentication Routes
-- `GET /` - Home landing page
-- `GET /login` - Login page
-- `POST /login` - User login
-- `GET /signup` - Registration page
-- `POST /signup` - User registration
-- `GET /logout` - User logout
-- `GET /forgot-password` - Forgot password page
-- `POST /forgot-password` - Send password reset link
-- `GET /reset-password/{token}` - Reset password page
-- `POST /reset-password/{token}` - Process password reset
+## 🌐 Deployment
 
-### OAuth Routes
-- `GET /auth/google/login` - Initiate Google OAuth (frontend uses this URL)
-- `GET /auth/google/callback` - Handle Google callback
-- `GET /auth/github/login` - Initiate GitHub OAuth (frontend uses this URL)
-- `GET /auth/github/callback` - Handle GitHub callback
-- `GET /auth/microsoft` - Initiate Microsoft OAuth (placeholder)
+- Designed for containerized local execution or serverless Python hosting.
 
-### Dashboard Routes
-- `GET /dashboard` - User dashboard (protected)
-- `GET /api/dashboard/stats` - Dashboard statistics
-- `GET /api/dashboard/alerts` - Recent alerts (includes IP address and risk level)
-- `GET /api/risk/user-risk` - User risk scores
-- `POST /api/ml/feedback` - Submit alert feedback
+---
 
-The dashboard features a **Threat Monitoring panel** showing live alerts with IP addresses, anomaly scores, and administrative actions (mark safe / investigate). Alerts are generated by the anomaly detection services during login or batch scans.
+## 🔮 Future Improvements
 
-## Authentication Features
+- [ ] Add active streaming anomaly detection using Isolation Forest / One-Class SVM models.
+- [ ] Migrate database configuration layer to PostgreSQL for enterprise production workloads.
+- [ ] Add WebHook notification alerts for critical security events.
 
-### 1. Secure Password Reset
-- **Forgot Password Workflow:**
-  - User requests password reset via email
-  - System sends secure reset link (expires in 15 minutes)
-  - User creates new password with strength validation
-  - Token becomes unusable after reset
+---
 
-### 2. Password Strength Requirements
-- Minimum 8 characters
-- At least one uppercase letter
-- At least one number
-- At least one special character (!@#$%^&*)
-- Real-time strength indicator on frontend
+## 👨‍💻 Author
 
-### 3. OAuth2 Integration
-- **Google OAuth**: Quick login with Google account
-- **GitHub OAuth**: Developer-friendly authentication (ready to implement)
-- **Microsoft OAuth**: Enterprise Azure AD integration (ready to implement)
-
-### Security Features
-- JWT token authentication
-- Bcrypt password hashing
-- Secure cookie handling (HTTP-only)
-- CSRF protection
-- Token expiry management
-- One-time use reset tokens
-- Email verification support
-
-## Database Schema
-
-### User Table
-- id (Primary Key)
-- username (Unique)
-- email (Unique)
-- hashed_password (Optional for OAuth users)
-- role (admin, user)
-- google_id (Optional OAuth field)
-- github_id (Optional OAuth field)
-- microsoft_id (Optional OAuth field)
-- is_active (Account status)
-- email_verified (Email verification status)
-- risk_score (UEBA risk assessment)
-- created_at, updated_at (Timestamps)
-
-### Activity Table
-- id (Primary Key)
-- user_id (Foreign Key)
-- login_time (Timestamp)
-- ip_address (string, IPv4/IPv6)
-- device_info, location, status, etc.
-
-### Alerts Table
-- id (Primary Key)
-- user_id (Foreign Key)
-- anomaly_score (Float)
-- risk_level (Low/Medium/High/Critical)
-- detected_at (Timestamp)
-- **ip_address** (String) – network address associated with suspicious login
-- feedback_status, feedback_notes (for admin review)
-
-### PasswordResetToken Table
-- id (Primary Key)
-- user_id (Foreign Key)
-- token (64-character unique token)
-- expires_at (UTC timestamp)
-- used (One-time use flag)
-- created_at (Timestamp)
-
-## Design Features
-
-- **Color Palette**: Dark theme with cyan accents
-  - Background: #0f172a
-  - Cards: #1e293b
-  - Accent: #06b6d4
-  - Text: #e2e8f0
-- **Typography**: Poppins font family for modern look
-- **Icons**: Font Awesome for professional iconography
-- **Animations**: Smooth CSS transitions and hover effects
-- **Glassmorphism**: Backdrop blur effects for depth
-- **Responsive**: Mobile-first responsive design
-
-## Security Best Practices
-
-1. **Passwords:**
-   - Never stored in plain text
-   - Hashed with bcrypt (strong salt)
-   - Minimum 8 characters with complexity rules
-
-2. **Tokens:**
-   - JWT tokens for sessions
-   - Secure cookie storage (HTTP-only)
-   - Password reset tokens expire in 15 minutes
-
-3. **OAuth:**
-   - CSRF protection via state parameter
-   - Client secrets never exposed to frontend
-   - Minimal permissions requested
-
-4. **Database:**
-   - SQLAlchemy ORM prevents SQL injection
-   - Email verification support
-   - Account disable capability
-
-## Development
-
-### Technologies Used:
-- **FastAPI** for the web framework
-- **SQLAlchemy** for ORM
-- **Jinja2** for template rendering
-- **Pydantic** for data validation
-- **Uvicorn** as ASGI server
-- **Authlib** for OAuth 2.0 support
-- **Bcrypt** for password hashing
-- **JWT** for token management
-
-### Adding OAuth Providers
-
-See `AUTHENTICATION_GUIDE.md` for detailed instructions on:
-- Setting up Google OAuth
-- Implementing GitHub OAuth
-- Configuring Microsoft Azure AD
-- Email configuration for password resets
-
-## Testing
-
-### Manual Testing
-
-1. **Test Registration:**
-   - Visit http://localhost:8000/signup
-   - Fill in details and select role
-   - Verify user is created
-
-2. **Test Login:**
-   - Visit http://localhost:8000/login
-   - Enter credentials
-   - Verify dashboard loads
-
-3. **Test Forgot Password:**
-   - Visit http://localhost:8000/forgot-password
-   - Enter email address
-   - Check console for reset token (dev mode)
-   - Visit reset-password page with token
-   - Create new password
-
-4. **Test OAuth (when configured):**
-   - Click "Continue with Google"
-   - Verify redirect to Google
-   - Test account creation on callback
-
-## Advantages
-
-### For Users:
-- ✓ Secure login with multiple authentication options
-- ✓ Easy password recovery using email
-- ✓ One-click login with Google account
-- ✓ Mobile-friendly responsive design
-- ✓ Real-time security monitoring
-
-### For Security:
-- ✓ Enterprise-grade authentication
-- ✓ OWASP security best practices
-- ✓ Audit trail capability
-- ✓ OAuth2 compliance
-- ✓ Tamper-proof tokens
-
-### For Developers:
-- ✓ Clean, well-documented code
-- ✓ Modular design for easy extension
-- ✓ Clear error messages
-- ✓ Testing endpoints provided
-- ✓ Ready for deployment
-
-## License
-
-This project is licensed under the MIT License.
-
-## Support
-
-For detailed authentication system information, see `AUTHENTICATION_GUIDE.md`.
-For questions or issues, please contact the development team.
+**Pavitran Anand**  
+- GitHub: [github.com/Pavitran2006](https://github.com/Pavitran2006)  
+- LinkedIn: [linkedin.com/in/pavitrananand](https://linkedin.com/in/pavitrananand)  
