@@ -1,22 +1,43 @@
 import os
-from sqlalchemy import create_engine
+import logging
+from sqlalchemy import create_engine, text
 from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
 
 load_dotenv(override=True)
 
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_USER = os.getenv("DB_USER", "root")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")
-DB_NAME = os.getenv("DB_NAME", "ueba_system")
-DB_PORT = os.getenv("DB_PORT", "3306")
+logger = logging.getLogger("ueba.database")
 
-# Log connection attempt (without password)
-print(f"Connecting to database: {DB_USER}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+raw_db_url = os.getenv("DATABASE_URL")
 
-DATABASE_URL = f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+if raw_db_url:
+    # Render and Heroku provide "postgres://", which SQLAlchemy requires to be "postgresql://"
+    if raw_db_url.startswith("postgres://"):
+        DATABASE_URL = raw_db_url.replace("postgres://", "postgresql://", 1)
+    else:
+        DATABASE_URL = raw_db_url
+else:
+    db_type = os.getenv("DB_TYPE", "mysql" if os.getenv("DB_HOST") else "sqlite").lower()
+    if db_type == "mysql" and os.getenv("DB_HOST"):
+        db_user = os.getenv("DB_USER", os.getenv("DB_USERNAME", "root"))
+        db_pass = os.getenv("DB_PASSWORD", "")
+        db_host = os.getenv("DB_HOST", "localhost")
+        db_port = os.getenv("DB_PORT", "3306")
+        db_name = os.getenv("DB_NAME", "ueba_system")
+        DATABASE_URL = f"mysql+pymysql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
+    else:
+        DATABASE_URL = "sqlite:///ueba.db"
 
-engine = create_engine(DATABASE_URL)
+# Engine configuration with pooling & pre-ping for cloud reliability
+engine_kwargs = {"pool_pre_ping": True}
+if DATABASE_URL.startswith("sqlite"):
+    engine_kwargs["connect_args"] = {"check_same_thread": False}
+else:
+    engine_kwargs["pool_recycle"] = 300
+    engine_kwargs["pool_size"] = 10
+    engine_kwargs["max_overflow"] = 20
+
+engine = create_engine(DATABASE_URL, **engine_kwargs)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -29,3 +50,13 @@ def get_db():
         yield db
     finally:
         db.close()
+
+def check_db_connection() -> tuple[bool, str]:
+    """Test database connectivity safely without throwing unhandled exceptions."""
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        return True, "Database connection operational"
+    except Exception as e:
+        logger.error(f"Database health check failed: {e}")
+        return False, str(e)

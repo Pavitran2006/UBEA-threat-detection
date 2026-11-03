@@ -14,23 +14,22 @@ def open_browser():
     webbrowser.open("http://127.0.0.1:8000/docs")
     print("\n🚀 Browser opened: http://127.0.0.1:8000/docs")
     print("📱 Test signup/login in Swagger UI")
-    print("\n📊 MySQL: mysql -u root -pPavitran820068 ueba_system -e 'SELECT * FROM users;'")
 
 if __name__ == "__main__":
-    # Activate venv and start uvicorn
-    # Start uvicorn using the venv's python directly
+    port = int(os.getenv("PORT", 8000))
+    host = os.getenv("HOST", "0.0.0.0")
+    
     python_exe = os.path.join(".venv", "Scripts", "python.exe")
     if not os.path.exists(python_exe):
-        python_exe = "python" # Fallback
+        python_exe = "python"
         
-    cmd = f'"{python_exe}" -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000'
+    cmd = f'"{python_exe}" -m uvicorn app.main:app --host {host} --port {port}'
     
-    print(f"🔧 Starting UEBA FastAPI + MySQL Server using {python_exe}...")
-    print("📂 .env loaded, models ready, tables auto-created")
+    print(f"🔧 Starting UEBA Security Server on {host}:{port}...")
     
-    # Start browser timer
-    threading.Timer(2.0, open_browser).start()
-    
-    # Run uvicorn
+    if os.getenv("OPEN_BROWSER", "false").lower() == "true":
+        threading.Timer(2.0, open_browser).start()
+        
     os.system(cmd)
+
 

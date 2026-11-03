@@ -1,19 +1,29 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Request, Form, WebSocket, WebSocketDisconnect, File, UploadFile
-from config import Config
-
-from fastapi.responses import RedirectResponse, JSONResponse
-import shutil
 import os
+import sys
+import shutil
 import uuid
+import re
+import logging
+from datetime import datetime, timedelta
+
+from fastapi import (
+    APIRouter, Depends, HTTPException, status, Request, Form,
+    WebSocket, WebSocketDisconnect, File, UploadFile
+)
+from fastapi.responses import RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
-from datetime import datetime, timedelta
-
 from sqlalchemy import func
+
+try:
+    from config import Config
+except ImportError:
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    from config import Config
+
 from app.database import get_db
 from app.models import User, Activity, SecurityAlert, Alert, PasswordResetToken, Inquiry, Location
-
 from app.auth import (
     verify_password,
     hash_password,
@@ -23,10 +33,8 @@ from app.auth import (
     generate_password_reset_token,
     get_password_reset_token_expiry
 )
-
 from app.security import get_current_user, get_current_admin_user
 from app.schemas import ProfileUpdate
-
 from app.otp_service import (
     generate_otp,
     send_email_otp,
@@ -36,39 +44,31 @@ from app.otp_service import (
     OTP_RATE_LIMIT_MAX,
     OTP_RATE_LIMIT_WINDOW_MINUTES
 )
-
-import re
 from app.services.activity_service import ActivityService
 from app.services.risk_engine import RiskEngine
 from app.services.alert_service import AlertService
 from app.anomaly_detection import AnomalyDetector
-import logging
+from app.websocket_manager import manager
 
 logger = logging.getLogger("ueba")
 
-router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
+STATIC_DIR = os.path.join(BASE_DIR, "static")
 
-from app.websocket_manager import manager
+router = APIRouter()
+templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
 @router.websocket("/ws/dashboard")
 async def websocket_dashboard(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
-            # We just need to keep the connection open, clients don't send data here
             await websocket.receive_text()
-    except WebSocketDisconnect:
+    except Exception:
         manager.disconnect(websocket)
 
-@router.websocket("/ws/location")
-async def websocket_location(websocket: WebSocket):
-    await manager.connect(websocket)
-    try:
-        while True:
-            await websocket.receive_text()
-    except WebSocketDisconnect:
-        manager.disconnect(websocket)
+
 
 # ---------------- OTP Helper ----------------
 
@@ -233,9 +233,8 @@ async def upload_profile_pic(
         raise HTTPException(status_code=400, detail="Invalid file type. Only JPG, PNG, and GIF allowed.")
 
     # Create directory if it doesn't exist
-    upload_dir = "app/static/uploads/profile_pics"
-    if not os.path.exists(upload_dir):
-        os.makedirs(upload_dir)
+    upload_dir = os.path.join(STATIC_DIR, "uploads", "profile_pics")
+    os.makedirs(upload_dir, exist_ok=True)
 
     # Generate unique filename
     file_ext = os.path.splitext(file.filename)[1]
@@ -253,7 +252,8 @@ async def upload_profile_pic(
     # Update user record
     # Delete old file if exists
     if current_user.profile_pic:
-        old_path = os.path.join("app", current_user.profile_pic.lstrip("/"))
+        rel_sub = current_user.profile_pic.lstrip("/").replace("static/", "")
+        old_path = os.path.join(STATIC_DIR, rel_sub)
         if os.path.exists(old_path):
             try:
                 os.remove(old_path)

@@ -24,4 +24,6 @@ email-validator>=2.0.0
 numpy
 user-agents
 requests
+psycopg2-binary>=2.9.9
+pytest>=7.0.0
 

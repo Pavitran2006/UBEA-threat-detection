@@ -28,8 +28,12 @@ class SimulationService:
         
         db = SessionLocal()
         try:
-            # Pick a random user for the event (MySQL RAND())
-            user = db.query(User).order_by(func.rand()).first()
+            # Pick a random user portably across MySQL, PostgreSQL, SQLite
+            user_count = db.query(User).count()
+            if not user_count:
+                return
+            random_offset = random.randint(0, max(0, user_count - 1))
+            user = db.query(User).offset(random_offset).first()
             if not user:
                 return
 
@@ -60,9 +64,11 @@ class SimulationService:
                     "longitude": loc["lon"],
                     "risk_score": round(risk_score, 1),
                     "is_threat": is_threat,
-                    "status": "success"
+                    "status": "success",
+                    "is_simulated": True
                 }
                 await manager.broadcast(payload)
+
 
             elif event_type == 'alert':
                 # Simulate a security alert
@@ -71,8 +77,9 @@ class SimulationService:
                     "type": "alert",
                     "alert_type": random.choice(alert_types),
                     "severity": random.choice(["Medium", "High", "Critical"]),
-                    "description": f"Heuristic detection triggered for {user.username}",
-                    "ip_address": f"45.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}"
+                    "description": f"[SIMULATED] Heuristic detection triggered for {user.username}",
+                    "ip_address": f"45.{random.randint(1, 255)}.{random.randint(1, 255)}.{random.randint(1, 255)}",
+                    "is_simulated": True
                 }
                 await manager.broadcast(payload)
 
@@ -93,7 +100,8 @@ class SimulationService:
                     "latitude": new_lat,
                     "longitude": new_lon,
                     "risk_score": user.risk_score or 10,
-                    "timestamp": datetime.utcnow().isoformat()
+                    "timestamp": datetime.utcnow().isoformat(),
+                    "is_simulated": True
                 }
                 await manager.broadcast(payload)
                 
