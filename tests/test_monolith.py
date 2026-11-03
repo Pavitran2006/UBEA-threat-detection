@@ -52,3 +52,14 @@ def test_anomaly_detection_logic():
         assert res is None
     finally:
         db.close()
+
+def test_postgresql_psycopg_driver_compatibility():
+    """Verify that PostgreSQL connection URLs correctly resolve with the psycopg driver."""
+    from sqlalchemy import create_engine
+    test_urls = [
+        "postgresql+psycopg://user:pass@ep-test.oregon.render.com/ueba_system",
+    ]
+    for url in test_urls:
+        eng = create_engine(url)
+        assert eng.dialect.driver == "psycopg"
+

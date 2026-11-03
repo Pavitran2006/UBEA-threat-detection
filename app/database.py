@@ -11,11 +11,15 @@ logger = logging.getLogger("ueba.database")
 raw_db_url = os.getenv("DATABASE_URL")
 
 if raw_db_url:
-    # Render and Heroku provide "postgres://", which SQLAlchemy requires to be "postgresql://"
+    # Render and cloud providers supply "postgres://" or "postgresql://"
+    # Ensure SQLAlchemy routes directly to the installed psycopg (v3) driver
     if raw_db_url.startswith("postgres://"):
-        DATABASE_URL = raw_db_url.replace("postgres://", "postgresql://", 1)
+        DATABASE_URL = raw_db_url.replace("postgres://", "postgresql+psycopg://", 1)
+    elif raw_db_url.startswith("postgresql://") and not raw_db_url.startswith("postgresql+"):
+        DATABASE_URL = raw_db_url.replace("postgresql://", "postgresql+psycopg://", 1)
     else:
         DATABASE_URL = raw_db_url
+
 else:
     db_type = os.getenv("DB_TYPE", "mysql" if os.getenv("DB_HOST") else "sqlite").lower()
     if db_type == "mysql" and os.getenv("DB_HOST"):
