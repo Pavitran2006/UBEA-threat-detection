@@ -59,6 +59,31 @@ STATIC_DIR = os.path.join(BASE_DIR, "static")
 router = APIRouter()
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 
+# Universal Starlette/FastAPI TemplateResponse compatibility wrapper
+_original_template_response = templates.TemplateResponse
+
+def _safe_template_response(*args, **kwargs):
+    """
+    Ensure robust signature normalization across Starlette/FastAPI versions.
+    Prevents TypeError: cannot use 'tuple' as a dict key (unhashable type: 'dict')
+    by explicitly passing request, template name, and context as named kwargs.
+    """
+    if len(args) >= 2 and isinstance(args[0], str) and isinstance(args[1], dict):
+        name = args[0]
+        context = args[1]
+        request = context.get("request") or kwargs.get("request")
+        status_code = args[2] if len(args) > 2 else kwargs.get("status_code", 200)
+        return _original_template_response(request=request, name=name, context=context, status_code=status_code)
+    elif len(args) >= 2 and not isinstance(args[0], str):
+        request = args[0]
+        name = args[1]
+        context = args[2] if len(args) > 2 else kwargs.get("context", {})
+        status_code = args[3] if len(args) > 3 else kwargs.get("status_code", 200)
+        return _original_template_response(request=request, name=name, context=context, status_code=status_code)
+    return _original_template_response(*args, **kwargs)
+
+templates.TemplateResponse = _safe_template_response
+
 @router.websocket("/ws/dashboard")
 async def websocket_dashboard(websocket: WebSocket):
     await manager.connect(websocket)
@@ -99,9 +124,11 @@ def _issue_otp(user: User, db: Session) -> str:
 @router.get("/")
 async def home(request: Request, current_user: User = Depends(get_current_user)):
     return templates.TemplateResponse(
-        "home.html",
-        {"request": request, "user": current_user}
+        request=request,
+        name="home.html",
+        context={"user": current_user}
     )
+
 
 
 @router.get("/login")
